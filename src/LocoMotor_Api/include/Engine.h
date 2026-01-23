@@ -36,6 +36,9 @@ namespace LocoMotor {
 		/// @param name: the name of the scene inside the file
 		MOTOR_API void setStartingScene(const std::string& file, const std::string& name);
 
+		/// @brief get the scene the game starts with
+		MOTOR_API std::string getStartingSceneFile();
+
 		/// @brief Creates the game window and begins the gameloop, will exit when called the quit method or window is closed
 		MOTOR_API bool mainLoop();
 

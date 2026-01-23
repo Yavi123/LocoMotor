@@ -159,6 +159,10 @@ void LocoMotor::Engine::setStartingScene(const std::string& file, const std::str
 	_startingSceneName = name;
 }
 
+std::string LocoMotor::Engine::getStartingSceneFile() {
+	return _startingSceneFile;
+}
+
 bool Engine::mainLoop() {
 
 	
@@ -178,7 +182,6 @@ bool Engine::mainLoop() {
 	bool shown = false;
 	const float fixedTimeStep = 16.666f;
 	float fixedTime = 0.f;
-	_scnManager->loadScene("Assets/Scenes/Prueba.lua", "scene");
 	while (!_exit) {
 		if (_scnManager->getActiveScene() == nullptr) {
 			std::cerr << "\033[1;31m" << "No scene has been loaded. Exiting now" << "\033[0m" << std::endl;

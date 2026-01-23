@@ -18,28 +18,8 @@
 // typedef de los metodos que vamos a encontrar en la dll del Juego
 typedef const char* (CALLBACK* InitJuegoFunc)(LocoMotor::Engine* m);
 
-int LocoMotor_Main(Main_Args) {
-
-#ifdef _DEBUG
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-			
-#endif
-
-	bool dllLoaded = false;
-
-	//LocoMotor::Engine* motor = new LocoMotor::Engine();
-
-	if (!LocoMotor::Engine::Init()) {
-		std::cerr << "\033[1;31m" << "Algo no se inicializó correctamente" << "\033[0m" << std::endl;
-		return -1;
-	}
-
-	//Esto se llamaría desde el código del juego
-	LocoMotor::Engine::GetInstance()->setWindowName("hola ventana de ogre");
-
-#pragma region Explicit dll loading
+static bool loadGameFromDLL(HINSTANCE& g6Game) {
 	LPCWSTR dllName;
-	HINSTANCE g6Game;
 	InitJuegoFunc initJuego;
 
 #ifdef _DEBUG
@@ -56,15 +36,15 @@ int LocoMotor_Main(Main_Args) {
 		initJuego = (InitJuegoFunc) GetProcAddress(g6Game, functionName);
 
 		if (initJuego != NULL) {
-			// La ejecutamoss
+
 			auto result = initJuego(LocoMotor::Engine::GetInstance());
 			std::cout << "\033[1;36m" << result << "\033[0m" << std::endl;
+
+			return true;
 		}
 		else {
 			std::cerr << "\033[1;31m" << "DLL EXPLICIT LOADING ERROR: '" << functionName << "' function couldn't be executed" << "\033[0m" << std::endl;
 		}
-
-		dllLoaded = true;
 	}
 	else {
 		// Conversion de LPCWSTR a string, por legibilidad
@@ -80,7 +60,31 @@ int LocoMotor_Main(Main_Args) {
 							strLength, nullptr, nullptr);
 		std::cerr << "\033[1;31m" << "DLL EXPLICIT LOADING ERROR: '" << str << "' wasn't found" << "\033[0m" << std::endl;
 	}
-#pragma endregion
+
+	return false;
+}
+
+
+int LocoMotor_Main(Main_Args) {
+
+#ifdef _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
+
+	bool dllLoaded = false;
+
+	//Load the "Project Settings" file and pass it to the Init
+
+	if (!LocoMotor::Engine::Init()) {
+		std::cerr << "\033[1;31m" << "Algo no se inicializó correctamente" << "\033[0m" << std::endl;
+		return -1;
+	}
+
+	LocoMotor::Engine::GetInstance()->setWindowName("LocoMotor game");
+	LocoMotor::Engine::GetInstance()->setStartingScene("Assets/Scenes/EntryScene.lua", "EntryScene");
+
+	HINSTANCE g6Game = NULL;
+	bool successfullyLoaded = loadGameFromDLL(g6Game);
 
 	if (!LocoMotor::Engine::GetInstance()->mainLoop()) {
 		LocoMotor::Engine::Release();
@@ -88,36 +92,9 @@ int LocoMotor_Main(Main_Args) {
 		return -1;
 	}
 
-	std::cout 
-		<< "\033[1;31m" << "F" 
-		<< "\033[1;33m" << "U" 
-		<< "\033[1;32m" << "N" 
-		<< "\033[1;36m" << "C" 
-		<< "\033[1;34m" << "I" 
-		<< "\033[1;35m" << "O" 
-		<< "\033[1;31m" << "N" 
-		<< "\033[1;33m" << "A" << "\033[0m" << std::endl;
-	std::cout 
-		<< "\033[1;33m" << "F" 
-		<< "\033[1;32m" << "U" 
-		<< "\033[1;36m" << "N" 
-		<< "\033[1;34m" << "C" 
-		<< "\033[1;35m" << "I" 
-		<< "\033[1;31m" << "O" 
-		<< "\033[1;33m" << "N" 
-		<< "\033[1;32m" << "A" << "\033[0m" << std::endl;
-	std::cout 
-		<< "\033[1;32m" << "F" 
-		<< "\033[1;36m" << "U" 
-		<< "\033[1;34m" << "N" 
-		<< "\033[1;35m" << "C" 
-		<< "\033[1;31m" << "I" 
-		<< "\033[1;33m" << "O" 
-		<< "\033[1;32m" << "N" 
-		<< "\033[1;36m" << "A" << "\033[0m" << std::endl;
-
 	LocoMotor::Engine::Release();
-	if (dllLoaded) {
+
+	if (g6Game != NULL) {
 		FreeLibrary(g6Game);
 	}
 
