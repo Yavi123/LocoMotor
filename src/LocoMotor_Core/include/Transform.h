@@ -11,10 +11,6 @@
 #include "Component.h"
 #include "LMVector.h"
 
-namespace OgreWrapper {
-	class Node;
-}
-
 namespace LocoMotor {
 	class MOTOR_API Transform : public Component {
 
@@ -86,8 +82,6 @@ namespace LocoMotor {
 		LMVector3 _position;
 		LMVector3 _scale;
 		LMQuaternion _direction;
-
-		//OgreWrapper::Node* _gObjNode;
 	};
 }
 

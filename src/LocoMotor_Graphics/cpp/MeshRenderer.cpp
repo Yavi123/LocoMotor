@@ -22,6 +22,7 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 	_nodeScale = LMVector3(1, 1, 1);
 	_nodeRotation = LMQuaternion();
 
+	currentAnimation = nullptr;
 	numAnimationsActive = 0;
 }
 
@@ -44,10 +45,10 @@ bool LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {
 		else if (param.first == "Material" || param.first == "material") {
 			matName = param.second;
 		}
-		else if (param.first == "Static" || param.first == "static") {
+		else if ((param.first == "Static" || param.first == "static") && (param.second == "true" || param.second == "True" || param.second == "1")) {
 			_setStatic = true;
 		}
-		else if (param.first == "Invisible" || param.first == "invisible") {
+		else if ((param.first == "Invisible" || param.first == "invisible") && (param.second == "true" || param.second == "True" || param.second == "1")) {
 			visible = false;
 		}
 	}

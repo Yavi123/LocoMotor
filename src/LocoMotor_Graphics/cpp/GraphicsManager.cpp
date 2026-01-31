@@ -230,9 +230,10 @@ bool GraphicsManager::initWindow(std::string name) {
 	uint32_t w , h;
 	Ogre::NameValuePairList miscParams;
 
+	//Reads from ogre.cfg, we dont like that i would prefer to read from "playerprefs" like in unity
 	Ogre::ConfigOptionMap ropts = _root->getRenderSystem()->getConfigOptions();
 
-	std::istringstream mode(ropts["Video Mode"].currentValue);
+	std::istringstream mode = std::istringstream(ropts["Video Mode"].currentValue);
 	Ogre::String token;
 	mode >> w; // width
 	mode >> token; // 'x' as seperator between width and height
@@ -252,8 +253,12 @@ bool GraphicsManager::initWindow(std::string name) {
 	}
 
 	Uint32 flags = SDL_WINDOW_RESIZABLE;
+	flags |= SDL_WINDOW_OPENGL;
 
-	if (ropts["Full Screen"].currentValue == "Yes")  flags = SDL_WINDOW_FULLSCREEN;
+	if (ropts["Full Screen"].currentValue == "Yes")
+	{
+		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
 
 	_mWindow.native = SDL_CreateWindow(name.c_str() , SDL_WINDOWPOS_UNDEFINED , SDL_WINDOWPOS_UNDEFINED , w , h , flags);
 
@@ -263,7 +268,7 @@ bool GraphicsManager::initWindow(std::string name) {
 
 	miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(size_t(wmInfo.info.win.window));
 
-	_mWindow.render = _root->createRenderWindow(name , w , h , false , &miscParams);
+	_mWindow.render = _root->createRenderWindow(name , w , h , (flags & SDL_WINDOW_FULLSCREEN) != 0, &miscParams);
 
 
 	try {
