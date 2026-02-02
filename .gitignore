@@ -18,6 +18,7 @@
 [Bb]in/*.log
 [Bb]in/*.lib
 [Bb]in/*.exp
+[Bb]in/[Dd]ebug/
 
 # Builds
 [Dd]ependencies/Ogre/[Bb]uild/

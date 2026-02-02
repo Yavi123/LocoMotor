@@ -19,6 +19,11 @@
 #include "GraphicsManager.h"
 #include "SGTechniqueResolverListener.h"
 #include "OverlayManager.h"
+//Core includes
+#include "Screen.h"
+#include "LocalSave.h"
+
+#define FULLSCREENMODE_KEY "LM_Graphics_Fullscreen"
 
 using namespace LocoMotor;
 using namespace Graphics;
@@ -142,6 +147,15 @@ int GraphicsManager::getWindowWidth() {
 	return _mWindow.render->getWidth();
 }
 
+void LocoMotor::Graphics::GraphicsManager::setFullscreen(bool on) {
+
+	SDL_SetWindowFullscreen(_mWindow.native, on ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
+	_mWindow.render->setFullscreen(on, 200, 200);
+
+	int valueToSet = on ? 1 : 0;
+	Platform::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, valueToSet);
+}
+
 void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 	if (_scenes.count(name) == 0) {
 		std::cerr << "ERROR: No existe una escena con el nombre \"" << name << "\".\n";
@@ -227,17 +241,13 @@ void GraphicsManager::loadResources() {
 }
 
 bool GraphicsManager::initWindow(std::string name) {
-	uint32_t w , h;
+	uint32_t w, h;
 	Ogre::NameValuePairList miscParams;
 
 	//Reads from ogre.cfg, we dont like that i would prefer to read from "playerprefs" like in unity
 	Ogre::ConfigOptionMap ropts = _root->getRenderSystem()->getConfigOptions();
 
-	std::istringstream mode = std::istringstream(ropts["Video Mode"].currentValue);
-	Ogre::String token;
-	mode >> w; // width
-	mode >> token; // 'x' as seperator between width and height
-	mode >> h; // height
+	Ogre::StringVector possibleResolutions = Ogre::StringVector(ropts["Video Mode"].possibleValues);
 
 	miscParams["FSAA"] = ropts["FSAA"].currentValue;
 	miscParams["vsync"] = ropts["VSync"].currentValue;
@@ -253,14 +263,21 @@ bool GraphicsManager::initWindow(std::string name) {
 	}
 
 	Uint32 flags = SDL_WINDOW_RESIZABLE;
-	flags |= SDL_WINDOW_OPENGL;
 
-	if (ropts["Full Screen"].currentValue == "Yes")
-	{
+	if (Platform::LocalSave::GetRegisterInt(FULLSCREENMODE_KEY, 0) == 1) {
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+
+		w = Platform::Screen::GetDesiredWidth();
+		h = Platform::Screen::GetDesiredHeight();
+	}
+	else {
+		Platform::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, 0);
+
+		w = Platform::Screen::GetDesiredWidth() / 2;
+		h = Platform::Screen::GetDesiredHeight() / 2;
 	}
 
-	_mWindow.native = SDL_CreateWindow(name.c_str() , SDL_WINDOWPOS_UNDEFINED , SDL_WINDOWPOS_UNDEFINED , w , h , flags);
+	_mWindow.native = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, flags);
 
 	SDL_SysWMinfo wmInfo;
 	SDL_VERSION(&wmInfo.version);
@@ -268,8 +285,7 @@ bool GraphicsManager::initWindow(std::string name) {
 
 	miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(size_t(wmInfo.info.win.window));
 
-	_mWindow.render = _root->createRenderWindow(name , w , h , (flags & SDL_WINDOW_FULLSCREEN) != 0, &miscParams);
-
+	_mWindow.render = _root->createRenderWindow(name, w, h, (flags & SDL_WINDOW_FULLSCREEN) != 0, &miscParams);
 
 	try {
 		loadResources();

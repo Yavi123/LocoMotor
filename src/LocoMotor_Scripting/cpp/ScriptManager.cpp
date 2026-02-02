@@ -17,7 +17,6 @@ extern "C" {
 #include "SceneManager.h"
 #include "Engine.h"
 #include "InputManager.h"
-#include "Engine.h"
 #include "RigidBody.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
@@ -27,6 +26,7 @@ extern "C" {
 #include "AudioListener.h"
 #include "AudioSource.h"
 #include "EventEmitter.h"
+#include "LocalSave.h"
 
 using namespace LocoMotor;
 using namespace LocoMotor::Scripting;
@@ -154,6 +154,15 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("loadScene", &SceneManager::loadScene)
 		.addFunction("changeScene", &SceneManager::changeScene)
 		.addFunction("getActiveScene", &SceneManager::getActiveScene)
+		.endClass()
+
+		.beginClass<Platform::LocalSave>("LocalSave")
+		.addStaticFunction("SetInt", &Platform::LocalSave::SetRegisterInt)
+		.addStaticFunction("GetInt", &Platform::LocalSave::GetRegisterInt)
+		.addStaticFunction("SetFloat", &Platform::LocalSave::SetRegisterFloat)
+		.addStaticFunction("GetFloat", &Platform::LocalSave::GetRegisterFloat)
+		.addStaticFunction("SetString", &Platform::LocalSave::SetRegisterString)
+		.addStaticFunction("GetString", &Platform::LocalSave::GetRegisterString)
 		.endClass();
 }
 
@@ -193,7 +202,7 @@ void LocoMotor::Scripting::ScriptManager::registerGraphics() {
 		.addFunction("getHeight", &UIImage::getHeight)
 		.endClass()
 
-		.deriveClass<UIText, Component>("UIImage")
+		.deriveClass<UIText, Component>("UIText")
 		.addFunction("setText", &UIText::setText)
 		.addFunction("setFont", &UIText::setFont)
 		.addFunction("setAnchorPoint", &UIText::setAnchorPoint)

@@ -10,5 +10,16 @@ EntryScene = {
             rotation = "0 0 0"
         }
 
+    },
+    cube = {
+        Transform = {
+            position = "0 0 -10",
+            size = "1, 1, 1",
+            rotation = "15 -40 0"
+        },
+        MeshRenderer = {
+            mesh = "ConemanMesh.mesh",
+            material = "CustomMaterial"
+        }
     }
 }

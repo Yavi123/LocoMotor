@@ -67,6 +67,8 @@ namespace LocoMotor {
 			MOTOR_API int getWindowHeight();
 			/// @brief Returns the render window width
 			MOTOR_API int getWindowWidth();
+			/// @brief Set the fullscreen status of the game
+			MOTOR_API void setFullscreen(bool on);
 			/// @brief Deactivates a scene
 			/// @param name The name of the scene
 			void deactivateScene(std::string name);

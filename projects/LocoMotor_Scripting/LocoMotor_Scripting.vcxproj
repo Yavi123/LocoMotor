@@ -67,6 +67,7 @@
       <PreprocessorDefinitions>_MOTORDLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Api\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Scripting\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -82,6 +83,7 @@
       <PreprocessorDefinitions>_MOTORDLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Api\include;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Scripting\include</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

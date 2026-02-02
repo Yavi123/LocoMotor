@@ -13,63 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de encabezado\ECS">
+      <UniqueIdentifier>{a96ecac5-af23-44b1-80cb-39987db7afc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\ECS">
+      <UniqueIdentifier>{988f94e3-6f35-4fcb-ba6f-716276cfd5e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Porting">
+      <UniqueIdentifier>{59d9a67e-b444-46b5-8180-312392aba08f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Porting">
+      <UniqueIdentifier>{18bbe1b0-76d9-401e-8e4f-e7f15a9621df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\Json">
+      <UniqueIdentifier>{ceb96e02-bc7d-4cf0-b7ff-5923d47e54fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\Json">
+      <UniqueIdentifier>{01f40d24-1ec7-45f9-b8f2-d417af2d8649}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\src\LocoMotor_Core\include\Component.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneManager.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\CheckML.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\LocoMotor_Core\include\Transform.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Component.h">
+      <Filter>Archivos de encabezado\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h">
+      <Filter>Archivos de encabezado\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h">
+      <Filter>Archivos de encabezado\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h">
+      <Filter>Archivos de encabezado\ECS</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneDefs.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneManager.h">
+      <Filter>Archivos de encabezado\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Transform.h">
+      <Filter>Archivos de encabezado\ECS</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Platform.h">
+      <Filter>Archivos de encabezado\Porting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Screen.h">
+      <Filter>Archivos de encabezado\Porting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\LocalSave.h">
+      <Filter>Archivos de encabezado\Porting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Json\JSON.h">
+      <Filter>Archivos de encabezado\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Json\json.hpp">
+      <Filter>Archivos de encabezado\Json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Json\JSONValue.h">
+      <Filter>Archivos de encabezado\Json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\SceneManager.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Transform.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp">
+      <Filter>Archivos de origen\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp">
+      <Filter>Archivos de origen\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp">
+      <Filter>Archivos de origen\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp">
+      <Filter>Archivos de origen\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\SceneManager.cpp">
+      <Filter>Archivos de origen\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Transform.cpp">
+      <Filter>Archivos de origen\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\WindowsScreen.cpp">
+      <Filter>Archivos de origen\Porting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\WindowsLocalSave.cpp">
+      <Filter>Archivos de origen\Porting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Json\JSON.cpp">
+      <Filter>Archivos de origen\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Json\JSONValue.cpp">
+      <Filter>Archivos de origen\Json</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

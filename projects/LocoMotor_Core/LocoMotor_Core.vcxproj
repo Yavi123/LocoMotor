@@ -59,7 +59,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_MOTORDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.0\include</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -81,7 +81,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_MOTORDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LuaBridge;$(SolutionDir)Dependencies\Lua\src;$(SolutionDir)src\LocoMotor_Core\include;$(SolutionDir)src\LocoMotor_Graphics\include;$(SolutionDir)src\LocoMotor_Utils\include;$(SolutionDir)src\LocoMotor_Audio\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Physics\include;$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.0\include</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -101,21 +101,31 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Component.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\ComponentsFactory.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\GameObject.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Json\JSON.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Json\json.hpp" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Json\JSONValue.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\LocalSave.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Platform.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneDefs.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\SceneManager.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\Screen.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Component.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\ComponentsFactory.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\GameObject.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Json\JSON.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Json\JSONValue.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\SceneManager.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\WindowsLocalSave.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\WindowsScreen.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Transform.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

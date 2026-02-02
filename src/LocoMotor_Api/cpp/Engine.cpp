@@ -165,8 +165,6 @@ std::string LocoMotor::Engine::getStartingSceneFile() {
 
 bool Engine::mainLoop() {
 
-	
-
 	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
 		std::cerr << "\033[1;31m" << "Error creating game window" << "\033[0m" << std::endl;
 		_exit = true;
