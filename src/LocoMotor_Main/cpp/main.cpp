@@ -80,9 +80,6 @@ int LocoMotor_Main(Main_Args) {
 		return -1;
 	}
 
-	LocoMotor::Engine::GetInstance()->setWindowName("LocoMotor game");
-	LocoMotor::Engine::GetInstance()->setStartingScene("Assets/Scenes/EntryScene.lua", "EntryScene");
-
 	HINSTANCE g6Game = NULL;
 	bool successfullyLoaded = loadGameFromDLL(g6Game);
 

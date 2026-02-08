@@ -14,6 +14,10 @@ namespace LocoMotor {
 	class SceneManager;
 	class GameObject;
 
+	namespace Json {
+		class JSONValue;
+	}
+
 	class Engine {
 	public:
 		
@@ -56,6 +60,10 @@ namespace LocoMotor {
 		~Engine();
 
 		bool init();
+		void initializeStartingDataFromJson(Json::JSONValue* executableData);
+		bool initializeGraphics(Json::JSONValue* executableData);
+		bool initializeAudio(Json::JSONValue* executableData);
+		Json::JSONValue* readDataJson();
 
 		std::string _gameName;
 

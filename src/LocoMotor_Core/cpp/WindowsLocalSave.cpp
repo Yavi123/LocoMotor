@@ -1,7 +1,7 @@
 #include "LocalSave.h"
 #include <windows.h>
 
-std::string LocoMotor::Platform::LocalSave::_lastKeyName = "Testing";
+std::string LocoMotor::Platform::LocalSave::lastKeyName = "Testing";
 
 void LocoMotor::Platform::LocalSave::SetRegisterInt(const std::string& key, int val) {
 
@@ -35,7 +35,7 @@ void LocoMotor::Platform::LocalSave::SetRegisterGeneric(const std::string& key, 
 
 	DWORD dataSize = DWORD(size);
 
-	auto st = std::string("SOFTWARE\\LocoMotor\\") + _lastKeyName;
+	auto st = std::string("SOFTWARE\\LocoMotor\\") + lastKeyName;
 
 	int retCode = ::RegSetKeyValue(
 		HKEY_CURRENT_USER,
@@ -55,7 +55,7 @@ void* LocoMotor::Platform::LocalSave::GetRegisterGeneric(const std::string& key,
 
 	DWORD dataSize = DWORD(size);
 
-	auto st = std::string("SOFTWARE\\LocoMotor\\") + _lastKeyName;
+	auto st = std::string("SOFTWARE\\LocoMotor\\") + lastKeyName;
 
 	int retCode = ::RegGetValue(
 		HKEY_CURRENT_USER,

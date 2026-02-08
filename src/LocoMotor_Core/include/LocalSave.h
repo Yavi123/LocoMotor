@@ -26,14 +26,14 @@ namespace LocoMotor::Platform {
 		MOTOR_API static void SetRegisterString(const std::string& key, const std::string& val);
 		MOTOR_API static std::string GetRegisterString(const std::string& key, const std::string& defaultValue);
 
+		static std::string lastKeyName;
+
 	private:
 		LocalSave();
 		~LocalSave();
 
 		static void SetRegisterGeneric(const std::string& key, void* val, int size);
 		static void* GetRegisterGeneric(const std::string& key, void* defVal, int size);
-
-		static std::string _lastKeyName;
 	};
 }
 

@@ -49,7 +49,7 @@ JSON::JSON()
  *
  * @return JSONValue* Returns a JSON Value representing the root, or NULL on error
  */
-JSONValue *JSON::ParseFromFile(std::string filename) {
+JSONValue *JSON::ParseFromFile(const std::string& filename) {
 
 	std::ifstream in(filename);
 

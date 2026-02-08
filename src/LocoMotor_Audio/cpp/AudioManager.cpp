@@ -4,6 +4,8 @@
 #include "fmod_studio.hpp"
 #include "fmod_errors.h"
 
+#include "Json/JSON.h"
+
 #ifdef _DEBUG
 #include <iostream>
 #endif // _DEBUG
@@ -15,17 +17,41 @@ using namespace LocoMotor::Audio;
 
 AudioManager* AudioManager::_instance = nullptr;
 
-bool AudioManager::Init(bool useStudio)
+bool AudioManager::Init()
 {
-	return Init(16, useStudio);
+	return Init(16, true);
 }
 
-bool AudioManager::Init(int numChannels, bool useStudio)
-{
+bool AudioManager::Init(const Json::JSONObject& audioData) {
+
+	int desiredNumChannels = 16;
+	bool usingStudio = true;
+
+	Json::JSONValue* numChannels = audioData.at("Num_channels");
+	if (numChannels != nullptr) {
+		if (numChannels->IsNumber()) {
+			desiredNumChannels = (int)numChannels->AsNumber();
+		}
+	}
+
+	Json::JSONValue* initStudio = audioData.at("Init_studio");
+	if (initStudio != nullptr) {
+		if (initStudio->IsBool()) {
+			usingStudio = initStudio->AsBool();
+		}
+		else if (initStudio->IsNumber()) {
+			usingStudio = (initStudio->AsNumber() > 0.5f) ? true : false;
+		}
+	}
+
+	return Init(desiredNumChannels, usingStudio);
+}
+
+bool AudioManager::Init(int numChannels, bool initialiseStudio) {
 	assert(_instance == nullptr);
 	_instance = new AudioManager();
 
-	if (!_instance->init(numChannels, useStudio)) {
+	if (!_instance->init(numChannels, initialiseStudio)) {
 		delete _instance;
 		_instance = nullptr;
 		return false;
@@ -224,7 +250,10 @@ bool AudioManager::init(int numChannels, bool useStudio)
 			return false;
 		}
 
-		_studioSys->getCoreSystem(&_sys);
+		if (!(_studioSys->getCoreSystem(&_sys) == FMOD_OK)) {
+			_studioSys->release();
+			return false;
+		}
 	}
 	else {
 		if (!(System_Create(&_sys) == FMOD_OK)) {
@@ -240,6 +269,9 @@ bool AudioManager::init(int numChannels, bool useStudio)
 	if (!(_sys->createChannelGroup(0, &_main) == FMOD_OK)) {
 		_sys->close();
 		_sys->release();
+		if (useStudio) {
+			_studioSys->release();
+		}
 		return false;
 	}
 

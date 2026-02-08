@@ -98,7 +98,7 @@ namespace LocoMotor::Json {
 		friend class JSONValue;
 
 	public:
-		static JSONValue* ParseFromFile(std::string filename);
+		static JSONValue* ParseFromFile(const std::string& filename);
 		static JSONValue* Parse(const char* data);
 		static std::string Stringify(const JSONValue* value);
 	protected:

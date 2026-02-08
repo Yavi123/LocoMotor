@@ -88,6 +88,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("getAudioListener", &GameObject::getComponent<AudioListener>)
 		.addFunction("getUIText", &GameObject::getComponent<UIText>)
 		.addFunction("getUIImage", &GameObject::getComponent<UIImage>)
+		.addFunction("getComponent", &GameObject::getComponentByName)
 		.addFunction("isActive", &GameObject::isActive)
 		.addFunction("setActive", &GameObject::setActive)
 		.addFunction("removeComponent", &GameObject::removeComponents)
@@ -102,8 +103,8 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 
 		.beginClass<LMVector3>("Vector3")
 		.addStaticFunction("new", &LMVector3::createVector)
-		.addFunction("__add",(LMVector3 (LMVector3::*)(const LMVector3&) const) &LMVector3::operator+)
-		.addFunction("__sub", (LMVector3 (LMVector3::*)(const LMVector3&) const) &LMVector3::operator-)
+		.addFunction("__add", (LMVector3(LMVector3::*)(const LMVector3&) const) &LMVector3::operator+)
+		.addFunction("__sub", (LMVector3(LMVector3::*)(const LMVector3&) const) &LMVector3::operator-)
 		.addFunction("__mul", (LMVector3(LMVector3::*)(const float&) const) & LMVector3::operator*)
 		.addProperty("x", &LMVector3::getX, &LMVector3::setX)
 		.addProperty("y", &LMVector3::getY, &LMVector3::setY)
@@ -157,12 +158,12 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.endClass()
 
 		.beginClass<Platform::LocalSave>("LocalSave")
-		.addStaticFunction("SetInt", &Platform::LocalSave::SetRegisterInt)
-		.addStaticFunction("GetInt", &Platform::LocalSave::GetRegisterInt)
-		.addStaticFunction("SetFloat", &Platform::LocalSave::SetRegisterFloat)
-		.addStaticFunction("GetFloat", &Platform::LocalSave::GetRegisterFloat)
-		.addStaticFunction("SetString", &Platform::LocalSave::SetRegisterString)
-		.addStaticFunction("GetString", &Platform::LocalSave::GetRegisterString)
+		.addStaticFunction("setInt", &Platform::LocalSave::SetRegisterInt)
+		.addStaticFunction("getInt", &Platform::LocalSave::GetRegisterInt)
+		.addStaticFunction("setFloat", &Platform::LocalSave::SetRegisterFloat)
+		.addStaticFunction("getFloat", &Platform::LocalSave::GetRegisterFloat)
+		.addStaticFunction("setString", &Platform::LocalSave::SetRegisterString)
+		.addStaticFunction("getString", &Platform::LocalSave::GetRegisterString)
 		.endClass();
 }
 

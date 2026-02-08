@@ -21,6 +21,9 @@
     <ClInclude Include="..\..\..\src\LocoMotor_Input\include\LMInputs.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\LocoMotor_Input\include\GamepadMappings.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\LocoMotor_Input\cpp\InputManager.cpp">

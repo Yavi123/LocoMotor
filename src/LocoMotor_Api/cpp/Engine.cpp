@@ -1,4 +1,5 @@
 #include "Engine.h"
+#include "json/JSON.h"
 #include "GraphicsManager.h"
 #include "ComponentsFactory.h"
 #include "PhysicsManager.h"
@@ -26,13 +27,14 @@
 
 #include <iostream>
 #include <SDL_messagebox.h>
+#include <LocalSave.h>
 
 using namespace LocoMotor;
 
 Engine* Engine::_instance = nullptr;
 
 Engine::Engine() {
-	_gameName = "No window title";
+	_gameName = "Default Name";
 	_startingSceneFile = "";
 	_startingSceneName = "";
 	_scnManager = nullptr;
@@ -55,8 +57,13 @@ bool Engine::Init() {
 	}
 	return true;
 }
-bool Engine::init(){
-	if (!Graphics::GraphicsManager::Init()) {
+bool Engine::init() {
+
+	Json::JSONValue* executableData = readDataJson();
+
+	initializeStartingDataFromJson(executableData);
+
+	if (!initializeGraphics(executableData)) {
 		return false;
 	}
 
@@ -65,7 +72,7 @@ bool Engine::init(){
 		return false;
 	}
 
-	if (!Audio::AudioManager::Init(true)) {
+	if (!initializeAudio(executableData)) {
 		Scripting::ScriptManager::Release();
 		Graphics::GraphicsManager::Release();
 		
@@ -123,6 +130,7 @@ bool Engine::init(){
 		return false;
 	}
 
+	delete executableData;
 
 	cmpFac->registerComponent<EventEmitter>("EventEmitter");
 	cmpFac->registerComponent<AudioSource>("AudioSource");
@@ -137,6 +145,90 @@ bool Engine::init(){
 	cmpFac->registerComponent<LuaBehaviour>("LuaBehaviour");
 
 	return true;
+}
+
+void LocoMotor::Engine::initializeStartingDataFromJson(LocoMotor::Json::JSONValue* executableData) {
+	Json::JSONValue* gameData = nullptr;
+	if (executableData != nullptr) {
+		if (executableData->AsObject().contains("Game") && executableData->AsObject().at("Game")->IsObject()) {
+			gameData = executableData->AsObject().at("Game");
+
+			if (gameData->IsObject()) {
+				Json::JSONValue* gameName = gameData->AsObject().at("Game_name");
+				if (gameName != nullptr) {
+					if (gameName->IsString()) {
+						this->_gameName = gameName->AsString();
+					}
+				}
+				Json::JSONValue* sceneFile = gameData->AsObject().at("Entry_scene");
+				if (sceneFile != nullptr) {
+					if (sceneFile->IsString()) {
+						this->_startingSceneFile = sceneFile->AsString();
+					}
+				}
+				Json::JSONValue* sceneName = gameData->AsObject().at("Entry_scene_name");
+				if (sceneName != nullptr) {
+					if (sceneName->IsString()) {
+						this->_startingSceneName = sceneName->AsString();
+					}
+				}
+			}
+		}
+	}
+}
+
+bool LocoMotor::Engine::initializeGraphics(LocoMotor::Json::JSONValue* executableData) {
+	Json::JSONValue* graphics = nullptr;
+
+	if (executableData != nullptr) {
+		if (executableData->AsObject().contains("Graphics") && executableData->AsObject().at("Graphics")->IsObject()) {
+			graphics = executableData->AsObject().at("Graphics");
+		}
+	}
+
+	if (graphics != nullptr) {
+		if (!Graphics::GraphicsManager::Init(graphics->AsObject())) {
+			return false;
+		}
+	}
+	else {
+		if (!Graphics::GraphicsManager::Init()) {
+			return false;
+		}
+	}
+	return true;
+}
+
+bool LocoMotor::Engine::initializeAudio(Json::JSONValue* executableData) {
+	Json::JSONValue* audio = nullptr;
+
+	if (executableData != nullptr) {
+		if (executableData->AsObject().contains("Audio") && executableData->AsObject().at("Audio")->IsObject()) {
+			audio = executableData->AsObject().at("Audio");
+		}
+	}
+
+	if (audio != nullptr) {
+		if (!Audio::AudioManager::Init(audio->AsObject())) {
+			return false;
+		}
+	}
+	else {
+		if (!Audio::AudioManager::Init()) {
+			return false;
+		}
+	}
+	return true;
+}
+
+Json::JSONValue* LocoMotor::Engine::readDataJson() {
+
+	Json::JSONValue* executableData = Json::JSON::ParseFromFile("./LocoMotor_Data/LocoMotor_Settings.json");
+
+	if (executableData == nullptr || !executableData->IsObject())
+		return nullptr;
+
+	return executableData;
 }
 
 Engine* LocoMotor::Engine::GetInstance() {
@@ -164,6 +256,8 @@ std::string LocoMotor::Engine::getStartingSceneFile() {
 }
 
 bool Engine::mainLoop() {
+
+	Platform::LocalSave::lastKeyName = _gameName;
 
 	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
 		std::cerr << "\033[1;31m" << "Error creating game window" << "\033[0m" << std::endl;

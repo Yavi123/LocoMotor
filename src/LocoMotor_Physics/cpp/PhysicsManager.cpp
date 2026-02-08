@@ -14,7 +14,14 @@ PhysicsManager* PhysicsManager::_instance = nullptr;
 bool PhysicsManager::Init() {
 	assert(_instance == nullptr);
 	_instance = new PhysicsManager();
-	return _instance->init();
+
+	if (!_instance->init()) {
+		delete _instance;
+		_instance = nullptr;
+		return false;
+	}
+
+	return true;
 }
 
 PhysicsManager* PhysicsManager::GetInstance() {
@@ -30,8 +37,10 @@ void PhysicsManager::Release() {
 
 void LocoMotor::Physics::PhysicsManager::update(double dt) {
 
-	for (int i = 0; i < _dynamicWorld->getCollisionObjectArray().size(); i++) {
-		GameObject* rb = static_cast<GameObject*>(_dynamicWorld->getCollisionObjectArray().at(i)->getUserPointer());
+	const btCollisionObjectArray& objectArray = _dynamicWorld->getCollisionObjectArray();
+
+	for (int i = 0; i < objectArray.size(); i++) {
+		GameObject* rb = static_cast<GameObject*>(objectArray.at(i)->getUserPointer());
 		if (rb != nullptr) {
 			RigidBody* body = rb->getComponent<RigidBody>();
 			if (body) {
@@ -42,8 +51,8 @@ void LocoMotor::Physics::PhysicsManager::update(double dt) {
 
 	_dynamicWorld->stepSimulation(btScalar(dt / 1000.f), 0);
 
-	for (int i = 0; i < _dynamicWorld->getCollisionObjectArray().size(); i++) {
-		GameObject* rb = static_cast<GameObject*>(_dynamicWorld->getCollisionObjectArray().at(i)->getUserPointer());
+	for (int i = 0; i < objectArray.size(); i++) {
+		GameObject* rb = static_cast<GameObject*>(objectArray.at(i)->getUserPointer());
 		if (rb != nullptr) {
 			RigidBody* body = rb->getComponent<RigidBody>();
 			if (body) {
@@ -105,7 +114,7 @@ bool LocoMotor::Physics::PhysicsManager::init() {
 	_collisionConfiguration = new btDefaultCollisionConfiguration();
 	_dispatcher = new btCollisionDispatcher(_collisionConfiguration);
 	_overlappingPairCache = new btDbvtBroadphase();
-	_solver = new btSequentialImpulseConstraintSolver;
+	_solver = new btSequentialImpulseConstraintSolver();
 	//Create Dynamic world
 	_dynamicWorld = new btDiscreteDynamicsWorld(_dispatcher, _overlappingPairCache, _solver, _collisionConfiguration);
 	//Set default gravity

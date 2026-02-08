@@ -22,8 +22,12 @@
 //Core includes
 #include "Screen.h"
 #include "LocalSave.h"
+#include "json/JSON.h"
 
-#define FULLSCREENMODE_KEY "LM_Graphics_Fullscreen"
+constexpr const char* FULLSCREENMODE_KEY = "LM_Graphics_Fullscreen";
+constexpr const char* WINDOWWIDTH_KEY = "LM_Graphics_WindowWidth";
+constexpr const char* WINDOWHEIGHT_KEY = "LM_Graphics_WindowHeight";
+constexpr const char* VSYNCCOUNT_KEY = "LM_Graphics_VSync";
 
 using namespace LocoMotor;
 using namespace Graphics;
@@ -57,6 +61,22 @@ bool LocoMotor::Graphics::GraphicsManager::Init() {
 	return true;
 }
 
+bool LocoMotor::Graphics::GraphicsManager::Init(const Json::JSONObject& graphicsData) {
+	assert(_instance == nullptr);
+	_instance = new GraphicsManager();
+
+	std::string result = _instance->initialize(graphicsData);
+
+	if (result != "") {
+		std::cerr << "\033[1;31m" << result << "\033[0m" << std::endl;
+		delete _instance;
+		_instance = nullptr;
+		return false;
+	}
+
+	return true;
+}
+
 GraphicsManager* LocoMotor::Graphics::GraphicsManager::GetInstance() {
 	assert(_instance != nullptr);
 	return _instance;
@@ -68,7 +88,7 @@ void LocoMotor::Graphics::GraphicsManager::Release() {
 	_instance = nullptr;
 }
 
-std::string GraphicsManager::initialize() {
+std::string LocoMotor::Graphics::GraphicsManager::initialize() {
 	try {
 		_root = new Ogre::Root();
 	}
@@ -76,7 +96,9 @@ std::string GraphicsManager::initialize() {
 		return "Error while constructing internal ogre library";
 	}
 
-	OverlayManager::Init();
+	if (!OverlayManager::Init()) {
+		return "Error while initializing OverlayManager";
+	}
 
 	try {
 		_root->showConfigDialog(nullptr);
@@ -87,6 +109,14 @@ std::string GraphicsManager::initialize() {
 		return "Error while initializing internal ogre library";
 	}
 	return "";
+}
+
+std::string GraphicsManager::initialize(const Json::JSONObject& graphicsData) {
+
+	_graphicsInitData.readFromJson(graphicsData);
+
+	return initialize();
+
 }
 
 void GraphicsManager::createScene(std::string name) {
@@ -109,9 +139,9 @@ bool GraphicsManager::render() {
 	try {
 		_root->renderOneFrame();
 	}
-	catch (...) {
+	catch (Ogre::Exception o) {
 		// Se que este mensaje de error es una mierda no se como explicar en una linea todo lo que ocurre ;-;
-		std::cerr << "\033[1;31m" << "Scene wasn't able to render: \n\tMake sure the folder 'GraphicSettings' exists in the same directory as the game and contains all the shaders needed for the game" << "\033[0m" << std::endl;
+		std::cerr << "\033[1;31m" << "Couldn't render scene: Ogre Exception -> " << o.getDescription().c_str() << "\033[0m" << std::endl;
 		return false;
 	}
 	return true;
@@ -250,31 +280,70 @@ bool GraphicsManager::initWindow(std::string name) {
 	Ogre::StringVector possibleResolutions = Ogre::StringVector(ropts["Video Mode"].possibleValues);
 
 	miscParams["FSAA"] = ropts["FSAA"].currentValue;
-	miscParams["vsync"] = ropts["VSync"].currentValue;
 	miscParams["gamma"] = ropts["sRGB Gamma Conversion"].currentValue;
 
 	if (!SDL_WasInit(SDL_INIT_VIDEO)) {
-		if (SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt"))
-			std::cout << "Gamecontroller Mappings Loaded" << "\n";
-		else
-			std::cout << "Gamecontroller Mappings NOT Loaded" << "\n";
-
-		SDL_InitSubSystem(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
+		SDL_InitSubSystem(SDL_INIT_VIDEO);
 	}
 
 	Uint32 flags = SDL_WINDOW_RESIZABLE;
 
-	if (Platform::LocalSave::GetRegisterInt(FULLSCREENMODE_KEY, 0) == 1) {
+	int fullscreenModeSaved = Platform::LocalSave::GetRegisterInt(FULLSCREENMODE_KEY, -1);
+	if (fullscreenModeSaved == -1) {
+		fullscreenModeSaved = _graphicsInitData._fullscreen;
+		Platform::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, fullscreenModeSaved);
+	}
+
+	if (fullscreenModeSaved == 1) {
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
 		w = Platform::Screen::GetDesiredWidth();
 		h = Platform::Screen::GetDesiredHeight();
 	}
-	else {
-		Platform::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, 0);
+	else if (fullscreenModeSaved == 2) {
+		flags |= SDL_WINDOW_FULLSCREEN;
 
-		w = Platform::Screen::GetDesiredWidth() / 2;
-		h = Platform::Screen::GetDesiredHeight() / 2;
+		w = Platform::Screen::GetDesiredWidth();
+		h = Platform::Screen::GetDesiredHeight();
+	}
+	else {
+		int savedWidth = Platform::LocalSave::GetRegisterInt(WINDOWWIDTH_KEY, -1);
+		if (savedWidth == -1) {
+			savedWidth = _graphicsInitData._resWidth;
+		}
+		if (savedWidth < 200) {
+			savedWidth = 200;
+		}
+		Platform::LocalSave::SetRegisterInt(WINDOWWIDTH_KEY, savedWidth);
+
+		int savedHeight = Platform::LocalSave::GetRegisterInt(WINDOWHEIGHT_KEY, -1);
+		if (savedHeight == -1) {
+			savedHeight = _graphicsInitData._resHeight;
+		}
+		if (savedHeight < 200) {
+			savedHeight = 200;
+		}
+		Platform::LocalSave::SetRegisterInt(WINDOWHEIGHT_KEY, savedHeight);
+
+		w = savedWidth;
+		h = savedHeight;
+	}
+
+	int savedVSyncValue = Platform::LocalSave::GetRegisterInt(VSYNCCOUNT_KEY, -1);
+	if (savedVSyncValue == -1) {
+		savedVSyncValue = _graphicsInitData._vSync;
+	}
+	if (savedVSyncValue < 0) {
+		savedVSyncValue = 0;
+	}
+	Platform::LocalSave::SetRegisterInt(VSYNCCOUNT_KEY, savedVSyncValue);
+
+	if (savedVSyncValue > 0) {
+		miscParams["vsync"] = "Yes";
+		miscParams["vsync_count"] = "savedVSyncValue";
+	}
+	else {
+		miscParams["vsync"] = "No";
 	}
 
 	_mWindow.native = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, flags);
@@ -387,3 +456,39 @@ Ogre::SceneManager* LocoMotor::Graphics::GraphicsManager::getOgreSceneManager() 
 	return _activeScene;
 }
 
+void LocoMotor::Graphics::GraphicsInitData::readFromJson(const Json::JSONObject& json)
+{
+	Json::JSONValue* vsyncValue = json.at("Vsync");
+	if (vsyncValue != nullptr) {
+		if (vsyncValue->IsBool()) {
+			this->_vSync = vsyncValue->AsBool() ? 1 : 0;
+		}
+		if (vsyncValue->IsNumber()) {
+			this->_vSync = (int)vsyncValue->AsNumber();
+		}
+	}
+
+	Json::JSONValue* fullscreenValue = json.at("Fullscreen");
+	if (fullscreenValue != nullptr) {
+		if (fullscreenValue->IsBool()) {
+			this->_fullscreen = fullscreenValue->AsBool() ? 1 : 0;
+		}
+		if (fullscreenValue->IsNumber()) {
+			this->_fullscreen = (int)fullscreenValue->AsNumber();
+		}
+	}
+
+	Json::JSONValue* widthValue = json.at("Resolution_width");
+	if (widthValue != nullptr) {
+		if (widthValue->IsNumber()) {
+			this->_resWidth = (int) widthValue->AsNumber();
+		}
+	}
+
+	Json::JSONValue* heightValue = json.at("Resolution_height");
+	if (heightValue != nullptr) {
+		if (heightValue->IsNumber()) {
+			this->_resHeight = (int) heightValue->AsNumber();
+		}
+	}
+}

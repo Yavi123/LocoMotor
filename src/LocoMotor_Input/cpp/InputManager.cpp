@@ -2,11 +2,9 @@
 #include <iostream>
 #include <algorithm>
 
-#include "SDL_Scancode.h"
-#include "SDL_keyboard.h"
-#include <SDL_events.h>
-#include <SDL_gamecontroller.h>
+#include <SDL.h>
 #include "LMInputs.h"
+#include "GamepadMappings.h"
 
 #include <cassert>
 
@@ -34,6 +32,17 @@ bool InputManager::Init() {
 }
 
 bool InputManager::init() {
+
+	if (!SDL_WasInit(SDL_INIT_GAMECONTROLLER)) {
+
+		SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER | SDL_INIT_HAPTIC);
+
+		if (SDL_GameControllerAddMapping(GAMEPAD_MAPPINGS) >= 0)
+			std::cout << "Gamecontroller Mappings Loaded" << "\n";
+		else
+			std::cerr << "\033[1;31m" << "Gamecontroller Mappings NOT Loaded" << "\033[0m" << std::endl;
+	}
+
 	initStrsMaps();
 	return true;
 }

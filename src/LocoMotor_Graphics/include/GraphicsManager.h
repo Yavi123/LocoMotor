@@ -28,8 +28,22 @@ namespace Ogre {
 struct SDL_Window;
 namespace LocoMotor {
 
+	namespace Json {
+		class JSONValue;
+		typedef std::map<std::string, JSONValue*> JSONObject;
+	}
+
 	namespace Graphics {
 
+		struct GraphicsInitData {
+			int _vSync = 1;
+			int _fullscreen = 1;
+			int _resWidth = 0;
+			int _resHeight = 0;
+
+		public:
+			void readFromJson(const ::LocoMotor::Json::JSONObject& json);
+		};
 		struct NativeWindowPair {
 			Ogre::RenderWindow* render = nullptr;
 			SDL_Window* native = nullptr;
@@ -40,6 +54,9 @@ namespace LocoMotor {
 			/// @brief Initializes the GraphicsManager singleton
 			/// @return Whether the initialize went well or not.
 			static bool Init();
+			/// @brief Initializes the GraphicsManager singleton
+			/// @return Whether the initialize went well or not.
+			static bool Init(const Json::JSONObject& graphicsData);
 			/// @brief Returns the instance of the GraphicsManager singleton
 			MOTOR_API static GraphicsManager* GetInstance();
 			/// @brief Deletes the instance of the GraphicsManager singleton
@@ -100,6 +117,8 @@ namespace LocoMotor {
 
 			void* _mMaterialMgrListener = nullptr;
 
+			GraphicsInitData _graphicsInitData;
+
 			static GraphicsManager* _instance;
 
 			/// @brief Creates a new OgreManager.
@@ -109,6 +128,7 @@ namespace LocoMotor {
 			/// @brief Initializes the Ogre library
 			/// @return Empty string if success, error message in any other case
 			std::string initialize();
+			std::string initialize(const Json::JSONObject& graphicsData);
 			/// @brief Loads the resouces and initializes the RTShaderSytem
 			void loadResources();
 			/// @brief

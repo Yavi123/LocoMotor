@@ -1,0 +1,17 @@
+{
+    "Game" : {
+        "Game_name" : "LocoMotor_Game",
+        "Entry_scene" : "Assets/Scenes/EntryScene.lua",
+        "Entry_scene_name" : "EntryScene"
+    },
+    "Graphics" : {
+        "Vsync" : 3,
+        "Fullscreen" : 0,
+        "Resolution_width" : 800,
+        "Resolution_height" : 600
+    },
+    "Audio" : {
+        "Num_channels" : 2,
+        "Init_studio" : false
+    }
+}

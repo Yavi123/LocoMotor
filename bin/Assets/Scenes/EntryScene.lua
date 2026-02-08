@@ -20,6 +20,12 @@ EntryScene = {
         MeshRenderer = {
             mesh = "ConemanMesh.mesh",
             material = "CustomMaterial"
+        },
+        InputController = {
+
+        },
+        Movement = {
+            
         }
     }
 }
