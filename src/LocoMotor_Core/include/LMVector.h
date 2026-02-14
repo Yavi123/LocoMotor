@@ -10,23 +10,18 @@
 
 #include <string>
 
-//namespace Ogre {
-//	typedef Vector<3, Real> Vector3;
-//}
-
 namespace LocoMotor {
-	class MOTOR_API LMQuaternion;
+	class MOTOR_API Quaternion;
+
 	//Vector class to be used with LocoMotor
-	class MOTOR_API LMVector3 {
+	template<int dims>
+	class MOTOR_API Vector {
 
 	public:
-		// Default constructor initializes vector to (0, 0, 0)
-		/// @brief Create a new Vector3 with everything Set to 0
-		LMVector3();
+		Vector();
 
-		// Constructor initializes vector to specified values
-		/// @brief Create a new Vector3
-		LMVector3(float x, float y, float z);
+		template<typename... Args>
+		Vector(Args... args);
 
 		// Getter functions
 		/// @brief Get the X value of the Vector
@@ -35,6 +30,8 @@ namespace LocoMotor {
 		float getY() const;
 		/// @brief Get the Z value of the Vector
 		float getZ() const;
+		/// @brief Get the W value of the Vector
+		float getW() const;
 
 		// Setter functions
 		/// @brief Set the X value of the Vector
@@ -43,39 +40,41 @@ namespace LocoMotor {
 		void setY(float y);
 		/// @brief Set the Z value of the Vector
 		void setZ(float z);
+		/// @brief Set the W value of the Vector
+		void setW(float w);
 
 		// Equal operators of vectors
 
 		// Sum operators of vectors
-		LMVector3 operator+(const LMVector3& other) const;
-		LMVector3 operator+(const float& other) const;
+		Vector operator+(const Vector& other) const;
+		Vector operator+(const float& other) const;
 		// Sub operators of vectors
-		LMVector3 operator-(const LMVector3& other) const;
-		LMVector3 operator-(const float& other) const;
+		Vector operator-(const Vector& other) const;
+		Vector operator-(const float& other) const;
 
 		// Mul operators of vectors
-		LMVector3 operator*(const LMVector3& other) const;
-		LMVector3 operator*(const float& other) const;
+		Vector operator*(const Vector& other) const;
+		Vector operator*(const float& other) const;
 
 		// Div operators of vectors
-		LMVector3 operator/(const LMVector3& other) const;
-		LMVector3 operator/(const float& other) const;
+		Vector operator/(const Vector& other) const;
+		Vector operator/(const float& other) const;
 
 		// Dot product
 		///	@brief Get the Dot Product of two Vectors
 		/// @param other The other Vector
-		float dot(const LMVector3& other) const;
+		float dot(const Vector<dims>& other) const;
 
 		// Cross product
 		///	@brief Get the Cross Product of two Vectors
 		/// @param other The other Vector
-		LMVector3 cross(const LMVector3& other) const;
+		Vector cross(const Vector<dims>& other) const;
 
 		// Cross product
 		///	@brief Get the Cross Product of two Vectors
 		/// @param normal The normal Vector
 		/// @param other The other Vector
-		LMVector3 cross(const LMVector3& other, const LMVector3& normal) const;
+		Vector cross(const Vector<dims>& other, const Vector<dims>& normal) const;
 
 		// Magnitude
 		///	@brief Get the Magnitude of a Vector
@@ -88,158 +87,77 @@ namespace LocoMotor {
 		// Angle
 		///	@brief Get the Angle between two Vectors
 		/// @param other The other Vector to measure from
-		float angle(const LMVector3& other) const;
+		float angle(const Vector<dims>& other) const;
 
 		// Angle
 		///	@brief Get the Angle between two Vectors
 		/// @param other The other Vector to measure from
 		/// @param normal The normal Vector
-		float angle(const LMVector3& other, const LMVector3& normal) const;
+		float angle(const Vector<3>& other, const Vector<3>& normal) const;
 
 		// Angle
 		///	@brief Get the Angle between two Vectors in degrees
 		/// @param other The other Vector to measure from
 		/// @param normal The normal Vector
 		/// @param axis The axis to measure by
-		float angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const;
+		float angle(const Vector<3>& other, const Vector<3>& normal, const Vector<3>& axis) const;
 
 		// rotate
 		///	@brief Rotate a Vector
 		/// @param axis The axis to rotate around
 		/// @param angle The angle to rotate (degrees)
-		LMVector3 rotate(const LMVector3& axis, float angle);
+		Vector rotate(const Vector<dims>& axis, float angle);
+
+		// perpendicular
+		///	@brief Get the perpendicular
+		Vector<2> perpendicular2() const;
 
 		// perpendicular
 		///	@brief Get the perpendicular vector from two Vectors
 		/// @param other The other Vector
-		LMVector3 perpendicular(const LMVector3& other) const;
+		Vector<3> perpendicular3(const Vector<3>& other) const;
 
 
 		/// @brief Convert a rotation vector to Quaternion
-		LMQuaternion asRotToQuaternion() const;
+		Quaternion asRotToQuaternion() const;
 
 		/// @brief Converts a String to a vector
 		/// @param s String to convert
-		/// @return Vector3 converted
-		static LMVector3 stringToVector(const std::string& s);
+		/// @return Vector converted
+		static Vector<3> stringToVector(const std::string& s);
 
-		static LMVector3 lerp(const LMVector3& start, const LMVector3& end, float t);
+		static Vector<dims> lerp(const Vector<dims>& start, const Vector<dims>& end, float t);
 
-		static float distance(const LMVector3& v1, const LMVector3& v2);
+		static float distance(const Vector<dims>& v1, const Vector<dims>& v2);
 
-		bool operator==(const LMVector3& other) const;
+		bool operator==(const Vector<dims>& other) const;
 
 		/// @brief Hack para poder crear un vector con lua
 		/// @param x 
 		/// @param y 
 		/// @param z 
 		/// @return 
-		static inline  LMVector3 createVector(float x, float y, float z) {
-			return LMVector3(x, y, z);
+		static inline Vector<2> createVector2(float x, float y) {
+			return Vector<2>(x, y);
+		}
+		static inline Vector<3> createVector3(float x, float y, float z) {
+			return Vector<3>(x, y, z);
+		}
+		static inline Vector<4> createVector4(float x, float y, float z, float w) {
+			return Vector<4>(x, y, z, w);
 		}
 
 	private:
-		float _x = 0, _y = 0, _z = 0;
+		float _values[dims];
 	};
 
-	//Quaternion class to be used with LocoMotor
-	class LMQuaternion {
+	using Vector2 = Vector<2>;
+	using Vector3 = Vector<3>;
+	using Vector4 = Vector<4>;
 
-	public:
-		// Default constructor initializes quaternion to (1, 0, 0, 0)
-		/// @brief Create a new Quaternion with everything Set to default
-		LMQuaternion();
-
-		// Constructor initializes quaternion to specified values
-		/// @brief Create a new Quaternion
-		LMQuaternion(float w, float x, float y, float z);
-
-		/// @brief Hack para crear Quaternions desde lua
-		/// @param w 
-		/// @param x 
-		/// @param y 
-		/// @param z 
-		/// @return 
-		static inline LMQuaternion createQuat(float w, float x, float y, float z) {
-			return LMQuaternion(w, x, y, z);
-		}
-		// Getter functions
-		/// @brief Get the W value of the Quaternion
-		float getW() const;
-		/// @brief Get the X value of the Quaternion
-		float getX() const;
-		/// @brief Get the Y value of the Quaternion
-		float getY() const;
-		/// @brief Get the Z value of the Quaternion
-		float getZ() const;
-
-	//Setter functions
-		/// @brief Set the W value of the Quaternion
-		void setW(float w);
-		/// @brief Set the X value of the Quaternion
-		void setX(float x);
-		/// @brief Set the Y value of the Quaternion
-		void setY(float y);
-		/// @brief Set the Z value of the Quaternion
-		void setZ(float z);
-
-		//Equal operators of quaternions
-		LMQuaternion operator=(const LMQuaternion& other);
-
-		// Add operators of quaternions
-		LMQuaternion operator+(const LMQuaternion& other) const;
-
-		// Sub operators of quaternions
-		LMQuaternion operator-(const LMQuaternion& other) const;
-
-		// Mul operators of quaternions
-		LMQuaternion operator*(const LMQuaternion& other) const;
-		LMQuaternion operator*(float scalar) const;
-		LMVector3 operator*(const LocoMotor::LMVector3& other) const;
-
-		// Div operators of quaternions
-		LMQuaternion operator/(float scalar) const;
-
-		// Conjugate
-		/// @brief Get the Conjugate of a Quaternion
-		LMQuaternion conjugate() const;
-
-		// Magnitude
-		/// @brief Get the Magnitude of a Quaternion
-		float magnitude() const;
-
-		// Normalize
-		/// @brief Normalize a Quaternion
-		void normalize();
-
-		// Rotate
-		/// @brief Rotate a Quaternion
-		/// @param axis The Axis to rotate around
-		/// @param angle The Angle to rotate by (degrees)
-		LMQuaternion rotate(const LMVector3& axis, float angle) const;
-
-		// Rotate a vector by this quaternion
-		/// @brief Rotate a Vector by this Quaternion
-		/// @param vector The Vector to be rotated
-		LMVector3 rotate(const LMVector3& vector) const;
-
-		// Up vector from Quaternion
-		/// @brief Get the Up Vector from a Quaternion
-		LMVector3 up() const;
-
-		// Right vector from Quaternion
-		/// @brief Get the Right Vector from a Quaternion
-		LMVector3 right() const;
-
-		// Forward vector from Quaternion
-		/// @brief Get the Forward Vector from a Quaternion
-		LMVector3 forward() const;
-
-		/// @brief Returns the Quaternion to Euler vector3
-		LMVector3 toEuler() const;
-	private:
-		float _w = 0, _x = 0, _y = 0, _z = 0;
-	};
+	extern template class MOTOR_API Vector<2>;
+	extern template class MOTOR_API Vector<3>;
+	extern template class MOTOR_API Vector<4>;
 }
 
 #endif 

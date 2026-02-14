@@ -1,15 +1,17 @@
 
 namespace LocoMotor {
-	class LMVector3;
-	class LMQuaternion;
+	template<typename int>
+	class Vector;
+	typedef Vector<3> Vector3;
+	class Quaternion;
 }
 class btVector3;
 class btQuaternion;
 
-LocoMotor::LMVector3 BulletToLm(const btVector3& bulletVector);
+LocoMotor::Vector3 BulletToLm(const btVector3& bulletVector);
 /// @brief Converts an lmVector to Bullet vector
-btVector3 LmToBullet(const LocoMotor::LMVector3& lmVector);
+btVector3 LmToBullet(const LocoMotor::Vector3& lmVector);
 /// @brief Converts an LMQuaternion to Bullet vector
-btQuaternion LmToBullet(const LocoMotor::LMQuaternion& LMQuaternion);
+btQuaternion LmToBullet(const LocoMotor::Quaternion& LMQuaternion);
 
-LocoMotor::LMQuaternion BulletToLm(const btQuaternion& bulletQuaternion);
+LocoMotor::Quaternion BulletToLm(const btQuaternion& bulletQuaternion);

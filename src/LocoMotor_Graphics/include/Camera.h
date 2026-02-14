@@ -10,6 +10,7 @@
 
 #include "Component.h"
 #include "LMVector.h"
+#include "LMQuaternion.h"
 
 
 
@@ -39,7 +40,7 @@ namespace LocoMotor{
 		/// @param offset The offset is a vector that represents the distance and direction from the target
 		/// object's position where the camera should be positioned. It is used to adjust the camera's position
 		/// relative to the target object.
-		void SetTarget(GameObject* target, LMVector3 offset);
+		void SetTarget(GameObject* target, const Vector3& offset);
 
 		/// @brief Sets the field of view (FOV) of a camera object.
 		/// @param newFov newFov is a float variable representing the new field of view (FOV) value that will be
@@ -75,9 +76,8 @@ namespace LocoMotor{
 	private:
 
 		GameObject* _target;
-		LMVector3 _offset;
-		LMVector3 _nodeScale;
-		LMQuaternion _nodeRotation;
+		Vector3 _offset;
+		Quaternion _nodeRotation;
 
 		Ogre::Camera* _mCamera;
 		Ogre::Viewport* _vp;

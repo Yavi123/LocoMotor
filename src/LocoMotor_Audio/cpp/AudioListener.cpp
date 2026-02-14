@@ -2,6 +2,7 @@
 #include "AudioManager.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "LMQuaternion.h"
 #include <fmod_common.h>
 #include <fmod.hpp>
 #include "fmod_errors.h"
@@ -101,7 +102,7 @@ unsigned short AudioListener::setTransform(const FMOD_VECTOR& newPos, const FMOD
 #endif // _DEBUG
 }
 
-FMOD_VECTOR LocoMotor::AudioListener::toFModVector(const LMVector3& a) {
+FMOD_VECTOR LocoMotor::AudioListener::toFModVector(const Vector3& a) {
 	FMOD_VECTOR res = FMOD_VECTOR();
 	res.x = a.getX();
 	res.y = a.getY();

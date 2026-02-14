@@ -14,13 +14,10 @@
 LocoMotor::MeshRenderer::MeshRenderer() {
 	_name = "";
 	_src = "";
-	_mat = "";
 	_mesh = nullptr;
 	_setStatic = false;
 	isSelfVisible = true;
 	_node = nullptr;
-	_nodeScale = LMVector3(1, 1, 1);
-	_nodeRotation = LMQuaternion();
 
 	currentAnimation = nullptr;
 	numAnimationsActive = 0;
@@ -141,7 +138,7 @@ void LocoMotor::MeshRenderer::update(float dt) {
 		_setStatic = false;
 	}
 
-	LMVector3 pos = _gameObject->getComponent<Transform>()->getPosition();
+	Vector3 pos = _gameObject->getComponent<Transform>()->getPosition();
 	_node->setPosition(pos.getX(), pos.getY(), pos.getZ());
 
 	Ogre::Quaternion quat = Ogre::Quaternion();
@@ -151,7 +148,7 @@ void LocoMotor::MeshRenderer::update(float dt) {
 	quat.z = _gameObject->getComponent<Transform>()->getRotation().getZ();
 	_node->setOrientation(quat);
 
-	LMVector3 size = _gameObject->getComponent<Transform>()->getSize();
+	Vector3 size = _gameObject->getComponent<Transform>()->getSize();
 	_node->setScale(size.getX(), size.getY(), size.getZ());
 }
 

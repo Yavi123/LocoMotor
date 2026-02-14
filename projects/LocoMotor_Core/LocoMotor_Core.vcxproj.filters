@@ -81,11 +81,11 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Json\JSONValue.h">
       <Filter>Archivos de encabezado\Json</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\LMQuaternion.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -118,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Json\JSONValue.cpp">
       <Filter>Archivos de origen\Json</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMQuaternion.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

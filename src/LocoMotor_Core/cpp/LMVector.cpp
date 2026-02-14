@@ -1,130 +1,168 @@
-#define _USE_MATH_DEFINES
-
 #include "LMVector.h"
+#include "LMQuaternion.h"
 #include <cmath>
 #include <iostream>
 
-using namespace LocoMotor;
-
-// Default constructor initializes vector to (0, 0, 0)
-LMVector3::LMVector3() : _x(0), _y(0), _z(0) {}
-
-// Constructor initializes vector to specified values
-LMVector3::LMVector3(float x, float y, float z) : _x(x), _y(y), _z(z) {}
-
+#pragma region Vector
 // Getter functions
-// Get the X value of the Vector
-float LMVector3::getX() const {
-	return _x;
+// Get the X value of the LocoMotor::Vector
+template <int dims>
+inline LocoMotor::Vector<dims>::Vector() {
+	for (int i = 0; i < dims; ++i)
+		_values[i] = 0.f;
 }
-// Get the Y value of the Vector
-float LMVector3::getY() const {
-	return _y;
+
+template<int dims>
+template<typename ...Args>
+inline LocoMotor::Vector<dims>::Vector(Args ...args) {
+	static_assert(sizeof...(args) == dims, "Wrong number of arguments");
+	float tmp[dims] = { static_cast<float>(args)... };
+	for (int i = 0; i < dims; ++i)
+		_values[i] = tmp[i];
 }
-// Get the Z value of the Vector
-float LMVector3::getZ() const {
-	return _z;
+
+#pragma region Getters / Setters
+// Getter functions
+// Get the X value of the LocoMotor::Vector
+template <int dims>
+float LocoMotor::Vector<dims>::getX() const {
+	return _values[0];
+}
+// Get the Y value of the LocoMotor::Vector
+template <int dims>
+float LocoMotor::Vector<dims>::getY() const {
+	return _values[1];
+}
+
+// Get the Z value of the LocoMotor::Vector
+float LocoMotor::Vector<3>::getZ() const {
+	return _values[2];
+}
+
+// Get the W value of the LocoMotor::Vector
+float LocoMotor::Vector<4>::getZ() const {
+	return _values[2];
+}
+// Get the W value of the LocoMotor::Vector
+float LocoMotor::Vector<4>::getW() const {
+	return _values[3];
 }
 
 // Setter functions
-// Set the X value of the Vector
-void LMVector3::setX(float x) {
-	this->_x = x;
+// Set the X value of the LocoMotor::Vector
+template <int dims>
+void LocoMotor::Vector<dims>::setX(float x) {
+	this->_values[0] = x;
 }
-// Set the Y value of the Vector
-void LMVector3::setY(float y) {
-	this->_y = y;
+// Set the Y value of the LocoMotor::Vector
+template <int dims>
+void LocoMotor::Vector<dims>::setY(float y) {
+	this->_values[1] = y;
 }
-// Set the Z value of the Vector
-void LMVector3::setZ(float z) {
-	this->_z = z;
+
+// Set the Z value of the LocoMotor::Vector
+void LocoMotor::Vector<3>::setZ(float z) {
+	this->_values[2] = z;
 }
+
+// Set the Z value of the LocoMotor::Vector
+void LocoMotor::Vector<4>::setZ(float z) {
+	this->_values[2] = z;
+}
+// Set the Z value of the LocoMotor::Vector
+void LocoMotor::Vector<4>::setW(float w) {
+	this->_values[3] = w;
+}
+
+#pragma endregion
+
+#pragma region Operands
 // Sum
-LMVector3 LMVector3::operator+(const LMVector3& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x + other._x,
-		this->_y + other._y,
-		this->_z + other._z);
-
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator+(const LocoMotor::Vector<dims>& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] + other._values[i];
+	return result;
 }
 
-LMVector3 LMVector3::operator+(const float& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x + other,
-		this->_y + other,
-		this->_z + other);
-
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator+(const float& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] + other;
+	return result;
 }
 
 // Sub
-LMVector3 LMVector3::operator-(const LMVector3& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x - other._x,
-		this->_y - other._y,
-		this->_z - other._z);
-
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator-(const LocoMotor::Vector<dims>& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] - other._values[i];
+	return result;
 }
-LMVector3 LMVector3::operator-(const float& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x - other,
-		this->_y - other,
-		this->_z - other);
-
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator-(const float& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] - other;
+	return result;
 }
 
 // Mul
-LMVector3 LMVector3::operator*(const LMVector3& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x * other._x,
-		this->_y * other._y,
-		this->_z * other._z);
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator*(const LocoMotor::Vector<dims>& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] * other._values[i];
+	return result;
 }
-
-LMVector3 LMVector3::operator*(const float& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x * other,
-		this->_y * other,
-		this->_z * other);
-
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator*(const float& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] * other;
+	return result;
 }
 
 // Div
-LMVector3 LMVector3::operator/(const LMVector3& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x / other._x,
-		this->_y / other._y,
-		this->_z / other._z);
-
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator/(const LocoMotor::Vector<dims>& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] / other._values[i];
+	return result;
 }
-LMVector3 LMVector3::operator/(const float& other) const {
-	LMVector3 aux = LMVector3(
-		this->_x / other,
-		this->_y / other,
-		this->_z / other);
-
-	return aux;
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::operator/(const float& other) const {
+	LocoMotor::Vector<dims> result;
+	for (int i = 0; i < dims; ++i)
+		result._values[i] = _values[i] / other;
+	return result;
 }
 
+#pragma endregion
 
 // Dot product
-float LMVector3::dot(const LMVector3& other) const {
-	return _x * other._x + _y * other._y + _z * other._z;
+template <int dims>
+float LocoMotor::Vector<dims>::dot(const LocoMotor::Vector<dims>& other) const {
+	float result = 0.f;
+	for (int i = 0; i < dims; i++) {
+		result += this->_values[i] * other._values[i];
+	}
+	return result;
 }
 
 // Cross product
-LMVector3 LMVector3::cross(const LMVector3& other) const {
-	return LMVector3(_y * other._z - _z * other._y, _z * other._x - _x * other._z, _x * other._y - _y * other._x);
+LocoMotor::Vector<3> LocoMotor::Vector<3>::cross(const LocoMotor::Vector<3>& other) const {
+	return LocoMotor::Vector<3>(this->_values[1] * other._values[2] - this->_values[2] * other._values[1],
+					 this->_values[2] * other._values[0] - this->_values[0] * other._values[2],
+					 this->_values[0] * other._values[1] - this->_values[1] * other._values[0]);
 }
 // Cross product
-LMVector3 LMVector3::cross(const LMVector3& other, const LMVector3& axis) const {
-	LMVector3 currentCross = cross(other);
+LocoMotor::Vector<3> LocoMotor::Vector<3>::cross(const LocoMotor::Vector<3>& other, const LocoMotor::Vector<3>& axis) const {
+	LocoMotor::Vector<3> currentCross = cross(other);
 	if (currentCross.dot(axis) < 0) {
 		currentCross = currentCross * -1;
 	}
@@ -132,22 +170,29 @@ LMVector3 LMVector3::cross(const LMVector3& other, const LMVector3& axis) const 
 }
 
 // Magnitude
-float LMVector3::magnitude() const {
-	return sqrt(_x * _x + _y * _y + _z * _z);
+template <int dims>
+float LocoMotor::Vector<dims>::magnitude() const {
+	float sqrMag = 0.f;
+	for (int i = 0; i < dims; i++) {
+		sqrMag += _values[i] * _values[i];
+	}
+	return sqrtf(sqrMag);
 }
 
 // Normalize
-void LMVector3::normalize() {
+template <int dims>
+void LocoMotor::Vector<dims>::normalize() {
 	float mag = magnitude();
 	if (mag > 0) {
-		_x /= mag;
-		_y /= mag;
-		_z /= mag;
+		for (int i = 0; i < dims; i++) {
+			this->_values[i] /= mag;
+		}
 	}
 }
 
-// Angle between two vectors
-float LMVector3::angle(const LMVector3& other) const {
+// Angle between two LocoMotor::Vectors
+template <int dims>
+float LocoMotor::Vector<dims>::angle(const LocoMotor::Vector<dims>& other) const {
 	float currentDot = dot(other);
 	float mag = magnitude() * other.magnitude();
 	if (mag > 0) {
@@ -156,59 +201,69 @@ float LMVector3::angle(const LMVector3& other) const {
 	return 0;
 }
 
-//Angle between two vectors
-float LMVector3::angle(const LMVector3& other, const LMVector3& axis) const {
+//Angle between two LocoMotor::Vectors
+float LocoMotor::Vector<3>::angle(const LocoMotor::Vector<3>& other, const LocoMotor::Vector<3>& axis) const {
+
+	static float pi = 3.14159265f;
+
 	float currentAngle = angle(other);
-	LMVector3 currentCross = cross(other);
+	LocoMotor::Vector<3> currentCross = cross(other);
 	if (currentCross.dot(axis) < 0) {
 		currentAngle = -currentAngle;
 	}
 
-	currentAngle = currentAngle * (float) (180 / M_PI);
+	currentAngle = currentAngle * (float) (180 / pi);
 
 	return currentAngle;
 }
 
 
-//Angle between two vectors in degrees
-float LMVector3::angle(const LMVector3& other, const LMVector3& normal, const LMVector3& axis) const {
+//Angle between two LocoMotor::Vectors in degrees
+float LocoMotor::Vector<3>::angle(const LocoMotor::Vector<3>& other, const LocoMotor::Vector<3>& normal, const LocoMotor::Vector<3>& axis) const {
 	float currentAngle = angle(other, normal);
-	LMVector3 currentCross = cross(other, normal);
+	LocoMotor::Vector<3> currentCross = cross(other, normal);
 	if (currentCross.dot(axis) < 0) {
 		currentAngle = -currentAngle;
 	}
 
-	currentAngle = currentAngle * (float) (180.f / M_PI);
+	static float pi = 3.14159265f;
+	currentAngle = currentAngle * (float) (180.f / pi);
 
 	return currentAngle;
 }
 
-// Rotate a vector around an axis in degrees
-LMVector3 LMVector3::rotate(const LMVector3& axis, float angle) {
-	LMVector3 cross = axis.cross(*this);
-	LMVector3 dot = axis * axis.dot(*this);
-	LMVector3 cross2 = axis.cross(cross);
-	LMVector3 a = dot + cross * ((float) sin(angle * M_PI / 180.)) + cross2 * ((float) (1 - cos(angle * M_PI / 180.)));
+// Rotate a LocoMotor::Vector around an axis in degrees
+LocoMotor::Vector<3> LocoMotor::Vector<3>::rotate(const LocoMotor::Vector<3>& axis, float angle) {
+	LocoMotor::Vector<3> cross = axis.cross(*this);
+	LocoMotor::Vector<3> dot = axis * axis.dot(*this);
+	LocoMotor::Vector<3> cross2 = axis.cross(cross);
+	static float pi = 3.14159265f;
+	LocoMotor::Vector<3> a = dot + cross * ((float) sin(angle * pi / 180.)) + cross2 * ((float) (1 - cos(angle * pi / 180.)));
 
-	this->_x = a.getX();
-	this->_y = a.getY();
-	this->_z = a.getZ();
+	this->_values[0] = a.getX();
+	this->_values[1] = a.getY();
+	this->_values[2] = a.getZ();
 
 	return a;
 }
 
-//Get the perpendicular vector from two vectors
-LMVector3 LMVector3::perpendicular(const LMVector3& other) const {
+LocoMotor::Vector<2> LocoMotor::Vector<2>::perpendicular2() const {
+	return LocoMotor::Vector<2>(this->_values[1], -this->_values[0]);
+}
+
+//Get the perpendicular LocoMotor::Vector from two LocoMotor::Vectors
+LocoMotor::Vector<3> LocoMotor::Vector<3>::perpendicular3(const LocoMotor::Vector<3>& other) const {
 	return cross(other).cross(*this);
 }
 
 
-LMQuaternion LMVector3::asRotToQuaternion() const {
+LocoMotor::Quaternion LocoMotor::Vector<3>::asRotToQuaternion() const {
 	// Abbreviations for the various angular functions
 
+	static float pi = 3.14159265f;
 	// Degree to Radian
-	LMVector3 aux = *this;
-	aux = aux * (float) (M_PI / 180);
+	LocoMotor::Vector<3> aux = *this;
+	aux = aux * (float) (pi / 180);
 
 	double cr = cos(aux.getX() * 0.5);
 	double sr = sin(aux.getX() * 0.5);
@@ -217,9 +272,7 @@ LMQuaternion LMVector3::asRotToQuaternion() const {
 	double cy = cos(aux.getZ() * 0.5);
 	double sy = sin(aux.getZ() * 0.5);
 
-
-
-	LMQuaternion q;
+	Quaternion q;
 	q.setW((float) (cr * cp * cy + sr * sp * sy));
 	q.setX((float) (sr * cp * cy - cr * sp * sy));
 	q.setY((float) (cr * sp * cy + sr * cp * sy));
@@ -228,13 +281,13 @@ LMQuaternion LMVector3::asRotToQuaternion() const {
 	return q;
 }
 
-LMVector3 LMVector3::stringToVector(const std::string& s) {
+LocoMotor::Vector3 LocoMotor::Vector3::stringToVector(const std::string& s) {
 
-	std::string vectorString = s;
+	std::string VectorString = s;
 	unsigned char currAxis = 0;
 	std::string num = "";
-	LMVector3 result = LMVector3();
-	for (const char c : vectorString) {
+	LocoMotor::Vector3 result = LocoMotor::Vector3();
+	for (const char c : VectorString) {
 		if (c != ' ') {
 			num += c;
 		}
@@ -245,7 +298,7 @@ LMVector3 LMVector3::stringToVector(const std::string& s) {
 			}
 			catch (...) {
 				value = 0.f;
-				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a Vector3" << "\033[0m" << std::endl;
+				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a LocoMotor::Vector3" << "\033[0m" << std::endl;
 			}
 			if (currAxis == 0) {
 				result.setX(value);
@@ -269,7 +322,7 @@ LMVector3 LMVector3::stringToVector(const std::string& s) {
 	}
 	catch (...) {
 		value = 0.0f;
-		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a Vector3" << "\033[0m" << std::endl;
+		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a LocoMotor::Vector3" << "\033[0m" << std::endl;
 	}
 	if (currAxis == 2)
 		result.setZ(value);
@@ -277,199 +330,39 @@ LMVector3 LMVector3::stringToVector(const std::string& s) {
 	return result;
 }
 
-LMVector3 LocoMotor::LMVector3::lerp(const LMVector3& start, const LMVector3& end, float t) {
-	return LMVector3(start.getX() + t * (end.getX() - start.getX()),
-				   start.getY() + t * (end.getY() - start.getY()),
-				   start.getZ() + t * (end.getZ() - start.getZ()));
-}
-
-float LocoMotor::LMVector3::distance(const LMVector3& v1, const LMVector3& v2) {
-	float dx = v2.getX() - v1.getX();
-	float dy = v2.getY() - v1.getY();
-	float dz = v2.getZ() - v1.getZ();
-	return std::sqrt(dx * dx + dy * dy + dz * dz);
-}
-
-bool LocoMotor::LMVector3::operator==(const LMVector3& other) const
-{
-	return _x == other._x && _y == other._y && _z == other._z;
-}
-
-
-
-//Quaternion class to be used with LocoMotor
-
-// Default constructor initializes quaternion to (1, 0, 0, 0)
-LMQuaternion::LMQuaternion() : _w(1), _x(0), _y(0), _z(0) {}
-
-// Constructor initializes quaternion to specified values
-LMQuaternion::LMQuaternion(float w, float x, float y, float z) : _w(w), _x(x), _y(y), _z(z) {}
-
-// Getter functions
-float LMQuaternion::getW() const {
-	return _w;
-}
-float LMQuaternion::getX() const {
-	return _x;
-}
-float LMQuaternion::getY() const {
-	return _y;
-}
-float LMQuaternion::getZ() const {
-	return _z;
-}
-
-//Setter functions
-void LMQuaternion::setW(float w) {
-	this->_w = w;
-}
-void LMQuaternion::setX(float x) {
-	this->_x = x;
-}
-void LMQuaternion::setY(float y) {
-	this->_y = y;
-}
-void LMQuaternion::setZ(float z) {
-	this->_z = z;
-}
-
-// Quaternion equal
-LMQuaternion LMQuaternion::operator=(const LMQuaternion& other) {
-	_w = other._w;
-	_x = other._x;
-	_y = other._y;
-	_z = other._z;
-	return *this;
-}
-
-
-
-// Quaternion addition
-LMQuaternion LMQuaternion::operator+(const LMQuaternion& other) const {
-	return LMQuaternion(_w + other._w, _x + other._x, _y + other._y, _z + other._z);
-}
-
-
-// Quaternion subtraction
-LMQuaternion LMQuaternion::operator-(const LMQuaternion& other) const {
-	return LMQuaternion(_w - other._w, _x - other._x, _y - other._y, _z - other._z);
-}
-
-
-// Quaternion multiplication
-LMQuaternion LMQuaternion::operator*(const LMQuaternion& other) const {
-	float newW = _w * other._w - _x * other._x - _y * other._y - _z * other._z;
-	float newX = _w * other._x + _x * other._w + _y * other._z - _z * other._y;
-	float newY = _w * other._y - _x * other._z + _y * other._w + _z * other._x;
-	float newZ = _w * other._z + _x * other._y - _y * other._x + _z * other._w;
-	return LMQuaternion(newW, newX, newY, newZ);
-}
-// Scalar multiplication
-LMQuaternion LMQuaternion::operator*(float scalar) const {
-	return LMQuaternion(_w * scalar, _x * scalar, _y * scalar, _z * scalar);
-}
-
-// Scalar division
-LMQuaternion LMQuaternion::operator/(float scalar) const {
-	return LMQuaternion(_w / scalar, _x / scalar, _y / scalar, _z / scalar);
-}
-
-
-
-LMVector3 LMQuaternion::operator*(const LMVector3& other) const {
-	float num = this->_x * 2.f;
-	float num2 = this->_y * 2.f;
-	float num3 = this->_z * 2.f;
-	float num4 = this->_x * num;
-	float num5 = this->_y * num2;
-	float num6 = this->_z * num3;
-	float num7 = this->_x * num2;
-	float num8 = this->_x * num3;
-	float num9 = this->_y * num3;
-	float num10 = this->_w * num;
-	float num11 = this->_w * num2;
-	float num12 = this->_w * num3;
-	LMVector3 result = LMVector3();
-	result.setX((1.f - (num5 + num6)) * other.getX() + (num7 - num12) * other.getY() + (num8 + num11) * other.getZ());
-	result.setY((num7 + num12) * other.getX() + (1.f - (num4 + num6)) * other.getY() + (num9 - num10) * other.getZ());
-	result.setZ((num8 - num11) * other.getX() + (num9 + num10) * other.getY() + (1.f - (num4 + num5)) * other.getZ());
+template<int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::lerp(const LocoMotor::Vector<dims>& start, const LocoMotor::Vector<dims>& end, float t) {
+	LocoMotor::Vector<dims> result = LocoMotor::Vector<dims>();
+	float diff = 0.f;
+	for (int i = 0; i < dims; i++) {
+		result._values[i] = start._values[i] + t * (end._values[i] - start._values[i]);
+	}
 	return result;
 }
 
-// Conjugate
-LMQuaternion LMQuaternion::conjugate() const {
-	return LMQuaternion(_w, -_x, -_y, -_z);
-}
-
-// Magnitude
-float LMQuaternion::magnitude() const {
-	return sqrt(_w * _w + _x * _x + _y * _y + _z * _z);
-}
-
-// Normalize
-void LMQuaternion::normalize() {
-	float mag = magnitude();
-	if (mag > 0) {
-		_w /= mag;
-		_x /= mag;
-		_y /= mag;
-		_z /= mag;
+template <int dims>
+inline float LocoMotor::Vector<dims>::distance(const LocoMotor::Vector<dims>& v1, const LocoMotor::Vector<dims>& v2) {
+	float sqrdDistance = 0.f;
+	float diff = 0.f;
+	for (int i = 0; i < dims; i++) {
+		diff = v2._values[i] - v1._values[i];
+		sqrdDistance += (diff * diff);
 	}
+	return std::sqrt(sqrdDistance);
 }
 
-//Rotate a quaternion
-LMQuaternion LMQuaternion::rotate(const LMVector3& axis, float angle) const {
-	LMQuaternion q;
-	float halfAngle = (float) (angle * (M_PI / 180.0f)) / 2.0f;
-	float sinHalfAngle = sin(halfAngle);
-	q.setW(cos(halfAngle));
-	q.setX(axis.getX() * sinHalfAngle);
-	q.setY(axis.getY() * sinHalfAngle);
-	q.setZ(axis.getZ() * sinHalfAngle);
-	return q * (*this);
+template <int dims>
+bool LocoMotor::Vector<dims>::operator==(const LocoMotor::Vector<dims>& other) const {
+	for (int i = 0; i < dims; i++) {
+		if (this->_values[i] != other._values[i])
+			return false;
+	}
+	return true;
 }
 
-// Rotate a vector by this quaternion
-LMVector3 LMQuaternion::rotate(const LMVector3& vector) const {
-	LMQuaternion vectorQuat(0, vector.getX(), vector.getY(), vector.getZ());
-	LMQuaternion result = (*this) * vectorQuat * conjugate();
-	return LMVector3(result.getX(), result.getY(), result.getZ());
-}
+#pragma endregion
 
-// Up vector of this quaternion
-LMVector3 LMQuaternion::up() const {
-	return rotate(LMVector3(0, 1, 0));
-}
-
-// Right vector of this quaternion
-LMVector3 LMQuaternion::right() const {
-	return rotate(LMVector3(1, 0, 0));
-}
-
-// Forward vector of this quaternion
-LMVector3 LMQuaternion::forward() const {
-	return rotate(LMVector3(0, 0, -1));
-}
-
-LMVector3 LMQuaternion::toEuler() const {
-	LMVector3 angles;
-
-// roll (x-axis rotation)
-	float sinr_cosp = 2 * (this->_w * this->_x + this->_y * this->_z);
-	float cosr_cosp = 1 - 2 * (this->_x * this->_x + this->_y * this->_y);
-	angles.setX(std::atan2(sinr_cosp, cosr_cosp));
-
-	// pitch (y-axis rotation)
-	float sinp = std::sqrt(1 + 2 * (this->_w * this->_y - this->_x * this->_z));
-	float cosp = std::sqrt(1 - 2 * (this->_w * this->_y - this->_x * this->_z));
-	angles.setY(2 * std::atan2(sinp, cosp) - (float) M_PI / 2.f);
-
-	// yaw (z-axis rotation)
-	float siny_cosp = 2 * (this->_w * this->_z + this->_x * this->_y);
-	float cosy_cosp = 1 - 2 * (this->_y * this->_y + this->_z * this->_z);
-	angles.setZ(std::atan2(siny_cosp, cosy_cosp));
-
-	return angles;
-}
-
-
+// Explicit instantiations (THIS IS CRITICAL)
+template class LocoMotor::Vector<2>;
+template class LocoMotor::Vector<3>;
+template class LocoMotor::Vector<4>;

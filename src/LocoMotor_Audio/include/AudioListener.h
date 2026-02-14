@@ -67,7 +67,7 @@ namespace LocoMotor {
 		/// @return A number that by passing it to AudioManager::GetError(unsigned short) you can get more info if there was an error
 		unsigned short setTransform(const FMOD_VECTOR& newPos, const FMOD_VECTOR& newVel, const FMOD_VECTOR& forward, const FMOD_VECTOR& up);
 
-		FMOD_VECTOR toFModVector(const LMVector3& a);
+		FMOD_VECTOR toFModVector(const Vector3& a);
 
 	};
 }

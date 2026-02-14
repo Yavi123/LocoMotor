@@ -22,11 +22,11 @@ namespace LocoMotor {
 	/// @param float mass The mass of rigidbody, if mass !=0 , it is dynamic
 	struct RigidBodyInfo {
 		int type;
-		LMVector3 boxSize;
+		Vector3 boxSize;
 		float sphereSize;
 		float capsuleRadius;
 		float capsuleHeight;
-		LMVector3 origin;
+		Vector3 origin;
 		float mass;
 		RigidBodyInfo();
 	};
@@ -44,22 +44,22 @@ namespace LocoMotor {
 		void posPhysUpdate();
 		/// @brief Add force to the body
 		/// @param force to add
-		MOTOR_API void AddForce(LMVector3 force);
+		MOTOR_API void AddForce(Vector3 force);
 		/// @brief Sets the body rotation
 		/// @param rot Rotation to set
-		MOTOR_API void SetRotation(LMQuaternion rot);
+		MOTOR_API void SetRotation(Quaternion rot);
 		/// @brief Sets the body rotation
 		/// @param rot Rotation to set
-		MOTOR_API void SetPosition(LMVector3 pos);
+		MOTOR_API void SetPosition(Vector3 pos);
 		/// @brief Enable/Disable the gravity force affected to this body
 		/// @param gravity 
-		MOTOR_API void UseGravity(LMVector3 gravity);
+		MOTOR_API void UseGravity(Vector3 gravity);
 		/// @brief Freeze the position of the rigidbody , limit the motion of position in those axis
 		/// @param axis LMVector3 x,y,z axis , 0 means limit(stop motion) , 1 means no limit(allow motion)
-		MOTOR_API void FreezePosition(LMVector3 freezeAxis);
+		MOTOR_API void FreezePosition(Vector3 freezeAxis);
 		/// @brief Freeze the rotation of the rigidbody , limit the motion of rotation in those axis
 		/// @param axis LMVector3 x,y,z axis , 0 means limit(stop motion) , 1 means no limit(allow motion)
-		MOTOR_API void FreezeRotation(LMVector3 freezeAxis);
+		MOTOR_API void FreezeRotation(Vector3 freezeAxis);
 		/// @brief Checks if the rigid body component of a game object collides with another
 		/// @param other The parameter "other" is a pointer to a GameObject object, which is being checked for
 		/// collision with the current object's RigidBodyComponent.
@@ -86,32 +86,32 @@ namespace LocoMotor {
 		MOTOR_API std::vector<std::string> getIgnoredGroup();
 		/// @brief Gets the linearvelocity of the body
 		/// @return Return a LMVector3 of linear velocity
-		MOTOR_API LMVector3 GetLinearVelocity();
+		MOTOR_API Vector3 GetLinearVelocity();
 		/// @brief Sets the linear velocity of the body
 		/// @param newAngularVelocity 
-		MOTOR_API void SetLinearVelocity(LMVector3 newLinearVelocity);
+		MOTOR_API void SetLinearVelocity(Vector3 newLinearVelocity);
 		/// @brief Gets the total torque of the body
 		/// @return Return a LMVector3 of total torque
-		MOTOR_API LMVector3 GetTotalTorque();
+		MOTOR_API Vector3 GetTotalTorque();
 		/// @brief Gets the total force of the body
 		/// @return Return a LMVector3 of total torque
-		MOTOR_API LMVector3 GetTotalForce();
+		MOTOR_API Vector3 GetTotalForce();
 		/// @brief Gets the turn velocity of the body
 		/// @return Return a LMVector3 of turn velocity
-		MOTOR_API LMVector3 GetTurnVelocity();
+		MOTOR_API Vector3 GetTurnVelocity();
 		/// @brief Gets/Sets the angular velocity of the body
 		/// @return Return a LMVector3 of turn velocity
-		MOTOR_API LMVector3 GetAngularVelocity();
+		MOTOR_API Vector3 GetAngularVelocity();
 		/// @brief Sets the angular velocity of a rigid body component using a given LMVector3 value.
 		/// @param newAngularVelocity Variable that represents the new angular velocity to be set for
 		/// the rigid body component.
-		MOTOR_API void SetAngularVelocity(LMVector3 newAngularVelocity);
+		MOTOR_API void SetAngularVelocity(Vector3 newAngularVelocity);
 		/// @brief Applies a torque impulse to the body
 		/// @param impulse the impulse to aplly
-		MOTOR_API void ApplyTorqueImpulse(LMVector3 impulse);
+		MOTOR_API void ApplyTorqueImpulse(Vector3 impulse);
 		/// @brief Applies a central impulse to the body
 		/// @param impulse the impulse to aplly
-		MOTOR_API void ApplyCentralImpulse(LMVector3 impulse);
+		MOTOR_API void ApplyCentralImpulse(Vector3 impulse);
 		/// @brief Set the friction of this rigidbody
 		/// @param fric the new friction value
 		MOTOR_API void SetFriction(float fric);
@@ -120,7 +120,7 @@ namespace LocoMotor {
 		MOTOR_API void SetMass(float mass);
 		/// @brief Set the size of this rigidbody
 		/// @param mass the new size value
-		MOTOR_API void SetSize(LMVector3 size);
+		MOTOR_API void SetSize(Vector3 size);
 		/// @brief Set the linear damping of this rigidbody
 		/// @param linearDamping the new linear damping value
 		MOTOR_API void SetLinearDamping(float linearDamping);

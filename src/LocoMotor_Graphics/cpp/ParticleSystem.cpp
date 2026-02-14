@@ -1,6 +1,7 @@
 #include "ParticleSystem.h"
 #include "GameObject.h"
 #include "Transform.h"
+#include "LMQuaternion.h"
 #include "GraphicsManager.h"
 
 #include <OgreParticleEmitter.h>

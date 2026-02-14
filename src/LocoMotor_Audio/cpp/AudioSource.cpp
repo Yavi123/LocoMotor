@@ -100,12 +100,12 @@ void AudioSource::playSound(const char* fileName, int loops, unsigned int loopBe
 	channel->setPaused(false);
 }
 
-void AudioSource::playOneShot(const char* fileName, const LMVector3& position, const float volume) {
+void AudioSource::playOneShot(const char* fileName, const Vector3& position, const float volume) {
 	float randPtch = 0.95f + (float) (rand()) / ((float) (RAND_MAX / (1.05f - 0.95f)));
 	return playOneShotWithPitch(fileName, position, volume, randPtch);
 }
 
-void AudioSource::playOneShotWithPitch(const char* fileName, const LMVector3& position, const float volume, const float pitch) {
+void AudioSource::playOneShotWithPitch(const char* fileName, const Vector3& position, const float volume, const float pitch) {
 	FMOD::Sound* snd = _man->getSound(fileName);
 	if (snd == nullptr) {
 	#ifdef _DEBUG

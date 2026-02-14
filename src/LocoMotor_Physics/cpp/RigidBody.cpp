@@ -77,10 +77,10 @@ bool LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 			_beATrigger = true;
 		}
 		else if (params[i].first == "size" || params[i].first == "scale") {
-			 info.boxSize= LMVector3::stringToVector(params[i].second);
+			 info.boxSize= Vector3::stringToVector(params[i].second);
 		}
 		else if (params[i].first == "pos" || params[i].first == "center" || params[i].first == "origin") {
-			info.origin = LMVector3::stringToVector(params[i].second);
+			info.origin = Vector3::stringToVector(params[i].second);
 		}
 		else if (params[i].first == "sphereSize") {
 			info.sphereSize = std::stof(params[i].second);
@@ -189,39 +189,39 @@ btRigidBody* LocoMotor::RigidBody::CreateRigidBody(RigidBodyInfo info) {
 
 LocoMotor::RigidBodyInfo::RigidBodyInfo() {
 	type = 0;
-	boxSize = LMVector3(1.f, 1.f, 1.f);
+	boxSize = Vector3(1.f, 1.f, 1.f);
 	sphereSize = 0.f;
 	capsuleRadius = 0.f;
 	capsuleHeight = 0.f;
-	origin = LMVector3();
+	origin = Vector3();
 	mass = 0.f;
 }
-void LocoMotor::RigidBody::AddForce(LMVector3 force) {
+void LocoMotor::RigidBody::AddForce(Vector3 force) {
 	_body->activate();
 	_body->applyCentralForce(LmToBullet(force));
 }
-void LocoMotor::RigidBody::SetRotation(LMQuaternion rot) {
+void LocoMotor::RigidBody::SetRotation(Quaternion rot) {
 	_body->getWorldTransform().setRotation(LmToBullet(rot));
 }
 
 
-void LocoMotor::RigidBody::SetPosition(LMVector3 pos) {
+void LocoMotor::RigidBody::SetPosition(Vector3 pos) {
 	_body->getWorldTransform().setOrigin(LmToBullet(pos));
 }
 
 
-void LocoMotor::RigidBody::UseGravity(LMVector3 gravity) {
+void LocoMotor::RigidBody::UseGravity(Vector3 gravity) {
 
 	_body->setGravity(LmToBullet(gravity));
 }
 
 
-void LocoMotor::RigidBody::FreezePosition(LMVector3 freezeAxis) {
+void LocoMotor::RigidBody::FreezePosition(Vector3 freezeAxis) {
 	_body->setLinearFactor(LmToBullet(freezeAxis));
 }
 
 
-void LocoMotor::RigidBody::FreezeRotation(LMVector3 freezeAxis) {
+void LocoMotor::RigidBody::FreezeRotation(Vector3 freezeAxis) {
 	_body->setAngularFactor(LmToBullet(freezeAxis));
 }
 
@@ -267,46 +267,46 @@ std::vector<std::string> LocoMotor::RigidBody::getIgnoredGroup() {
 }
 
 
-LMVector3 LocoMotor::RigidBody::GetLinearVelocity() {
+Vector3 LocoMotor::RigidBody::GetLinearVelocity() {
 	return BulletToLm(_body->getLinearVelocity());
 }
-void LocoMotor::RigidBody::SetLinearVelocity(LMVector3 newLinearVelocity) {
+void LocoMotor::RigidBody::SetLinearVelocity(Vector3 newLinearVelocity) {
 	_body->activate();
 	_body->setLinearVelocity(LmToBullet(newLinearVelocity));
 }
 
 
-LMVector3 LocoMotor::RigidBody::GetTotalTorque() {
+Vector3 LocoMotor::RigidBody::GetTotalTorque() {
 	return BulletToLm(_body->getTotalTorque());
 }
 
-LMVector3 LocoMotor::RigidBody::GetTotalForce() {
+Vector3 LocoMotor::RigidBody::GetTotalForce() {
 	return BulletToLm(_body->getTotalForce());
 }
 
 
-LMVector3 LocoMotor::RigidBody::GetTurnVelocity() {
+Vector3 LocoMotor::RigidBody::GetTurnVelocity() {
 	return BulletToLm(_body->getTurnVelocity());
 }
 
 
-LMVector3 LocoMotor::RigidBody::GetAngularVelocity() {
+Vector3 LocoMotor::RigidBody::GetAngularVelocity() {
 	return BulletToLm(_body->getAngularVelocity());
 }
 
 
-void LocoMotor::RigidBody::SetAngularVelocity(LMVector3 newAngularVelocity) {
+void LocoMotor::RigidBody::SetAngularVelocity(Vector3 newAngularVelocity) {
 	_body->activate();
 	_body->setAngularVelocity(LmToBullet(newAngularVelocity));
 }
 
 
-void LocoMotor::RigidBody::ApplyTorqueImpulse(LMVector3 impulse) {
+void LocoMotor::RigidBody::ApplyTorqueImpulse(Vector3 impulse) {
 	_body->activate();
 	_body->applyTorqueImpulse(LmToBullet(impulse));
 }
 
-void LocoMotor::RigidBody::ApplyCentralImpulse(LMVector3 impulse) {
+void LocoMotor::RigidBody::ApplyCentralImpulse(Vector3 impulse) {
 	_body->activate();
 	_body->applyCentralImpulse(LmToBullet(impulse));
 }
@@ -320,7 +320,7 @@ void LocoMotor::RigidBody::SetMass(float mass) {
 	info.mass = mass;
 }
 
-void LocoMotor::RigidBody::SetSize(LMVector3 size) {
+void LocoMotor::RigidBody::SetSize(Vector3 size) {
 	info.boxSize = size;
 }
 

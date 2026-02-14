@@ -72,8 +72,8 @@ bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 	std::string text = "New Text";
 	std::string font = "";
 	Ogre::TextAreaOverlayElement::Alignment alignment = Ogre::TextAreaOverlayElement::Alignment::Left;
-	LMVector3 colTop = LMVector3();
-	LMVector3 colBot = LMVector3();
+	Vector3 colTop = Vector3();
+	Vector3 colBot = Vector3();
 
 	for (auto& param : params) {
 		if (param.first == "Anchor" || param.first == "anchor") {
@@ -119,10 +119,10 @@ bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 			}
 		}
 		else if (param.first == "ColorTop" || param.first == "colorTop") {
-			colTop = LMVector3::stringToVector(param.second);
+			colTop = Vector3::stringToVector(param.second);
 		}
 		else if (param.first == "ColorBot" || param.first == "colorBot") {
-			colBot = LMVector3::stringToVector(param.second);
+			colBot = Vector3::stringToVector(param.second);
 		}
 	}
 
@@ -223,16 +223,16 @@ int LocoMotor::UIText::getPositionY() {
 	return _positionY;
 }
 
-void LocoMotor::UIText::setColor(LMVector3 color) {
+void LocoMotor::UIText::setColor(Vector3 color) {
 	setColorTop(color);
 	setColorBottom(color);
 }
 
-void LocoMotor::UIText::setColorTop(LMVector3 color) {
+void LocoMotor::UIText::setColorTop(Vector3 color) {
 	_txtElem->setColourTop(Ogre::ColourValue(color.getX(), color.getY(), color.getZ(), 1.f));
 }
 
-void LocoMotor::UIText::setColorBottom(LMVector3 color) {
+void LocoMotor::UIText::setColorBottom(Vector3 color) {
 	_txtElem->setColourBottom(Ogre::ColourValue(color.getX(), color.getY(), color.getZ(), 1.f));
 }
 

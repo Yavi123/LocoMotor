@@ -48,14 +48,14 @@ namespace LocoMotor {
 		/// @param fileName The sound to play
 		/// @param position Position where the sound will come from
 		/// @param volume Volume modifier of the sound
-		MOTOR_API void playOneShot(const char* fileName, const LMVector3& position, const float volume = 1.f);
+		MOTOR_API void playOneShot(const char* fileName, const Vector3& position, const float volume = 1.f);
 
 		/// @brief Plays a sound independently of this source, meaning it won´t update its position
 		/// @param fileName The sound to play
 		/// @param position Position where the sound will come from
 		/// @param volume Volume modifier of the sound
 		/// @param pitch Pitch modifier of the sound
-		MOTOR_API void playOneShotWithPitch(const char* fileName, const LMVector3& position, const float volume, const float pitch);
+		MOTOR_API void playOneShotWithPitch(const char* fileName, const Vector3& position, const float volume, const float pitch);
 
 		/// @brief Pauses a specific sound playing in this source
 		/// @param fileName The sound to play

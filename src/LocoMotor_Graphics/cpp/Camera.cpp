@@ -10,9 +10,8 @@
 
 
 LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr), _node(nullptr), _man(nullptr) {
-	_offset = LMVector3(0, 0, 0);
-	_nodeScale = LMVector3(1, 1, 1);
-	_nodeRotation = LMQuaternion();
+	_offset = Vector3();
+	_nodeRotation = Quaternion();
 }
 
 LocoMotor::Camera::~Camera() {
@@ -20,7 +19,7 @@ LocoMotor::Camera::~Camera() {
 	_man->getRenderWindow()->removeViewport(0);
 }
 
-void LocoMotor::Camera::SetTarget(GameObject* target, LMVector3 offset)
+void LocoMotor::Camera::SetTarget(GameObject* target, const Vector3& offset)
 {
 	_target = target;
 	_offset = offset;
@@ -85,7 +84,7 @@ bool LocoMotor::Camera::setParameters(ComponentMap& params) {
 			}
 		}
 		else if (param.first == "Background" || param.first == "background") {
-			LMVector3 col = LMVector3::stringToVector(param.second);
+			Vector3 col = Vector3::stringToVector(param.second);
 			setBackgroundColor(col.getX(), col.getY(), col.getZ());
 		}
 	}
@@ -106,7 +105,7 @@ void LocoMotor::Camera::init()
 	_mCamera->setNearClipDistance(0.1f);
 	_node->attachObject(_mCamera);
 	_target = nullptr;
-	_offset = LMVector3(0, 0, 0);
+	_offset = Vector3();
 	_vp = _man->getRenderWindow()->addViewport(_mCamera, 0);
 	_vp->setBackgroundColour(Ogre::ColourValue(0.6f, 0.7f, 0.8f));
 }
@@ -117,7 +116,7 @@ void LocoMotor::Camera::update(float dT)
 {
 	if (_gameObject->getComponent<Transform>() == nullptr)return;
 
-	LMVector3 pos = _gameObject->getComponent<Transform>()->getPosition();
+	Vector3 pos = _gameObject->getComponent<Transform>()->getPosition();
 	_node->setPosition(pos.getX(), pos.getY(), pos.getZ());
 
 	Ogre::Quaternion quat = Ogre::Quaternion();
@@ -127,7 +126,7 @@ void LocoMotor::Camera::update(float dT)
 	quat.z = _gameObject->getComponent<Transform>()->getRotation().getZ();
 	_node->setOrientation(quat);
 
-	LMVector3 size = _gameObject->getComponent<Transform>()->getSize();
+	Vector3 size = _gameObject->getComponent<Transform>()->getSize();
 	_node->setScale(size.getX(), size.getY(), size.getZ());
 
 	int w = Graphics::GraphicsManager::GetInstance()->getWindowWidth();

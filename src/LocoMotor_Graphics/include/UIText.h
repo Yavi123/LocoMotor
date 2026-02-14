@@ -76,9 +76,9 @@ namespace LocoMotor {
 		/// @brief Gets the position of axis Y of the entity on the UI
 		MOTOR_API int getPositionY();
 
-		MOTOR_API void setColor(LMVector3 color);
-		MOTOR_API void setColorTop(LMVector3 color);
-		MOTOR_API void setColorBottom(LMVector3 color);
+		MOTOR_API void setColor(Vector3 color);
+		MOTOR_API void setColorTop(Vector3 color);
+		MOTOR_API void setColorBottom(Vector3 color);
 
 	protected:
 			

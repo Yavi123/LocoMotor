@@ -127,7 +127,7 @@ void LocoMotor::EventEmitter::update(float dT) {
 	FMOD_3D_ATTRIBUTES at;
 	_currentEvent->get3DAttributes(&at);
 
-	LMVector3 newPos = _gameObject->getComponent<Transform>()->getPosition();
+	Vector3 newPos = _gameObject->getComponent<Transform>()->getPosition();
 
 	at.velocity.x = (newPos.getX() - at.position.x) / dT;
 	at.velocity.y = (newPos.getY() - at.position.y) / dT;
@@ -137,13 +137,13 @@ void LocoMotor::EventEmitter::update(float dT) {
 	at.position.y = newPos.getY();
 	at.position.z = newPos.getZ();
 
-	LMVector3 forward = _gameObject->getComponent<Transform>()->getRotation().forward();
+	Vector3 forward = _gameObject->getComponent<Transform>()->getRotation().forward();
 
 	at.forward.x = forward.getX();
 	at.forward.y = forward.getY();
 	at.forward.z = forward.getZ();
 
-	LMVector3 up = _gameObject->getComponent<Transform>()->getRotation().up();
+	Vector3 up = _gameObject->getComponent<Transform>()->getRotation().up();
 
 	at.up.x = up.getX();
 	at.up.y = up.getY();
