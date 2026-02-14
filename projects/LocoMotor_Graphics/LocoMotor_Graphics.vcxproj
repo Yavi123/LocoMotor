@@ -95,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\Camera.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\GraphicsManager.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Graphics\include\Light.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\MeshRenderer.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\OverlayManager.h" />
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\ParticleSystem.h" />
@@ -105,6 +106,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Camera.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\GraphicsManager.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Light.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\MeshRenderer.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\OverlayManager.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\ParticleSystem.cpp" />

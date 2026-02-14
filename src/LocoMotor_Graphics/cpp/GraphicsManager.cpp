@@ -140,7 +140,6 @@ bool GraphicsManager::render() {
 		_root->renderOneFrame();
 	}
 	catch (Ogre::Exception o) {
-		// Se que este mensaje de error es una mierda no se como explicar en una linea todo lo que ocurre ;-;
 		std::cerr << "\033[1;31m" << "Couldn't render scene: Ogre Exception -> " << o.getDescription().c_str() << "\033[0m" << std::endl;
 		return false;
 	}
@@ -163,6 +162,8 @@ void GraphicsManager::setActiveScene(std::string name) {
 			_nodeRoot = it->second->getRootSceneNode();
 
 			it->second->addRenderQueueListener(OverlayManager::GetInstance()->getOgreSystem());
+
+			it->second->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
 			return;
 		}
@@ -340,7 +341,7 @@ bool GraphicsManager::initWindow(std::string name) {
 
 	if (savedVSyncValue > 0) {
 		miscParams["vsync"] = "Yes";
-		miscParams["vsync_count"] = "savedVSyncValue";
+		miscParams["vsyncInterval"] = std::to_string(savedVSyncValue);
 	}
 	else {
 		miscParams["vsync"] = "No";
@@ -359,7 +360,8 @@ bool GraphicsManager::initWindow(std::string name) {
 	try {
 		loadResources();
 	}
-	catch (...) {
+	catch (Ogre::Exception e) {
+		std::cerr << "\033[1;31m" << e.getDescription() << "\033[0m" << std::endl;
 		return false;
 	}
 

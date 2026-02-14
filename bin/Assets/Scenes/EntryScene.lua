@@ -20,6 +20,18 @@ EntryScene = {
         MeshRenderer = {
             mesh = "ConemanMesh.mesh",
             material = "CustomMaterial"
+        }
+    },
+    light = {
+        Transform = {
+            position = "0 1 -8",
+            size = "1, 1, 1",
+            rotation = "0 -0 0"
+        },
+        Light = {
+            type = "point",
+            spec = "1 1 1",
+            diff = "1 1 1"
         },
         InputController = {
 

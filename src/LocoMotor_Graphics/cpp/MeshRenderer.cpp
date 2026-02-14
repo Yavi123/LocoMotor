@@ -12,15 +12,12 @@
 #include <iostream>
 
 LocoMotor::MeshRenderer::MeshRenderer() {
-	_name = "";
 	_src = "";
 	_mat = "";
 	_mesh = nullptr;
 	_setStatic = false;
 	isSelfVisible = true;
 	_node = nullptr;
-	_nodeScale = LMVector3(1, 1, 1);
-	_nodeRotation = LMQuaternion();
 
 	currentAnimation = nullptr;
 	numAnimationsActive = 0;
@@ -73,7 +70,6 @@ void LocoMotor::MeshRenderer::awake() {
 }
 
 void LocoMotor::MeshRenderer::init(const std::string& name, const std::string& file, bool istatic) {
-	_name = name;
 	_src = file;
 	_setStatic = istatic;
 	Graphics::GraphicsManager* man = Graphics::GraphicsManager::GetInstance();

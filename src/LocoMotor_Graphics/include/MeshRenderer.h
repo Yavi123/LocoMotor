@@ -10,7 +10,6 @@
 
 
 #include "Component.h"
-#include "LMVector.h"
 #include <unordered_map>
 
 namespace Ogre {
@@ -60,14 +59,10 @@ namespace LocoMotor {
 	private:
 		Ogre::Entity* _mesh;
 		std::string _mat;
-		std::string _name;
 		std::string _src;
 		bool _setStatic;
 
 		bool isSelfVisible;
-
-		LMVector3 _nodeScale;
-		LMQuaternion _nodeRotation;
 
 		Ogre::SceneNode* _node;
 

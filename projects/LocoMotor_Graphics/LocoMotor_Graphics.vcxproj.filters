@@ -25,6 +25,9 @@
     <ClInclude Include="..\..\src\LocoMotor_Graphics\include\UIText.h">
       <Filter>Archivos de encabezado\Overlay</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Graphics\include\Light.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Archivos de encabezado">
@@ -64,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\UIText.cpp">
       <Filter>Archivos de origen\Overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Graphics\cpp\Light.cpp">
+      <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

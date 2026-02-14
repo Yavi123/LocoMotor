@@ -13,6 +13,7 @@
 #include "AudioListener.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
+#include "Light.h"
 #include "ParticleSystem.h"
 #include "Rigidbody.h"
 #include "UIImage.h"
@@ -137,6 +138,7 @@ bool Engine::init() {
 	cmpFac->registerComponent<AudioListener>("AudioListener");
 	cmpFac->registerComponent<Camera>("Camera");
 	cmpFac->registerComponent<MeshRenderer>("MeshRenderer");
+	cmpFac->registerComponent<Light>("Light");
 	cmpFac->registerComponent<ParticleSystem>("ParticleSystem");
 	cmpFac->registerComponent<RigidBody>("RigidBody");
 	cmpFac->registerComponent<Transform>("Transform");
