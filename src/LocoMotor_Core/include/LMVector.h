@@ -124,7 +124,7 @@ namespace LocoMotor {
 		/// @brief Converts a String to a vector
 		/// @param s String to convert
 		/// @return Vector converted
-		static Vector<3> stringToVector(const std::string& s);
+		static Vector<dims> stringToVector(const std::string& s);
 
 		static Vector<dims> lerp(const Vector<dims>& start, const Vector<dims>& end, float t);
 

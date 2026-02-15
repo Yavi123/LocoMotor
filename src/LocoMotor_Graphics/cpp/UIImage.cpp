@@ -60,20 +60,20 @@ bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 			_maxAnchor = vec;
 		}
 		else if (param.first == "MinAnchor" || param.first == "minAnchor") {
-			auto vec = Graphics::OverlayManager::stringToAnchors(param.second);
+			auto vec = Vector2::stringToVector(param.second);
 			_minAnchor = vec;
 		}
 		else if (param.first == "Size" || param.first == "size") {
-			auto vec = Graphics::OverlayManager::stringToPosition(param.second);
+			auto vec = Vector2::stringToVector(param.second);
 			_upLeftOffset = vec / 2.f;
 			_downRightOffset = vec / 2.f;
 		}
 		else if (param.first == "UpLeft" || param.first == "upLeft") {
-			auto vec = Graphics::OverlayManager::stringToPosition(param.second);
+			auto vec = Vector2::stringToVector(param.second);
 			_upLeftOffset = vec;
 		}
 		else if (param.first == "DownRight" || param.first == "downRight") {
-			auto vec = Graphics::OverlayManager::stringToPosition(param.second);
+			auto vec = Vector2::stringToVector(param.second);
 			_downRightOffset = vec;
 		}
 		else if (param.first == "SortingLayer" || param.first == "sortingLayer") {

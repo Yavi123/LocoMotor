@@ -2,6 +2,7 @@
 #include "LMQuaternion.h"
 #include <cmath>
 #include <iostream>
+#include <list>
 
 #pragma region Vector
 // Getter functions
@@ -281,51 +282,41 @@ LocoMotor::Quaternion LocoMotor::Vector<3>::asRotToQuaternion() const {
 	return q;
 }
 
-LocoMotor::Vector3 LocoMotor::Vector3::stringToVector(const std::string& s) {
+template <int dims>
+LocoMotor::Vector<dims> LocoMotor::Vector<dims>::stringToVector(const std::string& s) {
 
-	std::string VectorString = s;
+	std::list<std::string> nums = std::list<std::string>();
+	size_t lastFoundOn = 0;
+	size_t newFound = 0;
+	std::string foundStr = "";
+	while (newFound != std::string::npos) {
+		newFound = s.find_first_of(' ', lastFoundOn);
+		foundStr = s.substr(lastFoundOn, newFound);
+		std::remove(foundStr.begin(), foundStr.end(), ',');
+		std::remove(foundStr.begin(), foundStr.end(), '(');
+		std::remove(foundStr.begin(), foundStr.end(), ')');
+		nums.push_back(foundStr);
+		lastFoundOn = newFound + 1;
+	}
+
+	LocoMotor::Vector<dims> result = LocoMotor::Vector<dims>();
 	unsigned char currAxis = 0;
-	std::string num = "";
-	LocoMotor::Vector3 result = LocoMotor::Vector3();
-	for (const char c : VectorString) {
-		if (c != ' ') {
-			num += c;
+	for (std::string stValue : nums) {
+
+		float value = 0.f;
+		try {
+			value = std::stof(stValue);
 		}
-		else {
-			float value = 0.f;
-			try {
-				value = std::stof(num);
-			}
-			catch (...) {
-				value = 0.f;
-				std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a LocoMotor::Vector3" << "\033[0m" << std::endl;
-			}
-			if (currAxis == 0) {
-				result.setX(value);
-			}
-			else if (currAxis == 1) {
-				result.setY(value);
-			}
-			else if (currAxis == 2) {
-				result.setZ(value);
-			}
-			currAxis++;
-			num = "";
-			if (currAxis == 3) {
-				break;
-			}
+		catch (...) {
+			value = 0.f;
+			std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a LocoMotor::Vector3" << "\033[0m" << std::endl;
+		}
+		result._values[currAxis] = value;
+		currAxis++;
+		if (currAxis == dims) {
+			break;
 		}
 	}
-	float value = 0.0f;
-	try {
-		value = std::stof(num);
-	}
-	catch (...) {
-		value = 0.0f;
-		std::cerr << "\033[1;31m" << "Invalid value detected in axis number '" << std::to_string(currAxis) << "' loading a float from a LocoMotor::Vector3" << "\033[0m" << std::endl;
-	}
-	if (currAxis == 2)
-		result.setZ(value);
 
 	return result;
 }
@@ -362,7 +353,6 @@ bool LocoMotor::Vector<dims>::operator==(const LocoMotor::Vector<dims>& other) c
 
 #pragma endregion
 
-// Explicit instantiations (THIS IS CRITICAL)
 template class LocoMotor::Vector<2>;
 template class LocoMotor::Vector<3>;
 template class LocoMotor::Vector<4>;
