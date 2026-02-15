@@ -91,6 +91,7 @@ bool LocoMotor::Scene::toDestroy() {
 void Scene::build() {
 	_toDestroy = false;
 	_isActiveScene = true;
+	Graphics::GraphicsManager::GetInstance()->createScene(_name);
 	Graphics::GraphicsManager::GetInstance()->setActiveScene(_name);
 
 	for (auto& objPair : _sceneDef) {
@@ -118,7 +119,6 @@ void Scene::destroy() {
 
 void Scene::initialize(const SceneMap& data) {
 	_sceneDef = data;
-	Graphics::GraphicsManager::GetInstance()->createScene(_name);
 }
 
 void LocoMotor::Scene::deleteGameObject(const std::string& name) {

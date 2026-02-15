@@ -121,7 +121,6 @@ std::string GraphicsManager::initialize(const Json::JSONObject& graphicsData) {
 
 void GraphicsManager::createScene(std::string name) {
 	if (_scenes.count(name) > 0) {
-		std::cerr << "ERROR: Ya hay una escena con el nombre \"" << name << "\". Elige otro nombre por favor\n";
 		return;
 	}
 	Ogre::SceneManager* sM = _root->createSceneManager();
@@ -210,6 +209,7 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 			_nodeRoot = nullptr;
 			_activeScene = nullptr;
 
+			_scenes.erase(name);
 			return;
 		}
 	}

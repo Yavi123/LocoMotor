@@ -265,7 +265,7 @@ bool Engine::mainLoop() {
 	}
 	if (_startingSceneFile != "" && _startingSceneName != "") {
 		_scnManager->loadScene(_startingSceneFile, _startingSceneName);
-		_scnManager->changeScene(_startingSceneName);
+		//_scnManager->changeScene(_startingSceneName);
 	}
 
 	float _dt;

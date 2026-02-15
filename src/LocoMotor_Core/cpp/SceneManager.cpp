@@ -31,14 +31,14 @@ LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name, 
     if (_scenes.count(name) > 0) newScene = _scenes[name];
     else newScene = new Scene(name, path);
 
+    newScene->initialize(sceneMap);
     if (_activeScene == nullptr) {
         _activeScene = newScene;
-        _toStart = newScene;
+        _activeScene->build();
     }
     if (_scenes.count(name) == 0) {
         _scenes.insert({ name,newScene });
     }
-    newScene->initialize(sceneMap);
     return newScene;
 }
 

@@ -57,7 +57,7 @@ EntryScene = {
             text = "hola",
             font = "PoetsenOne",
             alignment = "c",
-            colorTop = "0.8 0.04706 0.06275",
+            colorTop = "0.0 0.04706 0.06275",
             colorBot = "0.13333 0.04706 0.06275",
             sortingLayer = 2
         }
