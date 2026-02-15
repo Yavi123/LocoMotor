@@ -10,7 +10,7 @@
 
 #include <string>
 #include "Component.h"
-#include "LMVector.h"
+#include "RectTransform.h"
 
 namespace Ogre {
 	class OverlayManager;
@@ -74,11 +74,7 @@ namespace LocoMotor {
 		Ogre::OverlayContainer* _container;
 		Ogre::OverlayManager* _overlayMngr;
 
-		Vector2 _maxAnchor = Vector2(0.5f, 0.5f);
-		Vector2 _minAnchor = Vector2(0.5f, 0.5f);
-
-		Vector2 _upLeftOffset = Vector2(25.f, 25.f);
-		Vector2 _downRightOffset = Vector2(25.f, 25.f);
+		RectTransform _rectTransform;
 	};
 
 }

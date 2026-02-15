@@ -160,4 +160,4 @@ namespace LocoMotor {
 	extern template class MOTOR_API Vector<4>;
 }
 
-#endif 
+#endif

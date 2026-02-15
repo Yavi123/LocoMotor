@@ -1,3 +1,4 @@
+#include "RectTransform.h"
 #include "UIImage.h"
 #include "GameObject.h"
 #include "GraphicsManager.h"
@@ -11,7 +12,7 @@
 
 using namespace LocoMotor;
 
-LocoMotor::UIImage::UIImage() : _gfxManager(nullptr), _container(nullptr), _overlayMngr(nullptr), _overlay(nullptr) {
+LocoMotor::UIImage::UIImage() : _gfxManager(nullptr), _container(nullptr), _overlayMngr(nullptr), _overlay(nullptr), _rectTransform() {
 }
 
 LocoMotor::UIImage::~UIImage() {
@@ -34,7 +35,6 @@ void LocoMotor::UIImage::setImage(const std::string& nImage) {
 
 bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
-
 	_gfxManager = Graphics::GraphicsManager::GetInstance();
 	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
 
@@ -50,31 +50,8 @@ bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 	float rotation = 0.f;
 
 	for (auto& param : params) {
-		if (param.first == "Anchor" || param.first == "anchor") {
-			auto vec = Graphics::OverlayManager::stringToAnchors(param.second);
-			_maxAnchor = vec;
-			_minAnchor = vec;
-		}
-		else if (param.first == "MaxAnchor" || param.first == "maxAnchor") {
-			auto vec = Graphics::OverlayManager::stringToAnchors(param.second);
-			_maxAnchor = vec;
-		}
-		else if (param.first == "MinAnchor" || param.first == "minAnchor") {
-			auto vec = Vector2::stringToVector(param.second);
-			_minAnchor = vec;
-		}
-		else if (param.first == "Size" || param.first == "size") {
-			auto vec = Vector2::stringToVector(param.second);
-			_upLeftOffset = vec / 2.f;
-			_downRightOffset = vec / 2.f;
-		}
-		else if (param.first == "UpLeft" || param.first == "upLeft") {
-			auto vec = Vector2::stringToVector(param.second);
-			_upLeftOffset = vec;
-		}
-		else if (param.first == "DownRight" || param.first == "downRight") {
-			auto vec = Vector2::stringToVector(param.second);
-			_downRightOffset = vec;
+		if (param.first.find("ect") != std::string::npos) {
+			_rectTransform.setParam(param.first, param.second);
 		}
 		else if (param.first == "SortingLayer" || param.first == "sortingLayer") {
 			try {
@@ -97,6 +74,8 @@ bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 		}
 	}
 
+	_rectTransform.setParentSize({ (float)_gfxManager->getWindowWidth(), (float)_gfxManager->getWindowHeight() });
+
 	updatePosition();
 
 	setImage(imageName);
@@ -115,34 +94,32 @@ void LocoMotor::UIImage::update(float dT) {
 }
 
 void LocoMotor::UIImage::setAnchorPoint(const Vector2& anc) {
-	_maxAnchor = anc;
-	_minAnchor = anc;
+	_rectTransform.setAnchorPoint(anc);
 	updatePosition();
 }
 
 void LocoMotor::UIImage::setMaxAnchorPoint(const Vector2& anc) {
-	_maxAnchor = anc;
+	_rectTransform.setMaxAnchorPoint(anc);
 	updatePosition();
 }
 
 void LocoMotor::UIImage::setMinAnchorPoint(const Vector2& anc) {
-	_minAnchor = anc;
+	_rectTransform.setMinAnchorPoint(anc);
 	updatePosition();
 }
 
 void LocoMotor::UIImage::setDimensions(const Vector2& anc) {
-	_upLeftOffset = anc / 2.f;
-	_downRightOffset = anc / 2.f;
+	_rectTransform.setDimensions(anc);
 	updatePosition();
 }
 
-MOTOR_API void LocoMotor::UIImage::setUpLeftOffset(const Vector2& anc) {
-	_upLeftOffset = anc;
+void LocoMotor::UIImage::setUpLeftOffset(const Vector2& anc) {
+	_rectTransform.setUpLeftOffset(anc);
 	updatePosition();
 }
 
-MOTOR_API void LocoMotor::UIImage::setDownRightOffset(const Vector2& anc) {
-	_downRightOffset = anc;
+void LocoMotor::UIImage::setDownRightOffset(const Vector2& anc) {
+	_rectTransform.setDownRightOffset(anc);
 	updatePosition();
 }
 
@@ -165,21 +142,22 @@ void LocoMotor::UIImage::hide() {
 }
 
 int LocoMotor::UIImage::getWidth() {
-	int wWidth = _gfxManager->getWindowWidth();
-	return _upLeftOffset.getX() + (wWidth * (_maxAnchor.getX() - _minAnchor.getX())) + _downRightOffset.getX();
+	Rect totalRect = _rectTransform.getTotalBounds();
+	return totalRect._downRightPoint.getX() - totalRect._upLeftPoint.getX();
 }
 
 int LocoMotor::UIImage::getHeight() {
-	int wHeight = _gfxManager->getWindowHeight();
-	return _upLeftOffset.getY() + wHeight * (_maxAnchor.getY() - _minAnchor.getY()) + _downRightOffset.getY();
+	Rect totalRect = _rectTransform.getTotalBounds();
+	return totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY();
 }
 
 void LocoMotor::UIImage::updatePosition() {
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
 
-	_container->setDimensions(getWidth(), getHeight());
+	_rectTransform.refreshBounds();
+	Rect totalRect = _rectTransform.getTotalBounds();
 
-	int wWidth = _gfxManager->getWindowWidth();
-	int wHeight = _gfxManager->getWindowHeight();
-	_container->setPosition(wWidth * _minAnchor.getX() - _upLeftOffset.getX(), wHeight * _minAnchor.getY() - _upLeftOffset.getY());
+	_container->setDimensions(totalRect._downRightPoint.getX() - totalRect._upLeftPoint.getX(), totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY());
+
+	_container->setPosition(totalRect._upLeftPoint.getX(), totalRect._upLeftPoint.getY());
 }

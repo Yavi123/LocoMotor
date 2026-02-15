@@ -76,25 +76,8 @@ bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 	Vector3 colBot = Vector3();
 
 	for (auto& param : params) {
-		if (param.first == "Anchor" || param.first == "anchor") {
-			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
-			_anchorX = v.getX();
-			_anchorY = v.getY();
-		}
-		else if (param.first == "Pivot" || param.first == "pivot") {
-			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
-			_pivotX = v.getX();
-			_pivotY = v.getY();
-		}
-		else if (param.first == "Position" || param.first == "position") {
-			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
-			_positionX = v.getX();
-			_positionY = v.getY();
-		}
-		else if (param.first == "Size" || param.first == "size") {
-			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
-			_sizeX = v.getX();
-			_sizeY = v.getY();
+		if (param.first.find("ect") != std::string::npos) {
+			_rectTransform.setParam(param.first, param.second);
 		}
 		else if (param.first == "SortingLayer" || param.first == "sortingLayer") {
 			try {
@@ -134,13 +117,14 @@ bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 		}
 	}
 
-	_container->setDimensions(Ogre::Real(_sizeX), Ogre::Real(_sizeY));
+	_rectTransform.setParentSize({ (float) _gfxManager->getWindowWidth(), (float) _gfxManager->getWindowHeight() });
 
 	updatePosition();
 
 	setFont(font);
 	setText(text);
-	_txtElem->setCharHeight(Ogre::Real(_sizeY));
+	Rect totalRect = _rectTransform.getTotalBounds();
+	_txtElem->setCharHeight(Ogre::Real(totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY()));
 	_txtElem->setColourTop(Ogre::ColourValue(colTop.getX(), colTop.getY(), colTop.getZ(), 1.f));
 	_txtElem->setColourBottom(Ogre::ColourValue(colBot.getX(), colBot.getY(), colBot.getZ(), 1.f));
 	_txtElem->setAlignment(alignment);
@@ -163,27 +147,33 @@ void LocoMotor::UIText::update(float dT) {
 	updatePosition();
 }
 
-void LocoMotor::UIText::setAnchorPoint(float x, float y) {
-	_anchorX = x;
-	_anchorY = y;
+void LocoMotor::UIText::setAnchorPoint(const Vector2& anc) {
+	_rectTransform.setAnchorPoint(anc);
 	updatePosition();
 }
 
-void LocoMotor::UIText::setPosition(int x, int y) {
-	_positionX = x;
-	_positionY = y;
+void LocoMotor::UIText::setMaxAnchorPoint(const Vector2& anc) {
+	_rectTransform.setMaxAnchorPoint(anc);
 	updatePosition();
 }
 
-void LocoMotor::UIText::setDimensions(int w, int h) {
-	_sizeX = w;
-	_sizeY = h;
-	_container->setDimensions(Ogre::Real(_sizeX), Ogre::Real(_sizeY));
+void LocoMotor::UIText::setMinAnchorPoint(const Vector2& anc) {
+	_rectTransform.setMinAnchorPoint(anc);
+	updatePosition();
 }
 
-void LocoMotor::UIText::setPivot(float x, float y) {
-	_pivotX = x;
-	_pivotY = y;
+void LocoMotor::UIText::setDimensions(const Vector2& anc) {
+	_rectTransform.setDimensions(anc);
+	updatePosition();
+}
+
+void LocoMotor::UIText::setUpLeftOffset(const Vector2& anc) {
+	_rectTransform.setUpLeftOffset(anc);
+	updatePosition();
+}
+
+void LocoMotor::UIText::setDownRightOffset(const Vector2& anc) {
+	_rectTransform.setDownRightOffset(anc);
 	updatePosition();
 }
 
@@ -223,14 +213,6 @@ void LocoMotor::UIText::hide() {
 	_container->hide();
 }
 
-int LocoMotor::UIText::getPositionX() {
-	return _positionX;
-}
-
-int LocoMotor::UIText::getPositionY() {
-	return _positionY;
-}
-
 void LocoMotor::UIText::setColor(Vector3 color) {
 	setColorTop(color);
 	setColorBottom(color);
@@ -246,9 +228,13 @@ void LocoMotor::UIText::setColorBottom(Vector3 color) {
 
 void LocoMotor::UIText::updatePosition() {
 	_container->setMetricsMode(Ogre::GMM_PIXELS);
-	int wWidth = _gfxManager->getWindowWidth();
-	int wHeight = _gfxManager->getWindowHeight();
-	_container->setPosition(wWidth * _anchorX + _positionX - (_sizeX * _pivotX), wHeight * _anchorY + _positionY - (_sizeY * _pivotY));
+
+	_rectTransform.refreshBounds();
+	Rect totalRect = _rectTransform.getTotalBounds();
+
+	_container->setDimensions(totalRect._downRightPoint.getX() - totalRect._upLeftPoint.getX(), totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY());
+
+	_container->setPosition(totalRect._upLeftPoint.getX(), totalRect._upLeftPoint.getY());
 }
 
 

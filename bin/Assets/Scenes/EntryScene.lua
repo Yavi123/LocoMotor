@@ -35,10 +35,10 @@ EntryScene = {
             rotation = "0 0 0"
         },
         UIImage = {
-            minAnchor = "0.8 0.1",
-            maxAnchor = "0.9 0.2",
-            upLeft = "60 80",
-            downRight = "10 0",
+            rect_minAnchor = "0.8 0.1",
+            rect_maxAnchor = "0.9 0.2",
+            rect_upLeft = "60 80",
+            rect_downRight = "10 0",
             image = "CrossMaterial",
             sortingLayer = 1
         }
@@ -49,13 +49,17 @@ EntryScene = {
             size = "1, 1, 1",
             rotation = "0 0 0"
         },
-        UIImage = {
-            minAnchor = "0.8 0.1",
-            maxAnchor = "0.9 0.2",
-            upLeft = "0 0",
-            downRight = "0 0",
-            image = "CrossMaterial",
-            sortingLayer = 1
+        UIText = {
+            rect_minAnchor = "0.2 0.1",
+            rect_maxAnchor = "0.8 0.2",
+            rect_upLeft = "0 0",
+            rect_downRight = "0 0",
+            text = "hola",
+            font = "PoetsenOne",
+            alignment = "c",
+            colorTop = "0.8 0.04706 0.06275",
+            colorBot = "0.13333 0.04706 0.06275",
+            sortingLayer = 2
         }
     }
 }

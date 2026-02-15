@@ -84,6 +84,9 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMQuaternion.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\RectTransform.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\RectTransform.cpp">
+      <Filter>Archivos de origen\ECS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -10,7 +10,7 @@
 
 #include <string>
 #include "Component.h"
-#include "LMVector.h"
+#include "RectTransform.h"
 
 namespace Ogre {
 	class OverlayManager;
@@ -23,7 +23,6 @@ namespace LocoMotor {
 
 	namespace Graphics {
 		class GraphicsManager;
-
 	}
 
 	enum class TextAlignment {
@@ -43,16 +42,14 @@ namespace LocoMotor {
 		MOTOR_API void setFont(std::string nFont);
 
 		/// @brief Sets the anchor point of the element
-		MOTOR_API void setAnchorPoint(float x, float y);
-
-		/// @brief Sets the position of the entity on the UI
-		MOTOR_API void setPosition(int x, int y);
+		MOTOR_API void setAnchorPoint(const Vector2& anc);
+		MOTOR_API void setMaxAnchorPoint(const Vector2& anc);
+		MOTOR_API void setMinAnchorPoint(const Vector2& anc);
 
 		/// @brief Sets the size of the entity on the UI
-		MOTOR_API void setDimensions(int w, int h);
-
-		/// @brief Sets the pivot of the textbox
-		MOTOR_API void setPivot(float x, float y);
+		MOTOR_API void setDimensions(const Vector2& anc);
+		MOTOR_API void setUpLeftOffset(const Vector2& anc);
+		MOTOR_API void setDownRightOffset(const Vector2& anc);
 
 		/// @brief Sets the new sorting layer of the element, the higher the number the more priotity it will have
 		/// @param layer: A number, only values between 0 and 650 are sorted between them
@@ -101,10 +98,7 @@ namespace LocoMotor {
 		std::string _uType;
 		std::string _uTxtName;
 
-		float _anchorX = 0.5f, _anchorY = 0.5f;
-		float _pivotX = 0.5f, _pivotY = 0.5f;
-		int _positionX = 0, _positionY = 0;
-		int _sizeX = 50, _sizeY = 50;
+		RectTransform _rectTransform;
 	};
 
 }
