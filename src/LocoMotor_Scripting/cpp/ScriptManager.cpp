@@ -208,7 +208,6 @@ void LocoMotor::Scripting::ScriptManager::registerGraphics() {
 		.deriveClass<UIImage, Component>("UIImage")
 		.addFunction("setImage", &UIImage::setImage)
 		.addFunction("setAnchorPoint", &UIImage::setAnchorPoint)
-		.addFunction("setPosition", &UIImage::setPosition)
 		.addFunction("setDimensions", &UIImage::setDimensions)
 		.addFunction("setSortingLayer", &UIImage::setSortingLayer)
 		.addFunction("setRotation", &UIImage::setRotation)

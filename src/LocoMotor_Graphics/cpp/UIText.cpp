@@ -77,16 +77,24 @@ bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 
 	for (auto& param : params) {
 		if (param.first == "Anchor" || param.first == "anchor") {
-			Graphics::OverlayManager::stringToAnchors(param.second, _anchorX, _anchorY);
+			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
+			_anchorX = v.getX();
+			_anchorY = v.getY();
 		}
 		else if (param.first == "Pivot" || param.first == "pivot") {
-			Graphics::OverlayManager::stringToAnchors(param.second, _pivotX, _pivotY);
+			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
+			_pivotX = v.getX();
+			_pivotY = v.getY();
 		}
 		else if (param.first == "Position" || param.first == "position") {
-			Graphics::OverlayManager::stringToPosition(param.second, _positionX, _positionY);
+			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
+			_positionX = v.getX();
+			_positionY = v.getY();
 		}
 		else if (param.first == "Size" || param.first == "size") {
-			Graphics::OverlayManager::stringToPosition(param.second, _sizeX, _sizeY);
+			auto v = Graphics::OverlayManager::stringToAnchors(param.second);
+			_sizeX = v.getX();
+			_sizeY = v.getY();
 		}
 		else if (param.first == "SortingLayer" || param.first == "sortingLayer") {
 			try {

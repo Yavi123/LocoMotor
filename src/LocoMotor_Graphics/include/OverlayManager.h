@@ -20,6 +20,10 @@ namespace Ogre {
 
 namespace LocoMotor {
 
+	template<typename int>
+	class Vector;
+	using Vector2 = Vector<2>;
+
 	namespace Graphics {
 
 		class MOTOR_API OverlayManager {
@@ -41,8 +45,8 @@ namespace LocoMotor {
 			/// @brief Returns true if there is an instance of the singleton active
 			static bool IsInitialized();
 
-			static void stringToAnchors(const std::string& s, float& x, float& y);
-			static void stringToPosition(const std::string& s, int& x, int& y);
+			static Vector2 stringToAnchors(const std::string& s);
+			static Vector2 stringToPosition(const std::string& s);
 
 			Ogre::OverlayManager* getOgreOverlayManager();
 			Ogre::OverlaySystem* getOgreSystem();
