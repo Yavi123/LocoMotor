@@ -23,6 +23,8 @@ namespace LocoMotor {
 		/// @param name Name of the scene
 		MOTOR_API void changeScene(const std::string& name);
 
+		MOTOR_API void reloadScene();
+
 		// En la primera iteracion da error no esta asignada esta variable
 		MOTOR_API Scene* getActiveScene() {
 			return _activeScene;
@@ -44,7 +46,7 @@ namespace LocoMotor {
 		/// @brief Creates a new scene with the name provided. Method created for testing pursposes
 		/// @param name Name for the scene
 		/// @param sceneMap Map with the info to generate the scene when needed
-		Scene* createScene(const std::string& name, const SceneMap& sceneMap);
+		Scene* createScene(const std::string& name, const std::string& path, const SceneMap& sceneMap);
 
 		std::unordered_map<std::string, Scene*> _scenes;
 		Scene* _activeScene;

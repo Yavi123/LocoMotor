@@ -263,7 +263,7 @@ bool Engine::mainLoop() {
 		std::cerr << "\033[1;31m" << "Error creating game window" << "\033[0m" << std::endl;
 		_exit = true;
 	}
-	else if (_startingSceneFile != "" && _startingSceneName != "") {
+	if (_startingSceneFile != "" && _startingSceneName != "") {
 		_scnManager->loadScene(_startingSceneFile, _startingSceneName);
 		_scnManager->changeScene(_startingSceneName);
 	}
@@ -295,6 +295,14 @@ bool Engine::mainLoop() {
 		if (Input::InputManager::GetInstance()->RegisterEvents()) {
 			_exit = true;
 		}
+	#ifdef _DEBUG
+		else {
+			if (Input::InputManager::GetInstance()->GetKeyDownStr("F1")) {
+				_scnManager->reloadScene();
+			}
+		}
+	#endif // _DEBUG
+
 
 		_scnManager->update(_dt);
 

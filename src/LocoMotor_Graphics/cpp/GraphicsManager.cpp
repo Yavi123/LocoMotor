@@ -209,6 +209,7 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 			_mShaderGenerator->removeSceneManager(it->second);
 			_nodeRoot = nullptr;
 			_activeScene = nullptr;
+
 			return;
 		}
 	}

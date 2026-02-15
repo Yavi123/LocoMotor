@@ -26,14 +26,18 @@ LocoMotor::SceneManager* LocoMotor::SceneManager::GetInstance() {
     return _instance;
 }
 
-LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name, const SceneMap& sceneMap) {
-    if (_scenes.count(name) > 0) return _scenes[name];
-    Scene* newScene = new Scene(name);
+LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name, const std::string& path, const SceneMap& sceneMap) {
+    Scene* newScene = nullptr;
+    if (_scenes.count(name) > 0) newScene = _scenes[name];
+    else newScene = new Scene(name, path);
+
     if (_activeScene == nullptr) {
         _activeScene = newScene;
         _toStart = newScene;
     }
-    _scenes.insert({ name,newScene });
+    if (_scenes.count(name) == 0) {
+        _scenes.insert({ name,newScene });
+    }
     newScene->initialize(sceneMap);
     return newScene;
 }
@@ -43,13 +47,16 @@ void LocoMotor::SceneManager::changeScene(const std::string& name) {
         std::cerr << "Scene \"" << name << "\", doesn't exist, call createScene(name) before trying to access a scene.\n";
         return;
     }
-    if (_scenes[name] == _activeScene || _scenes[name] == _toStart) {
-        std::cerr << "Scene \"" << name << "\" already active.\n";
-        return;
-    }
     else {
         _toStart = _scenes[name];
     }
+}
+
+void LocoMotor::SceneManager::reloadScene() {
+    std::string name = getActiveScene()->getSceneName();
+    std::string path = getActiveScene()->getScenePath();
+    loadScene(path, name);
+    changeScene(name);
 }
 
 void LocoMotor::SceneManager::loadScene(const std::string& path, const std::string& name)
@@ -60,12 +67,12 @@ void LocoMotor::SceneManager::loadScene(const std::string& path, const std::stri
         //TODO: Error fatal;
         return;
     }
-    createScene(name, sceneMap.value());
+    createScene(name, path, sceneMap.value());
 }
 
 void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
-        if (_activeScene != nullptr && _activeScene != _toStart) 
+        if (_activeScene != nullptr) 
             _activeScene->destroy();
         _activeScene = _toStart;
         _toStart->build();

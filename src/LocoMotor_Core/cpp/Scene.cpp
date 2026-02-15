@@ -10,8 +10,10 @@
 
 
 using namespace LocoMotor;
-Scene::Scene(std::string name) {
+
+LocoMotor::Scene::Scene(std::string name, std::string path) {
 	_name = name;
+	_path = path;
 }
 
 Scene::~Scene() {
@@ -138,6 +140,10 @@ bool Scene::getActiveStatus() {
 
 std::string Scene::getSceneName() {
 	return _name;
+}
+
+std::string LocoMotor::Scene::getScenePath() {
+	return _path;
 }
 
 
