@@ -209,6 +209,7 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 			_nodeRoot = nullptr;
 			_activeScene = nullptr;
 
+			_root->destroySceneManager(_scenes[name]);
 			_scenes.erase(name);
 			return;
 		}
