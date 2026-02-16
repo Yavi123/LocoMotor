@@ -1,10 +1,12 @@
 #include "InputManager.h"
+#include "NavigationSystem.h"
 #include <iostream>
 #include <algorithm>
 
 #include <SDL.h>
 #include "LMInputs.h"
 #include "GamepadMappings.h"
+#include "Platform.h"
 
 #include <cassert>
 
@@ -16,6 +18,7 @@ InputManager* InputManager::_instance = nullptr;
 InputManager::InputManager() {
 	_mousePos.first = 0;
 	_mousePos.second = 0;
+	_nav = nullptr;
 }
 
 bool InputManager::Init() {
@@ -44,6 +47,10 @@ bool InputManager::init() {
 	}
 
 	initStrsMaps();
+
+	if (NavigationSystem::Init()) {
+		_nav = NavigationSystem::GetInstance();
+	}
 	return true;
 }
 
@@ -187,6 +194,7 @@ InputManager* InputManager::GetInstance() {
 
 void InputManager::Release() {
 	assert(_instance != nullptr);
+	NavigationSystem::Release();
 	delete _instance;
 	_instance = nullptr;
 }
@@ -295,7 +303,34 @@ bool InputManager::RegisterEvents() {
 		if (event.type == SDL_QUIT)
 			return true;
 
+		if (event.type == SDL_WINDOWEVENT) {
+			int w = 0;
+			int h = 0;
+			switch (event.window.event) {
+				case SDL_WINDOWEVENT_SIZE_CHANGED:
+					w = event.window.data1;
+					h = event.window.data2;
 
+					if (Platform::GetInstance()->windowResize != nullptr)
+						Platform::GetInstance()->windowResize(w, h);
+					break;
+				case SDL_WINDOWEVENT_MAXIMIZED:
+					break;
+				case SDL_WINDOWEVENT_MINIMIZED:
+					break;
+				case SDL_WINDOWEVENT_RESIZED:
+					w = event.window.data1;
+					h = event.window.data2;
+
+					//if (Platform::GetInstance()->windowResize != nullptr)
+					//	Platform::GetInstance()->windowResize(w, h);
+					break;
+				case SDL_WINDOWEVENT_MOVED:
+					if (Platform::GetInstance()->windowMove != nullptr)
+						Platform::GetInstance()->windowMove(event.window.data1, event.window.data2);
+					break;
+			}
+		}
 		// Manejar todos los tipos de eventos
 
 		// Almacenar eventos de teclado en el array "keyboardKeys"
@@ -307,6 +342,9 @@ bool InputManager::RegisterEvents() {
 		// Almacenar eventos de mando en el array "controllerButtons" (a parte de eventos Add/Remove del mando)
 		ManageControllerEvents(event);
 	}
+
+	_nav->updateNav();
+
 	return false;
 }
 

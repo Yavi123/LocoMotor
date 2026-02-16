@@ -18,7 +18,9 @@ extern "C" {
 #include "SceneManager.h"
 #include "Engine.h"
 #include "InputManager.h"
+#include "Selectable.h"
 #include "RigidBody.h"
+#include "GraphicsManager.h"
 #include "Camera.h"
 #include "MeshRenderer.h"
 #include "UIImage.h"
@@ -70,6 +72,7 @@ void LocoMotor::Scripting::ScriptManager::registerApi() {
 		.addStaticFunction("Instance", &Engine::GetInstance)
 		.addFunction("showWindow", &Engine::showWindow)
 		.addFunction("quit", &Engine::quit)
+		.addFunction("print", &Engine::print)
 		.endClass();
 }
 
@@ -89,6 +92,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("getAudioListener", &GameObject::getComponent<AudioListener>)
 		.addFunction("getUIText", &GameObject::getComponent<UIText>)
 		.addFunction("getUIImage", &GameObject::getComponent<UIImage>)
+		.addFunction("getSelectable", &GameObject::getComponent<Input::Selectable>)
 		.addFunction("getComponent", &GameObject::getComponentByName)
 		.addFunction("isActive", &GameObject::isActive)
 		.addFunction("setActive", &GameObject::setActive)
@@ -172,18 +176,24 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("getActiveScene", &SceneManager::getActiveScene)
 		.endClass()
 
-		.beginClass<Platform::LocalSave>("LocalSave")
-		.addStaticFunction("setInt", &Platform::LocalSave::SetRegisterInt)
-		.addStaticFunction("getInt", &Platform::LocalSave::GetRegisterInt)
-		.addStaticFunction("setFloat", &Platform::LocalSave::SetRegisterFloat)
-		.addStaticFunction("getFloat", &Platform::LocalSave::GetRegisterFloat)
-		.addStaticFunction("setString", &Platform::LocalSave::SetRegisterString)
-		.addStaticFunction("getString", &Platform::LocalSave::GetRegisterString)
+		.beginClass<Porting::LocalSave>("LocalSave")
+		.addStaticFunction("setInt", &Porting::LocalSave::SetRegisterInt)
+		.addStaticFunction("getInt", &Porting::LocalSave::GetRegisterInt)
+		.addStaticFunction("setFloat", &Porting::LocalSave::SetRegisterFloat)
+		.addStaticFunction("getFloat", &Porting::LocalSave::GetRegisterFloat)
+		.addStaticFunction("setString", &Porting::LocalSave::SetRegisterString)
+		.addStaticFunction("getString", &Porting::LocalSave::GetRegisterString)
 		.endClass();
 }
 
 void LocoMotor::Scripting::ScriptManager::registerGraphics() {
 	luabridge::getGlobalNamespace(_luaState)
+		.beginClass<Graphics::GraphicsManager>("GraphicsManager")
+		.addStaticFunction("Instance", &Graphics::GraphicsManager::GetInstance)
+		.addFunction("setFullscreen", &Graphics::GraphicsManager::setFullscreen)
+		.addFunction("getFullscreen", &Graphics::GraphicsManager::getFullscreen)
+		.endClass()
+
 		.deriveClass<MeshRenderer, Component>("MeshRenderer")
 		.addFunction("playAnimation", &MeshRenderer::playAnimation)
 		.addFunction("setMaterial", &MeshRenderer::setMaterial)
@@ -248,6 +258,17 @@ void LocoMotor::Scripting::ScriptManager::registerInput() {
 		.addFunction("getMouseButtonUp", &InputManager::GetMouseButtonDown)
 		.addFunction("getJoystickValue", &InputManager::GetJoystickValueStr)
 		.addFunction("getTriggerValue", &InputManager::GetTriggerValue)
+		.endClass()
+
+		.deriveClass<Selectable, Component>("Selectable")
+		.addFunction("submitTriggered", &Selectable::submitTriggered)
+		.addFunction("cancelTriggered", &Selectable::cancelTriggered)
+		.addFunction("upTriggered", &Selectable::upTriggered)
+		.addFunction("downTriggered", &Selectable::downTriggered)
+		.addFunction("leftTriggered", &Selectable::leftTriggered)
+		.addFunction("rightTriggered", &Selectable::rightTriggered)
+		.addFunction("onSelected", &Selectable::onSelected)
+		.addFunction("onDeselected", &Selectable::onDeselected)
 		.endClass();
 }
 

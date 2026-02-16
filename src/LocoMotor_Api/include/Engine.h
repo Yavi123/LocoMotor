@@ -54,6 +54,9 @@ namespace LocoMotor {
 
 		/// @brief Method to exit the gameloop cleanly
 		MOTOR_API void quit();
+
+		/// @brief Method to exit the gameloop cleanly
+		MOTOR_API void print(const std::string& s);
 	private:
 
 		Engine();

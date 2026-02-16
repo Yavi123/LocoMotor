@@ -22,6 +22,8 @@ namespace LocoMotor {
 
 	namespace Input {
 
+		class NavigationSystem;
+
 		enum LMScanCode;
 		class InputManager {
 
@@ -250,6 +252,8 @@ namespace LocoMotor {
 			std::unordered_map<std::string, LMScanCode> _scanCodeStrs;
 			std::unordered_map<std::string, int> _ctlrCodeStrs;
 			std::unordered_map<std::string, Axis> _axisStrs;
+
+			NavigationSystem* _nav;
 		};
 	}
 }

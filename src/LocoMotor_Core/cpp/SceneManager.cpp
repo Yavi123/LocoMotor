@@ -27,9 +27,7 @@ LocoMotor::SceneManager* LocoMotor::SceneManager::GetInstance() {
 }
 
 LocoMotor::Scene* LocoMotor::SceneManager::createScene(const std::string& name, const std::string& path, const SceneMap& sceneMap) {
-    Scene* newScene = nullptr;
-    if (_scenes.count(name) > 0) newScene = _scenes[name];
-    else newScene = new Scene(name, path);
+    Scene* newScene = new Scene(name, path);
 
     newScene->initialize(sceneMap);
     if (_activeScene == nullptr) {
@@ -55,8 +53,14 @@ void LocoMotor::SceneManager::changeScene(const std::string& name) {
 void LocoMotor::SceneManager::reloadScene() {
     std::string name = getActiveScene()->getSceneName();
     std::string path = getActiveScene()->getScenePath();
-    loadScene(path, name);
-    changeScene(name);
+
+    LuaParser parser = LuaParser();
+    auto sceneMap = parser.loadSceneFromFile(path, name);
+    if (!sceneMap.has_value()) {
+        //TODO: Error fatal;
+        return;
+    }
+    _toStart = createScene(name, path, sceneMap.value());
 }
 
 void LocoMotor::SceneManager::loadScene(const std::string& path, const std::string& name)
@@ -72,8 +76,13 @@ void LocoMotor::SceneManager::loadScene(const std::string& path, const std::stri
 
 void LocoMotor::SceneManager::update(float dT) {
     if (_toStart != nullptr) {
-        if (_activeScene != nullptr) 
+        if (_activeScene != nullptr) {
             _activeScene->destroy();
+            if (_activeScene->getSceneName() == _toStart->getSceneName()) {
+                delete _activeScene;
+                _scenes[_toStart->getSceneName()] = _toStart;
+            }
+        }
         _activeScene = _toStart;
         _toStart->build();
         _toStart = nullptr;

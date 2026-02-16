@@ -10,7 +10,7 @@
 
 #include <string>
 
-namespace LocoMotor::Platform {
+namespace LocoMotor::Porting {
 
 	class Screen {
 

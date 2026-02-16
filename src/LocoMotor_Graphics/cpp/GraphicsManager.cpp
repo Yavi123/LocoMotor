@@ -22,6 +22,7 @@
 //Core includes
 #include "Screen.h"
 #include "LocalSave.h"
+#include "Platform.h"
 #include "json/JSON.h"
 
 constexpr const char* FULLSCREENMODE_KEY = "LM_Graphics_Fullscreen";
@@ -84,6 +85,7 @@ GraphicsManager* LocoMotor::Graphics::GraphicsManager::GetInstance() {
 
 void LocoMotor::Graphics::GraphicsManager::Release() {
 	assert(_instance != nullptr);
+	Platform::GetInstance()->windowResize = nullptr;
 	delete _instance;
 	_instance = nullptr;
 }
@@ -108,6 +110,9 @@ std::string LocoMotor::Graphics::GraphicsManager::initialize() {
 	catch (...) {
 		return "Error while initializing internal ogre library";
 	}
+
+	Platform::GetInstance()->windowResize = [this](int w, int h) { return onWindowChanged(w, h); };
+
 	return "";
 }
 
@@ -169,20 +174,64 @@ void GraphicsManager::setActiveScene(std::string name) {
 }
 
 int GraphicsManager::getWindowHeight() {
-	return _mWindow.render->getHeight();
+	int w, h;
+	SDL_GetWindowSize(_mWindow.native, &w, &h);
+	return h;
 }
 
 int GraphicsManager::getWindowWidth() {
-	return _mWindow.render->getWidth();
+	int w, h;
+	SDL_GetWindowSize(_mWindow.native, &w, &h);
+	return w;
 }
 
 void LocoMotor::Graphics::GraphicsManager::setFullscreen(bool on) {
 
-	SDL_SetWindowFullscreen(_mWindow.native, on ? SDL_WINDOW_FULLSCREEN_DESKTOP : 0);
-	_mWindow.render->setFullscreen(on, 200, 200);
+	if (getFullscreen() == on) return;
 
-	int valueToSet = on ? 1 : 0;
-	Platform::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, valueToSet);
+	int desiredWidth = 0;
+	int desiredHeigth = 0;
+	if (on) {
+		desiredWidth = Porting::Screen::GetDesiredWidth();
+		desiredHeigth = Porting::Screen::GetDesiredHeight();
+
+		_graphicsInitData._resWidth = getWindowWidth();
+		_graphicsInitData._resHeight = getWindowHeight();
+	}
+	else {
+		desiredWidth = _graphicsInitData._resWidth;
+		desiredHeigth = _graphicsInitData._resHeight;
+	}
+
+	if (on) {
+		// Remove decorations and resize to monitor
+		SDL_SetWindowBordered(_mWindow.native, SDL_FALSE);
+		SDL_SetWindowResizable(_mWindow.native, SDL_FALSE);
+
+		SDL_DisplayMode dm;
+		SDL_GetCurrentDisplayMode(0, &dm);
+		SDL_SetWindowPosition(_mWindow.native, 0, 0);
+		SDL_SetWindowSize(_mWindow.native, dm.w, dm.h);
+	}
+	else {
+		// Restore windowed size and decorations
+		SDL_SetWindowBordered(_mWindow.native, SDL_TRUE);
+		SDL_SetWindowResizable(_mWindow.native, SDL_TRUE);
+		SDL_SetWindowSize(_mWindow.native, desiredWidth, desiredHeigth);
+		SDL_SetWindowPosition(_mWindow.native, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+	}
+	int w, h;
+	SDL_GetWindowSize(_mWindow.native, &w, &h);
+	_mWindow.render->resize(w, h);
+	_mWindow.render->windowMovedOrResized();
+
+	_isFullscreen = on;
+
+	Porting::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, on ? 1 : 0);
+}
+
+bool LocoMotor::Graphics::GraphicsManager::getFullscreen() {
+	return _isFullscreen;
 }
 
 void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
@@ -208,12 +257,16 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 			_mShaderGenerator->removeSceneManager(it->second);
 			_nodeRoot = nullptr;
 			_activeScene = nullptr;
-
-			_root->destroySceneManager(_scenes[name]);
-			_scenes.erase(name);
 			return;
 		}
 	}
+}
+
+void LocoMotor::Graphics::GraphicsManager::destroyScene(std::string name) {
+	deactivateScene(name);
+
+	_root->destroySceneManager(_scenes[name]);
+	_scenes.erase(name);
 }
 
 void GraphicsManager::loadResources() {
@@ -288,57 +341,57 @@ bool GraphicsManager::initWindow(std::string name) {
 		SDL_InitSubSystem(SDL_INIT_VIDEO);
 	}
 
-	Uint32 flags = SDL_WINDOW_RESIZABLE;
+	Uint32 flags = 0;
 
-	int fullscreenModeSaved = Platform::LocalSave::GetRegisterInt(FULLSCREENMODE_KEY, -1);
+	int fullscreenModeSaved = Porting::LocalSave::GetRegisterInt(FULLSCREENMODE_KEY, -1);
 	if (fullscreenModeSaved == -1) {
 		fullscreenModeSaved = _graphicsInitData._fullscreen;
-		Platform::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, fullscreenModeSaved);
+		Porting::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, fullscreenModeSaved);
 	}
 
 	if (fullscreenModeSaved == 1) {
 		flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 
-		w = Platform::Screen::GetDesiredWidth();
-		h = Platform::Screen::GetDesiredHeight();
+		w = Porting::Screen::GetDesiredWidth();
+		h = Porting::Screen::GetDesiredHeight();
 	}
 	else if (fullscreenModeSaved == 2) {
 		flags |= SDL_WINDOW_FULLSCREEN;
 
-		w = Platform::Screen::GetDesiredWidth();
-		h = Platform::Screen::GetDesiredHeight();
+		w = Porting::Screen::GetDesiredWidth();
+		h = Porting::Screen::GetDesiredHeight();
 	}
 	else {
-		int savedWidth = Platform::LocalSave::GetRegisterInt(WINDOWWIDTH_KEY, -1);
+		int savedWidth = Porting::LocalSave::GetRegisterInt(WINDOWWIDTH_KEY, -1);
 		if (savedWidth == -1) {
 			savedWidth = _graphicsInitData._resWidth;
 		}
 		if (savedWidth < 200) {
 			savedWidth = 200;
 		}
-		Platform::LocalSave::SetRegisterInt(WINDOWWIDTH_KEY, savedWidth);
+		Porting::LocalSave::SetRegisterInt(WINDOWWIDTH_KEY, savedWidth);
 
-		int savedHeight = Platform::LocalSave::GetRegisterInt(WINDOWHEIGHT_KEY, -1);
+		int savedHeight = Porting::LocalSave::GetRegisterInt(WINDOWHEIGHT_KEY, -1);
 		if (savedHeight == -1) {
 			savedHeight = _graphicsInitData._resHeight;
 		}
 		if (savedHeight < 200) {
 			savedHeight = 200;
 		}
-		Platform::LocalSave::SetRegisterInt(WINDOWHEIGHT_KEY, savedHeight);
+		Porting::LocalSave::SetRegisterInt(WINDOWHEIGHT_KEY, savedHeight);
 
 		w = savedWidth;
 		h = savedHeight;
 	}
 
-	int savedVSyncValue = Platform::LocalSave::GetRegisterInt(VSYNCCOUNT_KEY, -1);
+	int savedVSyncValue = Porting::LocalSave::GetRegisterInt(VSYNCCOUNT_KEY, -1);
 	if (savedVSyncValue == -1) {
 		savedVSyncValue = _graphicsInitData._vSync;
 	}
 	if (savedVSyncValue < 0) {
 		savedVSyncValue = 0;
 	}
-	Platform::LocalSave::SetRegisterInt(VSYNCCOUNT_KEY, savedVSyncValue);
+	Porting::LocalSave::SetRegisterInt(VSYNCCOUNT_KEY, savedVSyncValue);
 
 	if (savedVSyncValue > 0) {
 		miscParams["vsync"] = "Yes";
@@ -348,7 +401,7 @@ bool GraphicsManager::initWindow(std::string name) {
 		miscParams["vsync"] = "No";
 	}
 
-	_mWindow.native = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, flags);
+	_mWindow.native = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, _graphicsInitData._resWidth, _graphicsInitData._resHeight, SDL_WINDOW_SHOWN);
 
 	SDL_SysWMinfo wmInfo;
 	SDL_VERSION(&wmInfo.version);
@@ -356,7 +409,11 @@ bool GraphicsManager::initWindow(std::string name) {
 
 	miscParams["externalWindowHandle"] = Ogre::StringConverter::toString(size_t(wmInfo.info.win.window));
 
-	_mWindow.render = _root->createRenderWindow(name, w, h, (flags & SDL_WINDOW_FULLSCREEN) != 0, &miscParams);
+	_mWindow.render = _root->createRenderWindow(name, w, h, false, &miscParams);
+
+	setFullscreen(flags > 0);
+
+	_isFullscreen = flags > 0;
 
 	try {
 		loadResources();
@@ -413,6 +470,8 @@ void GraphicsManager::shutdown() {
 	_root = nullptr;
 }
 
+void LocoMotor::Graphics::GraphicsManager::onWindowChanged(int w, int h) {
+}
 
 Ogre::SceneNode* GraphicsManager::createNode(std::string name) {
 	if(name == "Root") {

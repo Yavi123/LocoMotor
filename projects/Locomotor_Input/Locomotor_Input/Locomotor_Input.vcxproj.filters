@@ -24,9 +24,21 @@
     <ClInclude Include="..\..\..\src\LocoMotor_Input\include\GamepadMappings.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\src\LocoMotor_Input\include\NavigationSystem.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\LocoMotor_Input\include\Selectable.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\LocoMotor_Input\cpp\InputManager.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\LocoMotor_Input\cpp\NavigationSystem.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\LocoMotor_Input\cpp\Selectable.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

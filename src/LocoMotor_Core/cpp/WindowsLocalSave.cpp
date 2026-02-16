@@ -1,37 +1,39 @@
 #include "LocalSave.h"
+#include "Platform.h"
 #include <windows.h>
 
-std::string LocoMotor::Platform::LocalSave::lastKeyName = "Testing";
+std::string LocoMotor::Porting::LocalSave::lastKeyName = "Testing";
+LocoMotor::Platform* LocoMotor::Platform::_instance = nullptr;
 
-void LocoMotor::Platform::LocalSave::SetRegisterInt(const std::string& key, int val) {
+void LocoMotor::Porting::LocalSave::SetRegisterInt(const std::string& key, int val) {
 
 	SetRegisterGeneric(key, &val, sizeof(int));
 }
 
-int LocoMotor::Platform::LocalSave::GetRegisterInt(const std::string& key, int defaultValue) {
+int LocoMotor::Porting::LocalSave::GetRegisterInt(const std::string& key, int defaultValue) {
 
 	return *(int*)(GetRegisterGeneric(key, &defaultValue, sizeof(int)));
 }
 
-void LocoMotor::Platform::LocalSave::SetRegisterFloat(const std::string& key, float val) {
+void LocoMotor::Porting::LocalSave::SetRegisterFloat(const std::string& key, float val) {
 
 	SetRegisterGeneric(key, &val, sizeof(float));
 }
 
-float LocoMotor::Platform::LocalSave::GetRegisterFloat(const std::string& key, float defaultValue) {
+float LocoMotor::Porting::LocalSave::GetRegisterFloat(const std::string& key, float defaultValue) {
 
 	return *(float*)(GetRegisterGeneric(key, &defaultValue, sizeof(float)));
 }
 
-void LocoMotor::Platform::LocalSave::SetRegisterString(const std::string& key, const std::string& val) {
+void LocoMotor::Porting::LocalSave::SetRegisterString(const std::string& key, const std::string& val) {
 
 }
 
-std::string LocoMotor::Platform::LocalSave::GetRegisterString(const std::string& key, const std::string& defaultValue) {
+std::string LocoMotor::Porting::LocalSave::GetRegisterString(const std::string& key, const std::string& defaultValue) {
 	return std::string();
 }
 
-void LocoMotor::Platform::LocalSave::SetRegisterGeneric(const std::string& key, void* val, int size) {
+void LocoMotor::Porting::LocalSave::SetRegisterGeneric(const std::string& key, void* val, int size) {
 
 	DWORD dataSize = DWORD(size);
 
@@ -51,7 +53,7 @@ void LocoMotor::Platform::LocalSave::SetRegisterGeneric(const std::string& key, 
 	}
 }
 
-void* LocoMotor::Platform::LocalSave::GetRegisterGeneric(const std::string& key, void* defVal, int size) {
+void* LocoMotor::Porting::LocalSave::GetRegisterGeneric(const std::string& key, void* defVal, int size) {
 
 	DWORD dataSize = DWORD(size);
 

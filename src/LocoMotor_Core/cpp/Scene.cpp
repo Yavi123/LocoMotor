@@ -24,6 +24,7 @@ Scene::~Scene() {
 	for (it = _gameObjBufferList.cbegin(); it != _gameObjBufferList.end(); it = _gameObjBufferList.erase(it)) {
 		delete it->second;
 	}
+	Graphics::GraphicsManager::GetInstance()->destroyScene(_name);
 }
 
 void Scene::update(float dt) {

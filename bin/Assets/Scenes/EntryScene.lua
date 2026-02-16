@@ -28,22 +28,72 @@ EntryScene = {
             
         }
     },
-    img = {
-        Transform = {
-            position = "0 0 -10",
-            size = "1, 1, 1",
-            rotation = "0 0 0"
-        },
+    button = {
         UIImage = {
-            rect_minAnchor = "0.8 0.1",
-            rect_maxAnchor = "0.9 0.2",
-            rect_upLeft = "60 80",
-            rect_downRight = "10 0",
-            image = "CrossMaterial",
+            rect_minAnchor = "0.7 0.1",
+            rect_maxAnchor = "0.8 0.2",
+            rect_upLeft = "0 0",
+            rect_downRight = "0 0",
+            image = "CrossMaterialRed",
             sortingLayer = 1
+        },
+        SelectableReader = {
+        },
+        Selectable = {
+            left = "button2",
+            first = ""
         }
     },
-    img2 = {
+    button2 = {
+        UIImage = {
+            rect_minAnchor = "0.45 0.1",
+            rect_maxAnchor = "0.55 0.2",
+            rect_upLeft = "0 0",
+            rect_downRight = "0 0",
+            image = "CrossMaterialRed",
+            sortingLayer = 1
+        },
+        SelectableReader = {
+        },
+        Selectable = {
+            right = "button",
+            left = "button3"
+        }
+    },
+    button3 = {
+        UIImage = {
+            rect_minAnchor = "0.2 0.1",
+            rect_maxAnchor = "0.3 0.2",
+            rect_upLeft = "0 0",
+            rect_downRight = "0 0",
+            image = "CrossMaterialRed",
+            sortingLayer = 1
+        },
+        SelectableReader = {
+        },
+        Selectable = {
+            right = "button2",
+            down = "button4"
+        }
+    },
+    button4 = {
+        UIImage = {
+            rect_minAnchor = "0.2 0.3",
+            rect_maxAnchor = "0.3 0.4",
+            rect_upLeft = "0 0",
+            rect_downRight = "0 0",
+            image = "CrossMaterialRed",
+            sortingLayer = 1
+        },
+        SelectableReader = {
+        },
+        SetFullscreen = {
+        },
+        Selectable = {
+            up = "button3"
+        }
+    },
+    text = {
         Transform = {
             position = "0 0 -10",
             size = "1, 1, 1",

@@ -1,5 +1,6 @@
 #include "Engine.h"
 #include "json/JSON.h"
+#include "Platform.h"
 #include "GraphicsManager.h"
 #include "ComponentsFactory.h"
 #include "PhysicsManager.h"
@@ -8,6 +9,7 @@
 #include "InputManager.h"
 #include "LMInputs.h"
 
+#include "Selectable.h"
 #include "AudioSource.h"
 #include "EventEmitter.h"
 #include "AudioListener.h"
@@ -58,6 +60,8 @@ bool Engine::Init() {
 	return true;
 }
 bool Engine::init() {
+
+	Platform::Init();
 
 	Json::JSONValue* executableData = readDataJson();
 
@@ -132,6 +136,7 @@ bool Engine::init() {
 
 	delete executableData;
 
+	cmpFac->registerComponent<Input::Selectable>("Selectable");
 	cmpFac->registerComponent<EventEmitter>("EventEmitter");
 	cmpFac->registerComponent<AudioSource>("AudioSource");
 	cmpFac->registerComponent<AudioListener>("AudioListener");
@@ -257,7 +262,7 @@ std::string LocoMotor::Engine::getStartingSceneFile() {
 
 bool Engine::mainLoop() {
 
-	Platform::LocalSave::lastKeyName = _gameName;
+	Porting::LocalSave::lastKeyName = _gameName;
 
 	if (!Graphics::GraphicsManager::GetInstance()->initWindow(_gameName)) {
 		std::cerr << "\033[1;31m" << "Error creating game window" << "\033[0m" << std::endl;
@@ -281,17 +286,6 @@ bool Engine::mainLoop() {
 			break;
 		}
 
-		float time = clock() / (float) CLOCKS_PER_SEC;
-		_dt = time - _lastFrameTime;
-		_dt *= 1000.0;
-		fixedTime += _dt;
-		_lastFrameTime = time;
-		while (fixedTime >= fixedTimeStep) {
-			Physics::PhysicsManager::GetInstance()->update(fixedTimeStep);
-			_scnManager->fixedUpdate();
-			fixedTime -= fixedTimeStep;
-		}
-
 		if (Input::InputManager::GetInstance()->RegisterEvents()) {
 			_exit = true;
 		}
@@ -302,6 +296,17 @@ bool Engine::mainLoop() {
 			}
 		}
 	#endif // _DEBUG
+
+		float time = clock() / (float) CLOCKS_PER_SEC;
+		_dt = time - _lastFrameTime;
+		_dt *= 1000.0;
+		fixedTime += _dt;
+		_lastFrameTime = time;
+		while (fixedTime >= fixedTimeStep) {
+			Physics::PhysicsManager::GetInstance()->update(fixedTimeStep);
+			_scnManager->fixedUpdate();
+			fixedTime -= fixedTimeStep;
+		}
 
 
 		_scnManager->update(_dt);
@@ -315,13 +320,14 @@ bool Engine::mainLoop() {
 
 
 
-	Input::InputManager::Release();
 	SceneManager::Release();
+	Input::InputManager::Release();
 	ComponentsFactory::Release();
 	Physics::PhysicsManager::Release();
 	Audio::AudioManager::Release();
 	Scripting::ScriptManager::Release();
 	Graphics::GraphicsManager::Release();
+	Platform::Release();
 	
 	return true;
 }
@@ -381,4 +387,11 @@ int Engine::showWindow(int type, std::string msg) {
 
 void Engine::quit() {
 	_exit = true;
+}
+
+void LocoMotor::Engine::print(const std::string& s)
+{
+#ifdef _DEBUG
+	std::cout << "\x1B[96m" << "[Print] " << "\033[0m" << s.c_str() << std::endl;
+#endif // _DEBUG
 }

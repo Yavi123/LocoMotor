@@ -7,7 +7,7 @@ function InputController:awake()
 end
 function InputController:update(dt)
 
-    self._movement.move(self._movement, 0.001, 0.001)
+    self._movement.move(self._movement, 0.001 * dt, 0.001 * dt)
 
 end
 

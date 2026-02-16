@@ -58,7 +58,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);_MOTORDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.5\include;$(SolutionDir)src\LocoMotor_Input\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.5\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -78,7 +78,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions);_MOTORDLL</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.5\include;$(SolutionDir)src\LocoMotor_Input\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\Ogre\build\SDL2-2.28.5\include;$(SolutionDir)src\LocoMotor_Input\include;$(SolutionDir)src\LocoMotor_Core\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -96,9 +96,13 @@
     <ClInclude Include="..\..\..\src\LocoMotor_Input\include\GamepadMappings.h" />
     <ClInclude Include="..\..\..\src\LocoMotor_Input\include\InputManager.h" />
     <ClInclude Include="..\..\..\src\LocoMotor_Input\include\LMInputs.h" />
+    <ClInclude Include="..\..\..\src\LocoMotor_Input\include\NavigationSystem.h" />
+    <ClInclude Include="..\..\..\src\LocoMotor_Input\include\Selectable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\src\LocoMotor_Input\cpp\InputManager.cpp" />
+    <ClCompile Include="..\..\..\src\LocoMotor_Input\cpp\NavigationSystem.cpp" />
+    <ClCompile Include="..\..\..\src\LocoMotor_Input\cpp\Selectable.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

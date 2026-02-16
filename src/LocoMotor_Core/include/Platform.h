@@ -1,4 +1,6 @@
 #pragma once
+#include <list>
+#include <functional>
 #ifndef LM_PLATFORM
 #define LM_PLATFORM
 
@@ -13,13 +15,24 @@ namespace LocoMotor {
 	class Platform {
 
 	public:
-		static bool Init();
-		static void Release();
-		MOTOR_API static Platform* GetInstance();
+		static bool Init() {
+			_instance = new Platform();
+			return true;
+		};
+		static void Release() {
+			delete _instance;
+			_instance = nullptr;
+		};
+		static Platform* GetInstance() {
+			return _instance;
+		};
 
-		MOTOR_API static int getDesiredScreenWidth();
-		MOTOR_API static int getDesiredScreenHeight();
+		std::function<void(int, int)> windowResize;
+		std::function<void(int, int)> windowMove;
 
+	private:
+
+		static Platform* _instance;
 	};
 }
 
