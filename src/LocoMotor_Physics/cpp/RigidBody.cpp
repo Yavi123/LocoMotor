@@ -70,9 +70,6 @@ bool LocoMotor::RigidBody::setParameters(ComponentMap& params) {
 			}
 			_gravity = num;
 		}
-		else if (params[i].first == "usedAsRaycast") {
-			_raycast = true;
-		}
 		else if (params[i].first == "isTrigger") {
 			_beATrigger = true;
 		}

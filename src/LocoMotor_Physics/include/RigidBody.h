@@ -138,7 +138,6 @@ namespace LocoMotor {
 		bool _trigger = false;
 		std::string _collisionGroup = "default";
 		int _collisionMask = 0;
-		bool _raycast = false;
 		bool _beATrigger = false;
 		RigidBodyInfo info;
 		std::vector<std::string> _ignoreGroup;

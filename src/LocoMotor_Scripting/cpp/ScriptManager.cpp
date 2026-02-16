@@ -9,6 +9,7 @@ extern "C" {
 #include <lauxlib.h>
 }
 #include <LuaBridge/LuaBridge.h>
+#include <LuaBridge/Vector.h>
 #include "GameObject.h"
 #include "LuaBehaviour.h"
 #include "Transform.h"
@@ -19,6 +20,7 @@ extern "C" {
 #include "Engine.h"
 #include "InputManager.h"
 #include "Selectable.h"
+#include "PhysicsManager.h"
 #include "RigidBody.h"
 #include "GraphicsManager.h"
 #include "Camera.h"
@@ -107,7 +109,8 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.endClass()
 
 		.beginClass<Vector2>("Vector2")
-		.addStaticFunction("new", &Vector2::createVector2)
+		.addConstructor <void (*) (void)>()
+		.addConstructor <void (*) (float, float)>()
 		.addFunction("__add", (Vector2(Vector2::*)(const Vector2&) const) & Vector2::operator+)
 		.addFunction("__sub", (Vector2(Vector2::*)(const Vector2&) const) & Vector2::operator-)
 		.addFunction("__mul", (Vector2(Vector2::*)(const float&) const) & Vector2::operator*)
@@ -120,7 +123,8 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.endClass()
 
 		.beginClass<Vector3>("Vector3")
-		.addStaticFunction("new", &Vector3::createVector3)
+		.addConstructor <void (*) (void)>()
+		.addConstructor <void (*) (float, float, float)>()
 		.addFunction("__add", (Vector3(Vector3::*)(const Vector3&) const) &Vector3::operator+)
 		.addFunction("__sub", (Vector3(Vector3::*)(const Vector3&) const) &Vector3::operator-)
 		.addFunction("__mul", (Vector3(Vector3::*)(const float&) const) &Vector3::operator*)
@@ -273,7 +277,24 @@ void LocoMotor::Scripting::ScriptManager::registerInput() {
 }
 
 void LocoMotor::Scripting::ScriptManager::registerPhysics() {
+	using namespace LocoMotor::Physics;
 	luabridge::getGlobalNamespace(_luaState)
+		.beginClass<RaycastHitInfo>("RaycastHitInfo")
+		.addFunction("hasHit", &RaycastHitInfo::hasHit)
+		.addFunction("getCollider", &RaycastHitInfo::getCollider)
+		.addFunction("getHitPoint", &RaycastHitInfo::getHitPoint)
+		.addFunction("getNormal", &RaycastHitInfo::getNormal)
+		.endClass()
+
+		.beginClass<PhysicsManager>("PhysicsManager")
+		.addStaticFunction("Instance", &PhysicsManager::GetInstance)
+		.addFunction("setGravity", &PhysicsManager::setWorldGravity)
+		.addFunction("raycast", &PhysicsManager::raycast)
+		.addFunction("raycastFilter", &PhysicsManager::raycastFilter)
+		.addFunction("raycastAll", &PhysicsManager::raycastAll)
+		.addFunction("raycastAllFilter", &PhysicsManager::raycastAllFilter)
+		.endClass()
+
 		.deriveClass<RigidBody, Component>("RigidBody")
 		.addFunction("addForce", &RigidBody::AddForce)
 		.addFunction("applyCentralImpulse", &RigidBody::ApplyCentralImpulse)

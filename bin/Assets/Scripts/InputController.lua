@@ -5,9 +5,9 @@ InputController._movement = nil
 
 function InputController:awake()
 end
-function InputController:update(dt)
+function InputController:fixedUpdate()
 
-    self._movement.move(self._movement, 0.001 * dt, 0.001 * dt)
+    self._movement.move(self._movement, 0.0001, 0.0001)
 
 end
 

@@ -6,7 +6,10 @@
 #else
 #define MOTOR_API __declspec(dllimport)
 #endif
+#include "LMVector.h"
 #include <unordered_map>
+#include <list>
+#include <vector>
 #include <string>
 class btVector3;
 class btDynamicsWorld;
@@ -21,8 +24,28 @@ class btManifoldPoint;
 typedef void(*ContactStartedCallback)(btPersistentManifold* const&);
 typedef bool(*ContactProcessedCallback)(btManifoldPoint&, void*, void*);
 typedef void(*ContactEndedCallback)(btPersistentManifold* const&);
-namespace LocoMotor{
+namespace LocoMotor {
+
+	class RigidBody;
+
 	namespace Physics{
+
+		struct RaycastHitInfo {
+			RaycastHitInfo() : collider(nullptr), normal(), hitPoint(){ }
+			bool hasHit() const;
+			RigidBody* getCollider() const {
+				return collider;
+			}
+			Vector3 getNormal() const {
+				return normal;
+			}
+			Vector3 getHitPoint() const {
+				return hitPoint;
+			}
+			RigidBody* collider;
+			Vector3 normal;
+			Vector3 hitPoint;
+		};
 
 		class PhysicsManager {
 		public:
@@ -33,7 +56,29 @@ namespace LocoMotor{
 			void update(double dt);
 			/// @brief Sets the worlds gravity
 			/// @param gravity The Vector3 gravity you want to set
-			MOTOR_API void setWorldGravity(btVector3 gravity);
+			MOTOR_API void setWorldGravity(const Vector3& gravity);
+			/// @brief Casts a ray that collides with a Rigidbody
+			/// @param origin: from where the ray is cast
+			/// @param to: to where the ray is cast
+			/// @return A struct containing hit information
+			MOTOR_API RaycastHitInfo raycast(const Vector3& origin, const Vector3& to);
+			/// @brief Casts a ray that collides with a Rigidbody
+			/// @param origin: from where the ray is cast
+			/// @param to: to where the ray is cast
+			/// @param layersToIgnore: Array of layer names to ignore
+			/// @return A struct containing hit information
+			MOTOR_API RaycastHitInfo raycastFilter(const Vector3& origin, const Vector3& to, const std::vector<std::string>& layersToIgnore);
+			/// @brief Casts a ray that collides with several Rigidbodies
+			/// @param origin: from where the ray is cast
+			/// @param to: to where the ray is cast
+			/// @return A struct containing hit information
+			MOTOR_API std::list<RaycastHitInfo> raycastAll(const Vector3& origin, const Vector3& to);
+			/// @brief Casts a ray that collides with several Rigidbodies
+			/// @param origin: from where the ray is cast
+			/// @param to: to where the ray is cast
+			/// @param layersToIgnore: Array of layer names to ignore
+			/// @return A struct containing hit information
+			MOTOR_API std::list<RaycastHitInfo> raycastAllFilter(const Vector3& origin, const Vector3& to, const std::vector<std::string>& layersToIgnore);
 			/// @brief Gets dynamic World
 			btDynamicsWorld* getDynamicWorld();
 			/// @brief Sets the callback when two body starts contact

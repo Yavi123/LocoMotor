@@ -8,6 +8,12 @@ function Movement:move(x, y)
     pos.x = xVal
     local yVal = pos.y - y
     pos.y = yVal
+
+    local result = PhysicsManager:Instance():raycast(Vector3(-10, 0, -10), Vector3(10, 0, -10))
+
+    if (result:hasHit()) then
+        Engine:Instance():print("HEMOS DADO CON EL RAYCAST!!!!: " .. result:getCollider():gameObject():getName())
+    end
     
     self.behaviour:gameObject():transform():setPosition(pos)
 end

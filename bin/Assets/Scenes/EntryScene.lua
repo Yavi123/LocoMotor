@@ -17,6 +17,12 @@ EntryScene = {
             size = "1, 1, 1",
             rotation = "15 -40 0"
         },
+        RigidBody = {
+            mass = "-1",
+            group = "player",
+            ignoreGroup = "player",
+            size = "1 1 1"
+        },
         MeshRenderer = {
             mesh = "ConemanMesh.mesh",
             material = "CustomMaterial"
