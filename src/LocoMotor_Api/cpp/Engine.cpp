@@ -332,7 +332,7 @@ bool Engine::mainLoop() {
 	return true;
 }
 
-int Engine::showWindow(int type, std::string msg) {
+int Engine::ShowWindow(int type, std::string msg) {
 	const SDL_MessageBoxButtonData buttons[] = {
 		{0, 1, "Close Game" },
 		{0, 0, "Ok" },
@@ -385,11 +385,11 @@ int Engine::showWindow(int type, std::string msg) {
 	return butId;
 }
 
-void Engine::quit() {
-	_exit = true;
+void Engine::Quit() {
+	GetInstance()->_exit = true;
 }
 
-void LocoMotor::Engine::print(const std::string& s)
+void LocoMotor::Engine::Print(const std::string& s)
 {
 #ifdef _DEBUG
 	std::cout << "\x1B[96m" << "[Print] " << "\033[0m" << s.c_str() << std::endl;

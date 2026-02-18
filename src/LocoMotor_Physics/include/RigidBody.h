@@ -77,7 +77,7 @@ namespace LocoMotor {
 		MOTOR_API void SetCollisionGroup(std::string group);
 		/// @brief Gets the number of rigidbodys group 
 		/// @return The number of group
-		MOTOR_API std::string GetCollisionGroup();
+		MOTOR_API std::string GetCollisionGroup() const;
 		/// @brief Set the mask that want to collide , the number is the group you want to collide
 		/// @param mask The group number
 		MOTOR_API void ignoreGroup(std::string mask);
@@ -86,22 +86,22 @@ namespace LocoMotor {
 		MOTOR_API std::vector<std::string> getIgnoredGroup();
 		/// @brief Gets the linearvelocity of the body
 		/// @return Return a LMVector3 of linear velocity
-		MOTOR_API Vector3 GetLinearVelocity();
+		MOTOR_API Vector3 GetLinearVelocity() const;
 		/// @brief Sets the linear velocity of the body
 		/// @param newAngularVelocity 
 		MOTOR_API void SetLinearVelocity(Vector3 newLinearVelocity);
 		/// @brief Gets the total torque of the body
 		/// @return Return a LMVector3 of total torque
-		MOTOR_API Vector3 GetTotalTorque();
+		MOTOR_API Vector3 GetTotalTorque() const;
 		/// @brief Gets the total force of the body
 		/// @return Return a LMVector3 of total torque
-		MOTOR_API Vector3 GetTotalForce();
+		MOTOR_API Vector3 GetTotalForce() const;
 		/// @brief Gets the turn velocity of the body
 		/// @return Return a LMVector3 of turn velocity
-		MOTOR_API Vector3 GetTurnVelocity();
+		MOTOR_API Vector3 GetTurnVelocity() const;
 		/// @brief Gets/Sets the angular velocity of the body
 		/// @return Return a LMVector3 of turn velocity
-		MOTOR_API Vector3 GetAngularVelocity();
+		MOTOR_API Vector3 GetAngularVelocity() const;
 		/// @brief Sets the angular velocity of a rigid body component using a given LMVector3 value.
 		/// @param newAngularVelocity Variable that represents the new angular velocity to be set for
 		/// the rigid body component.

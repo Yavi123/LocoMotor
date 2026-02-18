@@ -139,7 +139,7 @@ bool Scene::getActiveStatus() {
 }
 
 
-std::string Scene::getSceneName() {
+std::string Scene::getSceneName() const {
 	return _name;
 }
 

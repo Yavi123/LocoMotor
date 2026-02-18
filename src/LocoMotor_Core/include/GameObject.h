@@ -9,7 +9,6 @@
 #include <queue>
 #include <unordered_map>
 #include <string>
-#include "Component.h"
 #include "ComponentsFactory.h"
 
 namespace LocoMotor {
@@ -28,7 +27,7 @@ namespace LocoMotor {
 			
 		MOTOR_API Component* addComponentWithParams(const std::string& name, std::vector<std::pair<std::string, std::string>>& params);
 
-		MOTOR_API inline Transform* getTransform() {
+		MOTOR_API inline Transform* getTransform() const {
 			return _transform;
 		}
 
@@ -37,7 +36,7 @@ namespace LocoMotor {
 		MOTOR_API void removeComponents(const std::string& name);
 
 		template <typename T>
-		MOTOR_API T* getComponent(const std::string& name ="") {
+		MOTOR_API T* getComponent(const std::string& name ="") const {
 			if(name == "") { }
 			else if (!ComponentsFactory::GetInstance()->getRegistered(name) && _components.count(name) == 0) {
 				return nullptr;
@@ -46,7 +45,7 @@ namespace LocoMotor {
 			#ifdef _DEBUG
 				std::cout << name << std::endl;
 			#endif // _DEBUG
-				return dynamic_cast<T*>(_components[name]);
+				return dynamic_cast<T*>(_components.at(name));
 			}
 			auto it = _components.begin();
 			T* comp = nullptr;
@@ -67,12 +66,12 @@ namespace LocoMotor {
 
 		/// @brief Returns the active state of the GameObject
 		/// @return 
-		MOTOR_API inline bool isActive() {
+		MOTOR_API inline bool isActive() const {
 			return _active;
 		};
 
 		/// @brief Gets the gameobject name
-		MOTOR_API std::string getName();
+		MOTOR_API std::string getName() const;
 
 		/// @brief This method is automatically called the first frame this gameobject collides
 		/// with another gameobject

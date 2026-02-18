@@ -221,12 +221,11 @@ bool LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 }
 
 luabridge::LuaRef LocoMotor::LuaBehaviour::getScript() const {
-	std::cout << "test "<<_name<<": nil " << obj->isNil() << "test user" << obj->isUserdata() << "test table" << obj->isTable() << std::endl;
 	return *obj;
 }
 
 bool LocoMotor::LuaBehaviour::initBehaviour() {
-	std::cout << _name << std::endl;
+
 	obj = new luabridge::LuaRef(luabridge::getGlobal(_luaState, _name.c_str()));
 	if (!obj->isTable()) {
 		std::cout << "Lua Interpreter Warning: No table called " << _name << " on the lua script " << _name << ".lua" << std::endl;

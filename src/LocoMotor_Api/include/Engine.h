@@ -33,7 +33,7 @@ namespace LocoMotor {
 		MOTOR_API static void Release();
 
 		/// @brief Set the title the game window will display
-		MOTOR_API void setWindowName(const std::string& name);
+		void setWindowName(const std::string& name);
 
 		/// @brief Set a scene to be loaded and started upon the game launching
 		/// @param file: where the scene data is located
@@ -41,7 +41,7 @@ namespace LocoMotor {
 		MOTOR_API void setStartingScene(const std::string& file, const std::string& name);
 
 		/// @brief get the scene the game starts with
-		MOTOR_API std::string getStartingSceneFile();
+		std::string getStartingSceneFile();
 
 		/// @brief Creates the game window and begins the gameloop, will exit when called the quit method or window is closed
 		MOTOR_API bool mainLoop();
@@ -50,13 +50,13 @@ namespace LocoMotor {
 		/// @param type: an int indicating type of message: 0 = message, 1 = warning, 2 = error
 		/// @param msg: the text to show at the window
 		/// @return an int indicating which button on the window was pressed: 0 = Ok, 1 = Close Game, -1 window was closed any other way
-		MOTOR_API int showWindow(int type,std::string msg);
+		MOTOR_API static int ShowWindow(int type,std::string msg);
 
 		/// @brief Method to exit the gameloop cleanly
-		MOTOR_API void quit();
+		MOTOR_API static void Quit();
 
 		/// @brief Method to exit the gameloop cleanly
-		MOTOR_API void print(const std::string& s);
+		MOTOR_API static void Print(const std::string& s);
 	private:
 
 		Engine();

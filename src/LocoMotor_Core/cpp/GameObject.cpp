@@ -276,7 +276,7 @@ void LocoMotor::GameObject::printError(const std::string& method, const std::str
 		std::cerr << "\033[1;31m" << "Exception while executing '" << method << "':" << error << "\033[0m" << std::endl;
 }
 
-std::string LocoMotor::GameObject::getName() {
+std::string LocoMotor::GameObject::getName() const {
 	return _gobjName;
 }
 

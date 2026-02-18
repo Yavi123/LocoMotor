@@ -26,7 +26,7 @@ namespace LocoMotor {
 		MOTOR_API void reloadScene();
 
 		// En la primera iteracion da error no esta asignada esta variable
-		MOTOR_API Scene* getActiveScene() {
+		MOTOR_API Scene* getActiveScene() const {
 			return _activeScene;
 		}
 

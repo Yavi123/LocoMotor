@@ -230,7 +230,7 @@ void LocoMotor::Graphics::GraphicsManager::setFullscreen(bool on) {
 	Porting::LocalSave::SetRegisterInt(FULLSCREENMODE_KEY, on ? 1 : 0);
 }
 
-bool LocoMotor::Graphics::GraphicsManager::getFullscreen() {
+bool LocoMotor::Graphics::GraphicsManager::getFullscreen() const {
 	return _isFullscreen;
 }
 

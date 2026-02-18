@@ -87,7 +87,7 @@ namespace LocoMotor {
 			/// @brief Set the fullscreen status of the game
 			MOTOR_API void setFullscreen(bool on);
 			/// @brief Set the fullscreen status of the game
-			MOTOR_API bool getFullscreen();
+			MOTOR_API bool getFullscreen() const;
 			/// @brief Deactivates a scene
 			/// @param name The name of the scene
 			void deactivateScene(std::string name);

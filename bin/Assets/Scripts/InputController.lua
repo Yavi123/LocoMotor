@@ -1,6 +1,3 @@
-InputController = {behaviour = behaviour}
-InputController.__index = InputController
-
 InputController._movement = nil
 
 function InputController:awake()
@@ -13,7 +10,7 @@ end
 
 function InputController:start()
 
-    self._movement = self.behaviour:gameObject():getBehaviour("Movement"):getScript()
+    self._movement = self.gameObject:getLuaComponent("Movement")
 end
 
 function InputController:setParameters(params)

@@ -32,6 +32,7 @@ namespace LocoMotor {
 			void registerInput();
 			void registerPhysics();
 			void registerSound();
+			std::string readFromFile(const std::string& filePath);
 			static ScriptManager* _instance;
 			lua_State* _luaState;
 		};

@@ -11,10 +11,10 @@
 #include <vector>
 #include <string>
 
+#include "GameObject.h"
 #include "CheckML.h"
 #include "SceneDefs.h"
 namespace LocoMotor {
-	class GameObject;
 	
 	class MOTOR_API Component {
 		friend class GameObject;
@@ -22,15 +22,24 @@ namespace LocoMotor {
 	public:
 		/// @brief This method checks for the enabled state of the component
 		/// @return true if the component is enabled
-		bool isEnabled();
+		bool isEnabled() const;
 		/// @brief This method chages the enabled state of the component
 		/// @param enable The state to which you want to change the component
 		/// @remarks If the component was in the same state as the parameter given, this method does nothing
 		void setEnabled(bool enable);
 
 		/// @brief
-		inline GameObject* getGameObject() {
+		Component* getComponentByName(const std::string& n);
+
+		/// @brief
+		inline GameObject* getGameObject() const {
 			return _gameObject;
+		}
+
+		/// @brief
+		template <typename T>
+		inline T* getComponent() const {
+			return _gameObject->template getComponent<T>();
 		}
 	protected:
 

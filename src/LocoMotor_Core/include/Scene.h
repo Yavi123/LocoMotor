@@ -35,7 +35,7 @@ namespace LocoMotor {
 		bool getActiveStatus();
 		/// @brief  Returns the name of a scene as a string.
 		/// @return scene name
-		MOTOR_API std::string getSceneName();
+		MOTOR_API std::string getSceneName() const;
 		/// @brief  Returns the name of a scene as a string.
 		/// @return scene name
 		MOTOR_API std::string getScenePath();

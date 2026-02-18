@@ -242,7 +242,7 @@ void LocoMotor::RigidBody::SetCollisionGroup(std::string group) {
 }
 
 
-std::string LocoMotor::RigidBody::GetCollisionGroup() {
+std::string LocoMotor::RigidBody::GetCollisionGroup() const {
 	return _collisionGroup;
 }
 
@@ -264,7 +264,7 @@ std::vector<std::string> LocoMotor::RigidBody::getIgnoredGroup() {
 }
 
 
-Vector3 LocoMotor::RigidBody::GetLinearVelocity() {
+Vector3 LocoMotor::RigidBody::GetLinearVelocity() const {
 	return BulletToLm(_body->getLinearVelocity());
 }
 void LocoMotor::RigidBody::SetLinearVelocity(Vector3 newLinearVelocity) {
@@ -273,21 +273,21 @@ void LocoMotor::RigidBody::SetLinearVelocity(Vector3 newLinearVelocity) {
 }
 
 
-Vector3 LocoMotor::RigidBody::GetTotalTorque() {
+Vector3 LocoMotor::RigidBody::GetTotalTorque() const {
 	return BulletToLm(_body->getTotalTorque());
 }
 
-Vector3 LocoMotor::RigidBody::GetTotalForce() {
+Vector3 LocoMotor::RigidBody::GetTotalForce() const {
 	return BulletToLm(_body->getTotalForce());
 }
 
 
-Vector3 LocoMotor::RigidBody::GetTurnVelocity() {
+Vector3 LocoMotor::RigidBody::GetTurnVelocity() const {
 	return BulletToLm(_body->getTurnVelocity());
 }
 
 
-Vector3 LocoMotor::RigidBody::GetAngularVelocity() {
+Vector3 LocoMotor::RigidBody::GetAngularVelocity() const {
 	return BulletToLm(_body->getAngularVelocity());
 }
 

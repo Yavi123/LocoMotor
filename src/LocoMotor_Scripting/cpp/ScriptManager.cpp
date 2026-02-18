@@ -32,6 +32,7 @@ extern "C" {
 #include "AudioSource.h"
 #include "EventEmitter.h"
 #include "LocalSave.h"
+#include <fstream>
 
 using namespace LocoMotor;
 using namespace LocoMotor::Scripting;
@@ -70,11 +71,10 @@ void LocoMotor::Scripting::ScriptManager::registerToLua() {
 
 void LocoMotor::Scripting::ScriptManager::registerApi() {
 	luabridge::getGlobalNamespace(_luaState)
-		.beginClass<Engine>("Engine")
-		.addStaticFunction("Instance", &Engine::GetInstance)
-		.addFunction("showWindow", &Engine::showWindow)
-		.addFunction("quit", &Engine::quit)
-		.addFunction("print", &Engine::print)
+		.beginClass<Engine>("LocoMotor")
+		.addStaticFunction("ShowWindow", &Engine::ShowWindow)
+		.addStaticFunction("Quit", &Engine::Quit)
+		.addStaticFunction("Log", &Engine::Print)
 		.endClass();
 }
 
@@ -82,9 +82,8 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 	
 	luabridge::getGlobalNamespace(_luaState)
 		.beginClass<GameObject>("GameObject")
-		.addFunction("transform", &GameObject::getTransform)
+		.addProperty("transform", &GameObject::getTransform)
 		.addFunction("addComponent", &GameObject::addComponent)
-		.addFunction("getBehaviour", &GameObject::getComponent<LuaBehaviour>)
 		.addFunction("getRigidBody", &GameObject::getComponent<RigidBody>)
 		.addFunction("getMeshRenderer", &GameObject::getComponent<MeshRenderer>)
 		.addFunction("getParticleSystem", &GameObject::getComponent<Camera>)
@@ -96,16 +95,27 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("getUIImage", &GameObject::getComponent<UIImage>)
 		.addFunction("getSelectable", &GameObject::getComponent<Input::Selectable>)
 		.addFunction("getComponent", &GameObject::getComponentByName)
-		.addFunction("isActive", &GameObject::isActive)
-		.addFunction("setActive", &GameObject::setActive)
+		.addFunction("getLuaComponent", std::function<luabridge::LuaRef(GameObject*, const std::string&)>([](GameObject* g, const std::string& s) { return g->getComponent<LuaBehaviour>(s)->getScript(); }))
+		.addProperty("active", &GameObject::isActive, &GameObject::setActive)
 		.addFunction("removeComponent", &GameObject::removeComponents)
-		.addFunction("getName", &GameObject::getName)
+		.addProperty("name", &GameObject::getName)
 		.endClass()
 
 		.beginClass<Component>("Component")
-		.addFunction("setEnabled", &Component::setEnabled)
-		.addFunction("isEnabled", &Component::isEnabled)
-		.addFunction("gameObject", &Component::getGameObject)
+		.addProperty("enabled", &Component::isEnabled, &Component::setEnabled)
+		.addFunction("getRigidBody", &Component::getComponent<RigidBody>)
+		.addFunction("getMeshRenderer", &Component::getComponent<MeshRenderer>)
+		.addFunction("getParticleSystem", &Component::getComponent<Camera>)
+		.addFunction("getEventEmitter", &Component::getComponent<ParticleSystem>)
+		.addFunction("getEventEmitter", &Component::getComponent<EventEmitter>)
+		.addFunction("getAudioSource", &Component::getComponent<AudioSource>)
+		.addFunction("getAudioListener", &Component::getComponent<AudioListener>)
+		.addFunction("getUIText", &Component::getComponent<UIText>)
+		.addFunction("getUIImage", &Component::getComponent<UIImage>)
+		.addFunction("getSelectable", &Component::getComponent<Input::Selectable>)
+		.addFunction("getComponent", &Component::getComponentByName)
+		.addFunction("getLuaComponent", std::function<luabridge::LuaRef(Component*, const std::string&)>([](Component* c, const std::string& s) { return c->getGameObject()->getComponent<LuaBehaviour>(s)->getScript(); }))
+		.addProperty("gameObject", &Component::getGameObject)
 		.endClass()
 
 		.beginClass<Vector2>("Vector2")
@@ -154,14 +164,10 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.endClass()
 
 		.deriveClass<Transform,Component>("Transform")
-		.addFunction("getPosition", &Transform::getPosition)
-		.addFunction("setPosition", &Transform::setPosition)
-		.addFunction("getRotation", &Transform::getRotation)
-		.addFunction("setRotation", &Transform::setRotation)
-		.addFunction("setSize", &Transform::setSize)
-		.addFunction("getSize", &Transform::getSize)
-		.addFunction("setRotationWithVector", &Transform::setRotationWithVector)
-		.addFunction("getEulerRotation", &Transform::getEulerRotation)
+		.addProperty("position", &Transform::getPosition, &Transform::setPosition)
+		.addProperty("rotation", &Transform::getRotation, &Transform::setRotation)
+		.addProperty("eulerRotation", &Transform::getEulerRotation, &Transform::setRotationWithVector)
+		.addProperty("size", &Transform::getSize, &Transform::setSize)
 		.addFunction("setUpwards", &Transform::setUpwards)
 		.addFunction("setForward", &Transform::setForward)
 		.endClass()
@@ -170,14 +176,14 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("addGameObject", &Scene::addGameobject)
 		.addFunction("removeGameObject", &Scene::removeGameobject)
 		.addFunction("getObjectByName", &Scene::getObjectByName)
-		.addFunction("name", &Scene::getSceneName)
+		.addProperty("name", &Scene::getSceneName)
 		.endClass()
 
 		.beginClass<SceneManager>("SceneManager")
-		.addStaticFunction("Instance", &SceneManager::GetInstance)
+		.addStaticProperty("Instance", &SceneManager::GetInstance)
 		.addFunction("loadScene", &SceneManager::loadScene)
 		.addFunction("changeScene", &SceneManager::changeScene)
-		.addFunction("getActiveScene", &SceneManager::getActiveScene)
+		.addProperty("activeScene", &SceneManager::getActiveScene)
 		.endClass()
 
 		.beginClass<Porting::LocalSave>("LocalSave")
@@ -192,10 +198,9 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 
 void LocoMotor::Scripting::ScriptManager::registerGraphics() {
 	luabridge::getGlobalNamespace(_luaState)
-		.beginClass<Graphics::GraphicsManager>("GraphicsManager")
-		.addStaticFunction("Instance", &Graphics::GraphicsManager::GetInstance)
-		.addFunction("setFullscreen", &Graphics::GraphicsManager::setFullscreen)
-		.addFunction("getFullscreen", &Graphics::GraphicsManager::getFullscreen)
+		.beginClass<Graphics::GraphicsManager>("Graphics")
+		.addStaticProperty("Instance", &Graphics::GraphicsManager::GetInstance)
+		.addProperty("fullscreen", &Graphics::GraphicsManager::getFullscreen, &Graphics::GraphicsManager::setFullscreen)
 		.endClass()
 
 		.deriveClass<MeshRenderer, Component>("MeshRenderer")
@@ -249,8 +254,8 @@ void LocoMotor::Scripting::ScriptManager::registerGraphics() {
 void LocoMotor::Scripting::ScriptManager::registerInput() {
 	using namespace LocoMotor::Input;
 	luabridge::getGlobalNamespace(_luaState)
-		.beginClass<InputManager>("InputManager")
-		.addStaticFunction("Instance", &InputManager::GetInstance)
+		.beginClass<InputManager>("Input")
+		.addStaticProperty("Instance", &InputManager::GetInstance)
 		.addFunction("getKeyDown", &InputManager::GetKeyDownStr)
 		.addFunction("getKey", &InputManager::GetKeyStr)
 		.addFunction("getKeyUp", &InputManager::GetKeyUpStr)
@@ -265,14 +270,14 @@ void LocoMotor::Scripting::ScriptManager::registerInput() {
 		.endClass()
 
 		.deriveClass<Selectable, Component>("Selectable")
-		.addFunction("submitTriggered", &Selectable::submitTriggered)
-		.addFunction("cancelTriggered", &Selectable::cancelTriggered)
-		.addFunction("upTriggered", &Selectable::upTriggered)
-		.addFunction("downTriggered", &Selectable::downTriggered)
-		.addFunction("leftTriggered", &Selectable::leftTriggered)
-		.addFunction("rightTriggered", &Selectable::rightTriggered)
-		.addFunction("onSelected", &Selectable::onSelected)
-		.addFunction("onDeselected", &Selectable::onDeselected)
+		.addProperty("submitTriggered", &Selectable::submitTriggered)
+		.addProperty("cancelTriggered", &Selectable::cancelTriggered)
+		.addProperty("upTriggered", &Selectable::upTriggered)
+		.addProperty("downTriggered", &Selectable::downTriggered)
+		.addProperty("leftTriggered", &Selectable::leftTriggered)
+		.addProperty("rightTriggered", &Selectable::rightTriggered)
+		.addProperty("onSelected", &Selectable::onSelected)
+		.addProperty("onDeselected", &Selectable::onDeselected)
 		.endClass();
 }
 
@@ -280,14 +285,14 @@ void LocoMotor::Scripting::ScriptManager::registerPhysics() {
 	using namespace LocoMotor::Physics;
 	luabridge::getGlobalNamespace(_luaState)
 		.beginClass<RaycastHitInfo>("RaycastHitInfo")
-		.addFunction("hasHit", &RaycastHitInfo::hasHit)
-		.addFunction("getCollider", &RaycastHitInfo::getCollider)
-		.addFunction("getHitPoint", &RaycastHitInfo::getHitPoint)
-		.addFunction("getNormal", &RaycastHitInfo::getNormal)
+		.addProperty("hasHit", &RaycastHitInfo::hasHit)
+		.addProperty("collider", &RaycastHitInfo::getCollider)
+		.addProperty("hitPoint", &RaycastHitInfo::getHitPoint)
+		.addProperty("normal", &RaycastHitInfo::getNormal)
 		.endClass()
 
-		.beginClass<PhysicsManager>("PhysicsManager")
-		.addStaticFunction("Instance", &PhysicsManager::GetInstance)
+		.beginClass<PhysicsManager>("Physics")
+		.addStaticProperty("Instance", &PhysicsManager::GetInstance)
 		.addFunction("setGravity", &PhysicsManager::setWorldGravity)
 		.addFunction("raycast", &PhysicsManager::raycast)
 		.addFunction("raycastFilter", &PhysicsManager::raycastFilter)
@@ -303,17 +308,14 @@ void LocoMotor::Scripting::ScriptManager::registerPhysics() {
 		.addFunction("freezePosition", &RigidBody::FreezePosition)
 		.addFunction("freezeRotation", &RigidBody::FreezeRotation)
 		.addFunction("beATrigger", &RigidBody::BeATrigger)
-		.addFunction("setCollisionGroup", &RigidBody::SetCollisionGroup)
-		.addFunction("getCollisionGroup", &RigidBody::GetCollisionGroup)
+		.addProperty("collisionGroup", &RigidBody::GetCollisionGroup, &RigidBody::SetCollisionGroup)
 		//.addFunction("ignoreGroup", &RigidBody::ignoreGroup)
 		//.addFunction("getIgnoredGroup", &RigidBody::getIgnoredGroup)
-		.addFunction("getLinearVelocity", &RigidBody::GetLinearVelocity)
-		.addFunction("setLinearVelocity", &RigidBody::SetLinearVelocity)
-		.addFunction("getTotalTorque", &RigidBody::GetTotalTorque)
-		.addFunction("getTotalForce", &RigidBody::GetTotalForce)
-		.addFunction("getTurnVelocity", &RigidBody::GetTurnVelocity)
-		.addFunction("getAngularVelocity", &RigidBody::GetAngularVelocity)
-		.addFunction("setAngularVelocity", &RigidBody::SetAngularVelocity)
+		.addProperty("linearVelocity", &RigidBody::GetLinearVelocity, &RigidBody::SetLinearVelocity)
+		.addProperty("totalTorque", &RigidBody::GetTotalTorque)
+		.addProperty("totalForce", &RigidBody::GetTotalForce)
+		.addProperty("turnVelocity", &RigidBody::GetTurnVelocity)
+		.addProperty("angularVelocity", &RigidBody::GetAngularVelocity, &RigidBody::SetAngularVelocity)
 		.addFunction("setFriction", &RigidBody::SetFriction)
 		.addFunction("setMass", &RigidBody::SetMass)
 		.addFunction("setSize", &RigidBody::SetSize)
@@ -382,18 +384,45 @@ bool LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, Lu
 	static const std::string luaExtension = ".lua";
 	std::string fullPath = basePath + name + luaExtension;
 
-	
-	
-	
 	luabridge::setGlobal(_luaState, behaviour, "behaviour");
-	if (luaL_dofile(_luaState, fullPath.c_str())) {
+	luabridge::setGlobal(_luaState, behaviour->getGameObject(), "gameObject");
+	luabridge::setGlobal(_luaState, behaviour->getGameObject()->getTransform(), "transform");
+
+	std::string luaCode = readFromFile(fullPath);
+	luaL_loadbuffer(_luaState, luaCode.c_str(), luaCode.size(), name.c_str());
+
+	if (luaCode.empty())
+		return false;
+
+	std::string header =
+		name + " = {\n"
+		"  behaviour = behaviour,\n"
+		"  gameObject = gameObject,\n"
+		"  transform = transform\n"
+		"}\n"
+		+ name + ".__index = " + name + "\n";
+
+	luaCode = header + luaCode;
+
+	auto compileResult = luaL_dostring(_luaState, luaCode.c_str());
+
+	if (compileResult) {
 		std::string error = "Interpretation error at component " + name
 			+ "\n" + std::string(lua_tostring(_luaState, -1));
 		std::cerr << error << std::endl;
-		Engine::GetInstance()->showWindow(2, error);
+		Engine::ShowWindow(2, error);
 		return false;
 	}
 	behaviour->setLuaContext(_luaState);
 	return true;
 }
 
+std::string LocoMotor::Scripting::ScriptManager::readFromFile(const std::string& filePath) {
+	std::ifstream file(filePath, std::ios::binary);
+	if (!file)
+		return "";
+
+	return std::string(
+		(std::istreambuf_iterator<char>(file)),
+		std::istreambuf_iterator<char>());
+}
