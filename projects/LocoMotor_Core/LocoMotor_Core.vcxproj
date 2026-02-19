@@ -108,6 +108,7 @@
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LMVector.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LocalSave.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\LuaParser.h" />
+    <ClInclude Include="..\..\src\LocoMotor_Core\include\LMMath.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Platform.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\RectTransform.h" />
     <ClInclude Include="..\..\src\LocoMotor_Core\include\Scene.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMQuaternion.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMVector.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LuaParser.cpp" />
+    <ClCompile Include="..\..\src\LocoMotor_Core\cpp\LMMath.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\RectTransform.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\Scene.cpp" />
     <ClCompile Include="..\..\src\LocoMotor_Core\cpp\SceneManager.cpp" />

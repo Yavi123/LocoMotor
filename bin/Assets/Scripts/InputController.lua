@@ -2,9 +2,11 @@ InputController._movement = nil
 
 function InputController:awake()
 end
-function InputController:fixedUpdate()
+function InputController:update()
 
-    self._movement.move(self._movement, 0.0001, 0.0001)
+    if (Input.Instance:getKeyDown("W")) then
+        self._movement:move(3)
+    end
 
 end
 

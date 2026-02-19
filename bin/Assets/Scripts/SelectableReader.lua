@@ -9,9 +9,9 @@ end
 function SelectableReader:update(dt)
     
     if (self._selectable.submitTriggered) then
-        LocoMotor:Log("submitTriggered_" .. self.gameObject.name)
+        LocoMotor.Log("submitTriggered_" .. self.gameObject.name)
     elseif (self._selectable.cancelTriggered) then
-        LocoMotor:Log("cancelTriggered_" .. self.gameObject.name)
+        LocoMotor.Log("cancelTriggered_" .. self.gameObject.name)
     elseif (self._selectable.onSelected) then
         self._image:setImage("CrossMaterialBlue")
     elseif (self._selectable.onDeselected) then

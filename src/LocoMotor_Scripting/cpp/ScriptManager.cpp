@@ -15,6 +15,7 @@ extern "C" {
 #include "Transform.h"
 #include "LMVector.h"
 #include "LMQuaternion.h"
+#include "LMMath.h"
 #include "Scene.h"
 #include "SceneManager.h"
 #include "Engine.h"
@@ -184,6 +185,18 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("loadScene", &SceneManager::loadScene)
 		.addFunction("changeScene", &SceneManager::changeScene)
 		.addProperty("activeScene", &SceneManager::getActiveScene)
+		.endClass()
+
+		.beginClass<DampedSpringResult>("DampedSpringResult")
+		.addConstructor <void (*) (void)>()
+		.addProperty("position", &DampedSpringResult::getPosition, &DampedSpringResult::setPosition)
+		.addProperty("velocity", &DampedSpringResult::getVelocity, &DampedSpringResult::setVelocity)
+		.endClass()
+
+		.beginClass<Math>("Math")
+		.addStaticFunction("CalculateDampedSpring", &Math::CalculateDampedSpring)
+		.addStaticFunction("Lerp", &Math::Lerp)
+		.addStaticFunction("Clamp", &Math::Clamp)
 		.endClass()
 
 		.beginClass<Porting::LocalSave>("LocalSave")

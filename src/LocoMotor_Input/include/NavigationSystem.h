@@ -9,6 +9,7 @@
 #endif
 
 #include <list>
+#include "LMVector.h"
 
 namespace LocoMotor {
 	namespace Input {
@@ -32,8 +33,9 @@ namespace LocoMotor {
 
 			static NavigationSystem* _instance;
 
-			std::list<Selectable*> _allValidSelectables;
 			Selectable* _currentlySelected;
+			Vector2 _lastJoystickValues;
+			std::list<Selectable*> _allValidSelectables;
 		};
 	}
 }

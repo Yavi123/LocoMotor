@@ -59,11 +59,31 @@ void NavigationSystem::updateNav() {
 	 
 	InputManager* _input = InputManager::GetInstance();
 
-	bool readController;
-	readController = _input->getCurrentlyConnectedControllers().size() > 0;
+	bool readController = _input->getCurrentlyConnectedControllers().size() > 0;
+
+	Vector2 desiredJoystick = Vector2();
+	if (readController) {
+
+		if (_lastJoystickValues.getX() <= 0.25f && _input->GetJoystickValue(0, 0, InputManager::Axis::Horizontal) > 0.25f) {
+			desiredJoystick.setX(1.f);
+		}
+		else if (_lastJoystickValues.getX() >= -0.25f && _input->GetJoystickValue(0, 0, InputManager::Axis::Horizontal) < -0.25f) {
+			desiredJoystick.setX(-1.f);
+		}
+
+		if (_lastJoystickValues.getY() <= 0.25f && _input->GetJoystickValue(0, 0, InputManager::Axis::Vertical) > 0.25f) {
+			desiredJoystick.setY(-1.f);
+		}
+		else if (_lastJoystickValues.getY() >= -0.25f && _input->GetJoystickValue(0, 0, InputManager::Axis::Vertical) < -0.25f) {
+			desiredJoystick.setY(1.f);
+		}
+
+		_lastJoystickValues.setX(_input->GetJoystickValue(0, 0, InputManager::Axis::Horizontal));
+		_lastJoystickValues.setY(_input->GetJoystickValue(0, 0, InputManager::Axis::Vertical));
+	}
 
 	if ((readController && 
-			(_input->GetJoystickValue(0, 0, InputManager::Axis::Vertical) > 0.25f || _input->GetButtonDown(0, LMC_DPAD_UP)))
+			(desiredJoystick.getY() > 0.25f || _input->GetButtonDown(0, LMC_DPAD_UP)))
 		|| _input->GetKeyDown(LMKS_W) || _input->GetKeyDown(LMKS_UP)) {
 
 		if (_currentlySelected->getOnUp() != nullptr) {
@@ -75,7 +95,7 @@ void NavigationSystem::updateNav() {
 		return;
 	}
 	else if ((readController &&
-			 (_input->GetJoystickValue(0, 0, InputManager::Axis::Vertical) < -0.25f || _input->GetButtonDown(0, LMC_DPAD_DOWN)))
+			 (desiredJoystick.getY() < -0.25f || _input->GetButtonDown(0, LMC_DPAD_DOWN)))
 		|| _input->GetKeyDown(LMKS_S) || _input->GetKeyDown(LMKS_DOWN)) {
 
 		if (_currentlySelected->getOnDown() != nullptr) {
@@ -87,7 +107,7 @@ void NavigationSystem::updateNav() {
 		return;
 	}
 	else if ((readController &&
-		   (_input->GetJoystickValue(0, 0, InputManager::Axis::Horizontal) < -0.25f || _input->GetButtonDown(0, LMC_DPAD_LEFT)))
+		   (desiredJoystick.getX() < -0.25f || _input->GetButtonDown(0, LMC_DPAD_LEFT)))
 		|| _input->GetKeyDown(LMKS_A) || _input->GetKeyDown(LMKS_LEFT)) {
 
 		if (_currentlySelected->getOnLeft() != nullptr) {
@@ -99,7 +119,7 @@ void NavigationSystem::updateNav() {
 		return;
 	}
 	else if ((readController &&
-		   (_input->GetJoystickValue(0, 0, InputManager::Axis::Horizontal) > 0.25f || _input->GetButtonDown(0, LMC_DPAD_RIGHT)))
+		   (desiredJoystick.getX() > 0.25f || _input->GetButtonDown(0, LMC_DPAD_RIGHT)))
 		|| _input->GetKeyDown(LMKS_D) || _input->GetKeyDown(LMKS_RIGHT)) {
 
 		if (_currentlySelected->getOnRight() != nullptr) {
