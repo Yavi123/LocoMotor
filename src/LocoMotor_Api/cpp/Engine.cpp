@@ -28,6 +28,7 @@
 #include "LuaBehaviour.h"
 
 #include <iostream>
+#include <fstream>
 #include <SDL_messagebox.h>
 #include <LocalSave.h>
 
@@ -311,6 +312,8 @@ bool Engine::mainLoop() {
 
 		_scnManager->update(_dt);
 
+		Scripting::ScriptManager::GetInstance()->gcCollect();
+
 		Audio::AudioManager::GetInstance()->update();
 
 		if (!Graphics::GraphicsManager::GetInstance()->render()) {
@@ -394,4 +397,14 @@ void LocoMotor::Engine::Print(const std::string& s)
 #ifdef _DEBUG
 	std::cout << "\x1B[96m" << "[Print] " << "\033[0m" << s.c_str() << std::endl;
 #endif // _DEBUG
+}
+
+MOTOR_API std::string LocoMotor::Engine::ReadFile(const std::string& path) {
+	std::ifstream file(path, std::ios::binary);
+	if (!file)
+		return "";
+
+	return std::string(
+		(std::istreambuf_iterator<char>(file)),
+		std::istreambuf_iterator<char>());
 }

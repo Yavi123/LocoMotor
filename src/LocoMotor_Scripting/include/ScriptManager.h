@@ -19,6 +19,7 @@ namespace LocoMotor {
 			static bool Init();
 			static void Release();
 			static ScriptManager* GetInstance();
+			void gcCollect();
 			bool loadScript(const std::string& name, LuaBehaviour* behaviour);
 
 		private:
@@ -32,7 +33,6 @@ namespace LocoMotor {
 			void registerInput();
 			void registerPhysics();
 			void registerSound();
-			std::string readFromFile(const std::string& filePath);
 			static ScriptManager* _instance;
 			lua_State* _luaState;
 		};

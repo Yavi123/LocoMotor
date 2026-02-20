@@ -570,7 +570,9 @@ bool JSONValue::IsObject() const
  */
 const std::string &JSONValue::AsString() const
 {
-	return (*string_value);
+	if (IsString())
+		return (*string_value);
+	return "";
 }
 
 /**
@@ -583,7 +585,9 @@ const std::string &JSONValue::AsString() const
  */
 bool JSONValue::AsBool() const
 {
-	return bool_value;
+	if (IsBool())
+		return bool_value;
+	return false;
 }
 
 /**
@@ -596,7 +600,13 @@ bool JSONValue::AsBool() const
  */
 double JSONValue::AsNumber() const
 {
-	return number_value;
+	if (IsNumber())
+		return number_value;
+	return -1;
+}
+
+int LocoMotor::Json::JSONValue::AsInt() const {
+	return (int)AsNumber();
 }
 
 /**
@@ -609,7 +619,15 @@ double JSONValue::AsNumber() const
  */
 const JSONArray &JSONValue::AsArray() const
 {
-	return (*array_value);
+	if (IsArray())
+		return (*array_value);
+	return JSONArray();
+}
+
+JSONArray* LocoMotor::Json::JSONValue::AsArray_Ptr() const {
+	if (IsArray())
+		return array_value;
+	return nullptr;
 }
 
 /**
@@ -622,7 +640,31 @@ const JSONArray &JSONValue::AsArray() const
  */
 const JSONObject &JSONValue::AsObject() const
 {
-	return (*object_value);
+	if (IsObject())
+		return (*object_value);
+	return JSONObject();
+}
+
+const JSONObject* LocoMotor::Json::JSONValue::AsObject_Ptr() const {
+	if (IsObject())
+		return object_value;
+	return nullptr;
+}
+
+JSONValue* LocoMotor::Json::JSONValue::object_at(const std::string& key) const {
+	if (IsObject()) {
+		auto objValue = AsObject();
+		return objValue.at(key);
+	}
+	return nullptr;
+}
+
+JSONValue* LocoMotor::Json::JSONValue::array_at(int i) const {
+	if (IsArray()) {
+		auto objValue = AsArray();
+		return objValue.at(i);
+	}
+	return nullptr;
 }
 
 /**

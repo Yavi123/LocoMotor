@@ -1,0 +1,7 @@
+{
+    "Game" : {
+        "Game_name" : "LocoMotor_Game",
+        "Entry_scene" : "Assets/Scenes/EntryScene.lua",
+        "Entry_scene_name" : "EntryScene"
+    }
+}

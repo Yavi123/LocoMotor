@@ -64,8 +64,14 @@ namespace LocoMotor::Json {
 		const std::string& AsString() const;
 		bool AsBool() const;
 		double AsNumber() const;
+		int AsInt() const;
 		const JSONArray& AsArray() const;
+		JSONArray* AsArray_Ptr() const;
 		const JSONObject& AsObject() const;
+		const JSONObject* AsObject_Ptr() const;
+
+		JSONValue* object_at(const std::string& key) const;
+		JSONValue* array_at(int i) const;
 
 		std::size_t CountChildren() const;
 		bool HasChild(std::size_t index) const;
