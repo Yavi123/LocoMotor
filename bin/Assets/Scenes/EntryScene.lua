@@ -9,78 +9,56 @@ EntryScene = {
             
         },
         Transform = {
-            position = "0 1 0",
+            position = "0 1.5 -5",
             size = "1 1 1",
             rotation = "0 0 0"
         },
 
     },
-    metro = {
+    
+--NIVEL
+    MetroMesh = {
         Transform = {
             position = "0 0 0",
             size = "1, 1, 1",
             rotation = "0 0 0"
         },
         MeshRenderer = {
-            mesh = "Metro.mesh",
-            material = "MetroMat"
+            mesh = "MetroMesh.mesh",
+            material = "m_Main"
         },
     },
-    guitarra = {
-        Transform = {
-            position = "0 1 -6",
-            size = "1, 1, 1",
-            rotation = "0 0 0"
-        },InputController= {},
-        Movement = {},
-        MeshRenderer = {
-            mesh = "Guitarra.mesh",
-            material = "GuitarraMat"
-        },
-    },
-    metroExtra = {
+    FloorMesh = {
         Transform = {
             position = "0 0 0",
             size = "1, 1, 1",
             rotation = "0 0 0"
         },
         MeshRenderer = {
-            mesh = "MetroExtra.mesh",
-            material = "MetroMat"
+            mesh = "FloorMesh.mesh",
+            material = "m_MetroFloor"
         },
     },
-    metroFloor = {
+    TransMesh = {
         Transform = {
             position = "0 0 0",
             size = "1, 1, 1",
             rotation = "0 0 0"
         },
         MeshRenderer = {
-            mesh = "MetroFloor.mesh",
-            material = "FloorMat"
+            mesh = "TransMesh.mesh",
+            material = "m_Trans"
         },
     },
-    npc = {
+    LCDMesh = {
         Transform = {
-            position = "0 .5 -2",
-            size = "1, 1, 1",
-            rotation = "0 0 0"
-        },
-        NPC = {},
-        MeshRenderer = {
-            mesh = "Man.mesh",
-            material = "EnemyMat"
-        }
-    },
-    floor = {
-        Transform = {
-            position = "0 -0.2 0",
+            position = "0 0 0",
             size = "1, 1, 1",
             rotation = "0 0 0"
         },
         MeshRenderer = {
-            mesh = "Plane.mesh",
-            material = "FloorMat"
+            mesh = "LCDMesh.mesh",
+            material = "m_LCD"
         },
     }
 }

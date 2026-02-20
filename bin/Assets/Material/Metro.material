@@ -1,4 +1,4 @@
-material MetroMat {
+material m_Main {
     technique {
         pass {
             lighting off
@@ -11,7 +11,7 @@ material MetroMat {
         }
     }
 }
-material FloorMat {
+material m_MetroFloor {
     technique {
         pass {
             lighting off
@@ -25,14 +25,14 @@ material FloorMat {
     }
 }
 
-material GuitarraMat {
+material m_Trans {
     technique {
         pass {
             lighting off
             scene_blend alpha_blend
             depth_write off
             texture_unit {
-                texture Guitarra.png
+                texture t_Trans.png
                 tex_address_mode wrap
                 colour_op modulate
                 filtering none
@@ -40,21 +40,20 @@ material GuitarraMat {
         }
     }
 }
-material EnemyMat
+material m_LCD
 {
     technique
     {
         pass
         {
             lighting off
-            scene_blend alpha_blend
-            depth_write off
             texture_unit
             {
-                texture man_00.png
+                texture t_LCD.png
                 tex_address_mode wrap
                 colour_op modulate
                 filtering none
+                scroll_anim 0.2 0
             }
         }
     }
