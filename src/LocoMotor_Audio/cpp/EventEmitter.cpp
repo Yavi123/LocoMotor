@@ -43,6 +43,7 @@ void LocoMotor::EventEmitter::setEvent(const char* eventID)
 
 	if (err != FMOD_OK) {
 		std::cerr << "AUDIO: Event with ID '" << eventID << "' could not be loaded: \n\t" << FMOD_ErrorString(err) << std::endl;
+		return;
 	}
 
 #endif // !_DEBUG

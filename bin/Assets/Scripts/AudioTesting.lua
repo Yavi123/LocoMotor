@@ -1,0 +1,2 @@
+function AudioTesting:awake()
+end

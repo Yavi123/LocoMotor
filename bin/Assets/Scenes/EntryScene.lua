@@ -4,15 +4,11 @@ EntryScene = {
             background = "0.80392 0.82745 0.83529"
         },
         AudioListener = {},
-        InputController= {},
-        Movement = {
-            
-        },
         Transform = {
             position = "0 1.5 -5",
             size = "1 1 1",
             rotation = "0 0 0"
-        },
+        }
 
     },
     
@@ -28,7 +24,19 @@ EntryScene = {
             material = "m_Main"
         },
     },
-    FloorMesh = {
+    guitarra = {
+        Transform = {
+            position = "0 1 -6",
+            size = "1, 1, 1",
+            rotation = "0 0 0"
+        },InputController= {},
+        Movement = {},
+        MeshRenderer = {
+            mesh = "Guitarra.mesh",
+            material = "GuitarraMat"
+        }
+    },
+    metroExtra = {
         Transform = {
             position = "0 0 0",
             size = "1, 1, 1",
@@ -60,5 +68,25 @@ EntryScene = {
             mesh = "LCDMesh.mesh",
             material = "m_LCD"
         },
+    },
+    Audio1 = {
+        EventEmitter = {
+            Volume = 1
+        }
+    },
+    Audio2 = {
+        EventEmitter = {
+            Volume = 1
+        }
+    },
+    Audio3 = {
+        EventEmitter = {
+            Volume = 1
+        }
+    },
+    Audio4 = {
+        EventEmitter = {
+            Volume = 1
+        }
     }
 }

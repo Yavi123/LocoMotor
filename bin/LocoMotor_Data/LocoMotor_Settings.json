@@ -11,7 +11,7 @@
         "Resolution_height" : 600
     },
     "Audio" : {
-        "Num_channels" : 2,
-        "Init_studio" : false
+        "Num_channels" : 8,
+        "Init_studio" : true
     }
 }

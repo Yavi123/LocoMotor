@@ -17,6 +17,7 @@ extern "C" {
 #include "LMQuaternion.h"
 #include "LMMath.h"
 #include "Scene.h"
+#include "AudioManager.h"
 #include "SceneManager.h"
 #include "Engine.h"
 #include "InputManager.h"
@@ -107,8 +108,8 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addProperty("enabled", &Component::isEnabled, &Component::setEnabled)
 		.addFunction("getRigidBody", &Component::getComponent<RigidBody>)
 		.addFunction("getMeshRenderer", &Component::getComponent<MeshRenderer>)
-		.addFunction("getParticleSystem", &Component::getComponent<Camera>)
-		.addFunction("getEventEmitter", &Component::getComponent<ParticleSystem>)
+		.addFunction("getCamera", &Component::getComponent<Camera>)
+		.addFunction("getParticleSystem", &Component::getComponent<ParticleSystem>)
 		.addFunction("getEventEmitter", &Component::getComponent<EventEmitter>)
 		.addFunction("getAudioSource", &Component::getComponent<AudioSource>)
 		.addFunction("getAudioListener", &Component::getComponent<AudioListener>)
@@ -364,6 +365,11 @@ void LocoMotor::Scripting::ScriptManager::registerPhysics() {
 
 void LocoMotor::Scripting::ScriptManager::registerSound() {
 	luabridge::getGlobalNamespace(_luaState)
+		.beginClass<Audio::AudioManager>("Audio")
+		.addStaticProperty("Instance", &Audio::AudioManager::GetInstance)
+		.addFunction("loadMaster", &Audio::AudioManager::loadFMODBuild)
+		.endClass()
+
 		.deriveClass<AudioListener, Component>("AudioListener")
 		.endClass()
 
@@ -383,7 +389,7 @@ void LocoMotor::Scripting::ScriptManager::registerSound() {
 		.addFunction("setMode3D", &AudioSource::setMode3D)
 		.endClass()
 
-		.deriveClass<EventEmitter, Component>("EventEmmiter")
+		.deriveClass<EventEmitter, Component>("EventEmitter")
 		.addFunction("setEvent", &EventEmitter::setEvent)
 		.addFunction("play", &EventEmitter::play)
 		.addFunction("setPitch", &EventEmitter::setPitch)

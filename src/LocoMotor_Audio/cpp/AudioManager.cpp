@@ -148,11 +148,13 @@ void LocoMotor::Audio::AudioManager::loadFMODBuild(const char* fmodPath) {
 	std::string masterStringPath = fmodPath;
 	masterStringPath += "/Master.strings.bank";
 
+	FMOD_RESULT res = _studioSys->getBank(masterStringPath.c_str(), &bank);
+
 	//Si ya está cargado...
-	if (_studioSys->getBank(masterStringPath.c_str(), &bank) == FMOD_OK)
+	if (res == FMOD_OK)
 		return;
 
-	FMOD_RESULT res = _studioSys->loadBankFile(masterStringPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
+	res = _studioSys->loadBankFile(masterStringPath.c_str(), FMOD_STUDIO_LOAD_BANK_NORMAL, &bank);
 
 	if (res != FMOD_OK) {
 	#ifdef _DEBUG
