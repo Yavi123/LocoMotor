@@ -9,6 +9,19 @@ function Movement:awake()
     self.initPosX = pos.x
     self.initPosZ = pos.z
 end
+
+function Movement:start()
+    local file = LocoMotor.ReadFile("Assets/A.json")
+
+    local a = Json.Parse(file)
+    
+    local Gamedata = a:objectAt("Game")
+
+    LocoMotor.Log(Gamedata:objectAt("Game_name").stringValue)
+
+    a:release()
+end
+
 function Movement:moveZ(z)
     self.targetZ = self.targetZ + tonumber(z)
 end

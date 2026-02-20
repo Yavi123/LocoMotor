@@ -33,7 +33,7 @@ extern "C" {
 #include "AudioSource.h"
 #include "EventEmitter.h"
 #include "LocalSave.h"
-#include <fstream>
+#include "json/JSON.h"
 
 using namespace LocoMotor;
 using namespace LocoMotor::Scripting;
@@ -76,6 +76,7 @@ void LocoMotor::Scripting::ScriptManager::registerApi() {
 		.addStaticFunction("ShowWindow", &Engine::ShowWindow)
 		.addStaticFunction("Quit", &Engine::Quit)
 		.addStaticFunction("Log", &Engine::Print)
+		.addStaticFunction("ReadFile", &Engine::ReadFile)
 		.endClass();
 }
 
@@ -151,7 +152,8 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.endClass()
 
 		.beginClass<Quaternion>("Quaternion")
-		.addStaticFunction("new", &Quaternion::createQuat)
+		.addConstructor <void (*) (void)>()
+		.addConstructor <void (*) (float, float, float, float)>()
 		.addProperty("w", &Quaternion::getW, &Quaternion::setW)
 		.addProperty("x", &Quaternion::getX, &Quaternion::setX)
 		.addProperty("y", &Quaternion::getY, &Quaternion::setY)
@@ -198,6 +200,24 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addStaticFunction("CalculateDampedSpring", &Math::CalculateDampedSpring)
 		.addStaticFunction("Lerp", &Math::Lerp)
 		.addStaticFunction("Clamp", &Math::Clamp)
+		.endClass()
+
+		.beginClass<Json::JSON>("Json")
+		.addStaticFunction("Parse", &Json::JSON::Parse)
+		.endClass()
+
+		.beginClass<Json::JSONValue>("Json_Value")
+		.addProperty("boolValue", &Json::JSONValue::AsBool)
+		.addProperty("floatValue", &Json::JSONValue::AsNumber)
+		.addProperty("intValue", &Json::JSONValue::AsInt)
+		.addProperty("stringValue", &Json::JSONValue::AsString)
+		.addFunction("objectAt", &Json::JSONValue::object_at)
+		.addFunction("arrayAt", &Json::JSONValue::array_at)
+		.addFunction("release", std::function<void (Json::JSONValue*)>([](Json::JSONValue* o)
+					{
+						delete o;
+						o = nullptr;
+					}))
 		.endClass()
 
 		.beginClass<Porting::LocalSave>("LocalSave")
@@ -299,6 +319,7 @@ void LocoMotor::Scripting::ScriptManager::registerPhysics() {
 	using namespace LocoMotor::Physics;
 	luabridge::getGlobalNamespace(_luaState)
 		.beginClass<RaycastHitInfo>("RaycastHitInfo")
+		.addConstructor <void (*) (void)>()
 		.addProperty("hasHit", &RaycastHitInfo::hasHit)
 		.addProperty("collider", &RaycastHitInfo::getCollider)
 		.addProperty("hitPoint", &RaycastHitInfo::getHitPoint)
@@ -393,6 +414,11 @@ ScriptManager* LocoMotor::Scripting::ScriptManager::GetInstance() {
 	return _instance;
 }
 
+void LocoMotor::Scripting::ScriptManager::gcCollect() {
+
+	lua_gc(_luaState, LUA_GCCOLLECT);
+}
+
 bool LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, LuaBehaviour* behaviour) {
 	static const std::string basePath = "Assets/Scripts/";
 	static const std::string luaExtension = ".lua";
@@ -402,7 +428,7 @@ bool LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, Lu
 	luabridge::setGlobal(_luaState, behaviour->getGameObject(), "gameObject");
 	luabridge::setGlobal(_luaState, behaviour->getGameObject()->getTransform(), "transform");
 
-	std::string luaCode = readFromFile(fullPath);
+	std::string luaCode = Engine::ReadFile(fullPath);
 	luaL_loadbuffer(_luaState, luaCode.c_str(), luaCode.size(), name.c_str());
 
 	if (luaCode.empty())
@@ -429,14 +455,4 @@ bool LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, Lu
 	}
 	behaviour->setLuaContext(_luaState);
 	return true;
-}
-
-std::string LocoMotor::Scripting::ScriptManager::readFromFile(const std::string& filePath) {
-	std::ifstream file(filePath, std::ios::binary);
-	if (!file)
-		return "";
-
-	return std::string(
-		(std::istreambuf_iterator<char>(file)),
-		std::istreambuf_iterator<char>());
 }
