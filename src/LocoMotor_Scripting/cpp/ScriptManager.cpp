@@ -162,6 +162,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addProperty("up", &Quaternion::up)
 		.addProperty("right", &Quaternion::right)
 		.addProperty("forward", &Quaternion::forward)
+		.addProperty("toEuler", &Quaternion::toEuler)
 		.endClass()
 
 		.deriveClass<Transform,Component>("Transform")

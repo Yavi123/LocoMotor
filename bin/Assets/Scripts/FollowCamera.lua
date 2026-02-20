@@ -2,13 +2,7 @@ Movement.targetZ = 0
 Movement.lastZ = 0
 Movement.targetX = 0
 Movement.lastX = 0
-Movement.initPos = 0
 
-function Movement:awake()
-    local pos = self.gameObject.transform.position
-    self.initPosX = pos.x
-    self.initPosZ = pos.z
-end
 function Movement:moveZ(z)
     self.targetZ = self.targetZ + tonumber(z)
 end
@@ -16,7 +10,6 @@ end
 function Movement:moveX(z)
     self.targetX = self.targetX + tonumber(z)
 end
-
 function Movement:rotateY(z)
     local rot = self.gameObject.transform.eulerRotation
     rot.y = rot.y + z;
@@ -32,7 +25,7 @@ function Movement:update(dt)
     springPosZ.position = currentZ
     springPosZ.velocity = tonumber(self.lastZ)
     local springPosX = DampedSpringResult()
-    springPosX.position = self.initPos + currentX
+    springPosX.position = currentX
     springPosX.velocity = tonumber(self.lastX)
 
     local resultZ = Math.CalculateDampedSpring(springPosZ, self.targetZ, dt / 1000, 14, 0.8)

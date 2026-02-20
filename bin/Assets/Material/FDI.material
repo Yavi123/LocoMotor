@@ -1,0 +1,61 @@
+material MetroMat {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture t_Main.png
+                tex_address_mode wrap
+                colour_op modulate
+                filtering none
+            }
+        }
+    }
+}
+material FloorMat {
+    technique {
+        pass {
+            lighting off
+            texture_unit {
+                texture t_MetroFloor.png
+                tex_address_mode wrap
+                colour_op modulate
+                filtering none
+            }
+        }
+    }
+}
+
+material GuitarraMat {
+    technique {
+        pass {
+            lighting off
+            scene_blend alpha_blend
+            depth_write off
+            texture_unit {
+                texture Guitarra.png
+                tex_address_mode wrap
+                colour_op modulate
+                filtering none
+            }
+        }
+    }
+}
+material EnemyMat
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_write off
+            texture_unit
+            {
+                texture man_00.png
+                tex_address_mode wrap
+                colour_op modulate
+                filtering none
+            }
+        }
+    }
+}
