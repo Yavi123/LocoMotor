@@ -4,7 +4,7 @@ MainMenu = {
             background = "0.80392 0.82745 0.83529"
         },
         Transform = {
-            position = "0 1.5 -5",
+            position = "0 0 0",
             size = "1 1 1",
             rotation = "0 0 0"
         }
@@ -12,11 +12,11 @@ MainMenu = {
     },
     TitleText = {
         UIText = {
-            rect_minAnchor = "0 0",
-            rect_maxAnchor = "1 1",
+            rect_minAnchor = "0.5 0.5",
+            rect_maxAnchor = "0.5 0.55",
             rect_upLeft = "0 0",
             rect_downRight = "0 0",
-            text = "hola",
+            text = "Presiona para comenzar",
             font = "PoetsenOne",
             alignment = "c",
             colorTop = "0.0 0.04706 0.06275",

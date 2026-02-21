@@ -93,6 +93,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_00.mesh",
@@ -105,6 +106,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_01.mesh",
@@ -117,6 +119,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_02.mesh",
@@ -129,6 +132,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_03.mesh",
@@ -141,6 +145,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_04.mesh",
@@ -153,6 +158,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_05.mesh",
@@ -165,6 +171,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_06.mesh",
@@ -177,6 +184,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_07.mesh",
@@ -189,6 +197,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_08.mesh",
@@ -201,6 +210,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_09.mesh",
@@ -213,6 +223,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_10.mesh",
@@ -225,6 +236,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_11.mesh",
@@ -237,6 +249,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_12.mesh",
@@ -249,6 +262,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_12.mesh",
@@ -261,6 +275,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_14.mesh",
@@ -273,10 +288,23 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
+        NPC = {},
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_15.mesh",
             material = "m_NPC"
         },
+    },
+
+    --REGION
+    BackPanel = {
+        UIImage = {
+            rect_minAnchor = "0.45 0",
+            rect_maxAnchor = "0.65 1",
+            rect_upLeft = "0 0",
+            rect_downRight = "0 0",
+            image = "BackPanelMat",
+            sortingLayer = 1
+        }        
     },
 }
