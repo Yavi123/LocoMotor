@@ -1,4 +1,4 @@
-EntryScene = {
+GamePlay = {
     MainCamera = {
         Camera = {
             background = "0.80392 0.82745 0.83529"
@@ -10,6 +10,12 @@ EntryScene = {
             position = "0 1.5 -5",
             size = "1 1 1",
             rotation = "0 0 0"
+        },
+        ChangeScene = {
+            scene = "MainMenu"
+        },
+        Selectable = {
+            first = ""
         }
 
     },

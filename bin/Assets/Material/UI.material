@@ -1,0 +1,22 @@
+material ButtonNormal {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit {
+                texture CrossBlue.png
+            }
+        }
+    }
+}
+material ButtonHighlight {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit {
+                texture CrossRed.png
+            }
+        }
+    }
+}

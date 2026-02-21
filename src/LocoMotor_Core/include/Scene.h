@@ -16,7 +16,7 @@ namespace LocoMotor {
 
 	class Scene {
 	public:
-		Scene(std::string name, std::string path);
+		Scene(std::string name);
 		~Scene();
 		/// @brief Updates all game objects in the scene and sets the camera position based on the
 		/// position of a specific game object.
@@ -36,9 +36,6 @@ namespace LocoMotor {
 		/// @brief  Returns the name of a scene as a string.
 		/// @return scene name
 		MOTOR_API std::string getSceneName() const;
-		/// @brief  Returns the name of a scene as a string.
-		/// @return scene name
-		MOTOR_API std::string getScenePath();
 		/// @brief  sends a message to components
 		MOTOR_API void sendMessage(const std::string& m);
 

@@ -1,9 +1,9 @@
 {
-    "Game" : {
-        "Game_name" : "LocoMotor_Game",
-        "Entry_scene" : "Assets/Scenes/EntryScene.lua",
-        "Entry_scene_name" : "EntryScene"
-    },
+  "Game": {
+    "Game_name": "Guitarras hasta la muerte",
+    "Entry_scene": "Assets/Scenes/MainMenu.lua",
+    "Entry_scene_name": "MainMenu"
+  },
     "Graphics" : {
         "Vsync" : 1,
         "Fullscreen" : 1,

@@ -276,7 +276,7 @@ bool Engine::mainLoop() {
 	}
 	if (_startingSceneFile != "" && _startingSceneName != "") {
 		_scnManager->loadScene(_startingSceneFile, _startingSceneName);
-		//_scnManager->changeScene(_startingSceneName);
+		_scnManager->changeScene(_startingSceneName);
 	}
 
 	float _dt;
@@ -295,13 +295,6 @@ bool Engine::mainLoop() {
 		if (Input::InputManager::GetInstance()->RegisterEvents()) {
 			_exit = true;
 		}
-	#ifdef _DEBUG
-		else {
-			if (Input::InputManager::GetInstance()->GetKeyDownStr("F1")) {
-				_scnManager->reloadScene();
-			}
-		}
-	#endif // _DEBUG
 
 		float time = clock() / (float) CLOCKS_PER_SEC;
 		_dt = time - _lastFrameTime;

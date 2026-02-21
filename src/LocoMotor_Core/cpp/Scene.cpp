@@ -11,9 +11,8 @@
 
 using namespace LocoMotor;
 
-LocoMotor::Scene::Scene(std::string name, std::string path) {
-	_name = name;
-	_path = path;
+LocoMotor::Scene::Scene(std::string name) {
+	_name = name;;
 }
 
 Scene::~Scene() {
@@ -109,7 +108,6 @@ bool LocoMotor::Scene::toDestroy() {
 void Scene::build() {
 	_toDestroy = false;
 	_isActiveScene = true;
-	Graphics::GraphicsManager::GetInstance()->createScene(_name);
 	Graphics::GraphicsManager::GetInstance()->setActiveScene(_name);
 
 	for (auto& objPair : _sceneDef) {
@@ -137,6 +135,7 @@ void Scene::destroy() {
 
 void Scene::initialize(const SceneMap& data) {
 	_sceneDef = data;
+	Graphics::GraphicsManager::GetInstance()->createScene(_name);
 }
 
 void LocoMotor::Scene::deleteGameObject(const std::string& name) {
@@ -159,11 +158,6 @@ bool Scene::getActiveStatus() {
 std::string Scene::getSceneName() const {
 	return _name;
 }
-
-std::string LocoMotor::Scene::getScenePath() {
-	return _path;
-}
-
 
 GameObject* LocoMotor::Scene::addGameobject(std::string name) {
 	if (_gameObjList.count(name) > 0) {
