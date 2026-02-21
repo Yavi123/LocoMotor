@@ -67,6 +67,8 @@ material m_NPC
             lighting off
             scene_blend alpha_blend
             depth_write off
+            culling off
+            
             texture_unit
             {
                 texture NPC_00.png

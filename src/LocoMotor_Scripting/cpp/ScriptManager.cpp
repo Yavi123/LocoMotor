@@ -147,6 +147,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addProperty("z", &Vector3::getZ, &Vector3::setZ)
 		.addFunction("magnitude", &Vector3::magnitude)
 		.addFunction("normalize", &Vector3::normalize)
+		.addStaticFunction("Lerp", &Vector3::lerp)
 		.addFunction("rotate", &Vector3::rotate)
 		.addFunction("perpendicular", &Vector3::perpendicular3)
 		.addFunction("asRotToQuaternion", &Vector3::asRotToQuaternion)
@@ -175,7 +176,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addProperty("size", &Transform::getSize, &Transform::setSize)
 		.addFunction("setUpwards", &Transform::setUpwards)
 		.addFunction("setForward", &Transform::setForward)
-		.addFunction("lookAt", &Transform::lookAtWUp)
+		.addFunction("lookAt", &Transform::lookAt)
 		.endClass()
 
 		.beginClass<Scene>("Scene")

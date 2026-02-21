@@ -3,8 +3,7 @@ EntryScene = {
         Camera = {
             background = "0.80392 0.82745 0.83529"
         },
-        Movement ={},
-        InputController = {},
+        CameraMovement ={},
         AudioListener = {},
         Transform = {
             position = "0 1.5 -5",
@@ -35,20 +34,30 @@ EntryScene = {
             Volume = 1
         }
     },
-    
-    
-    --NIVEL
-    MetroMesh = {
+    Axis = {
         Transform = {
-            position = "0 0 0",
+            position = "3 0.2 -5",
             size = "1, 1, 1",
             rotation = "0 0 0"
         },
+        Billboard = {},
         MeshRenderer = {
-            mesh = "MetroMesh.mesh",
+            mesh = "Axis.mesh",
             material = "m_Main"
         },
     },
+    
+     MetroMesh = {
+         Transform = {
+             position = "0 0 0",
+             size = "1, 1, 1",
+             rotation = "0 0 0"
+         },
+         MeshRenderer = {
+             mesh = "MetroMesh.mesh",
+             material = "m_Main"
+         },
+     },
     MetroFloor = {
         Transform = {
             position = "0 0 0",
@@ -73,7 +82,7 @@ EntryScene = {
     },
     NPC_00 = {
         Transform = {
-            position = "-1.16 -0.05  -4.8 ",
+            position = "-0.6 0 -5",
             size = "1 1 1",
             rotation = "0 0 0"
         },
@@ -85,7 +94,7 @@ EntryScene = {
     },
     NPC_01 = {
         Transform = {
-            position = "1.3 -0.05  -4.6 ",
+            position = "-1.1 0 -3.17",
             size = "1 1 1",
             rotation = "0 0 0"
         },
@@ -97,7 +106,7 @@ EntryScene = {
     },
     NPC_02 = {
         Transform = {
-            position = "-1.31 -0.1  -2.85 ",
+            position = "-1.45 0 -2.62",
             size = "1 1 1",
             rotation = "0 0 0"
         },
@@ -109,7 +118,7 @@ EntryScene = {
     },
     NPC_03 = {
         Transform = {
-            position = "-1.53 -0.1  -1.93 ",
+            position = "0.15 0 -2.2",
             size = "1 1 1",
             rotation = "0 0 0"
         },
@@ -121,7 +130,7 @@ EntryScene = {
     },
     NPC_04 = {
         Transform = {
-            position = "1.45 -0.02 -0.47 ",
+            position = "1.11 0 -2.85",
             size = "1 1 1",
             rotation = "0 0 0"
         },
@@ -133,7 +142,7 @@ EntryScene = {
     },
     NPC_05 = {
         Transform = {
-            position = "1.23 -0.05 0.92 ",
+            position = "1.33 0 -1.83",
             size = "1 1 1",
             rotation = "0 0 0"
         },
@@ -145,7 +154,7 @@ EntryScene = {
     },
     NPC_06 = {
         Transform = {
-            position = "1.31 -0.1 -3.21 ",
+            position = "-1.1 0 0.05",
             size = "1 1 1",
             rotation = "0 0 0"
         },
@@ -157,13 +166,109 @@ EntryScene = {
     },
     NPC_07 = {
         Transform = {
-            position = "-1.2 0.01 -0.02 ",
+            position = "-1.4 0.06 -0.5",
             size = "1 1 1",
             rotation = "0 0 0"
         },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_07.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_08 = {
+        Transform = {
+            position = "1.2 0 0.44",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_08.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_09 = {
+        Transform = {
+            position = "1.2 0 1.37",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_09.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_10 = {
+        Transform = {
+            position = "-1 0 2.1",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_10.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_11 = {
+        Transform = {
+            position = "-1.35 0 4.2",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_11.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_12 = {
+        Transform = {
+            position = "-1.1 0 3.4",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_12.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_13 = {
+        Transform = {
+            position = "1.11 0 6",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_12.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_14 = {
+        Transform = {
+            position = "-1.10 0 5.6",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_14.mesh",
+            material = "m_NPC"
+        },
+    },
+    NPC_15 = {
+        Transform = {
+            position = "1.11 0 4.2",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_15.mesh",
             material = "m_NPC"
         },
     },

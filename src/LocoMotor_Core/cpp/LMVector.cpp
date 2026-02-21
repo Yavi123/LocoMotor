@@ -191,6 +191,7 @@ void LocoMotor::Vector<dims>::normalize() {
 	}
 }
 
+
 // Angle between two LocoMotor::Vectors
 template <int dims>
 float LocoMotor::Vector<dims>::angle(const LocoMotor::Vector<dims>& other) const {

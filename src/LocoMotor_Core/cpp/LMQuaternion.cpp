@@ -186,4 +186,64 @@ Vector<3> Quaternion::toEuler() const {
 	return angles;
 }
 
+LocoMotor::Quaternion LocoMotor::Quaternion::fromAxes(
+	const Vector<3>& r,
+	const Vector<3>& u,
+	const Vector<3>& f)
+{
+	// Rotation matrix (column-major)
+	float m00 = r.getX();
+	float m01 = u.getX();
+	float m02 = f.getX();
+
+	float m10 = r.getY();
+	float m11 = u.getY();
+	float m12 = f.getY();
+
+	float m20 = r.getZ();
+	float m21 = u.getZ();
+	float m22 = f.getZ();
+
+	float trace = m00 + m11 + m22;
+
+	float w, x, y, z;
+
+	if (trace > 0.0f)
+	{
+		float s = sqrtf(trace + 1.0f) * 2.0f;
+		w = 0.25f * s;
+		x = (m21 - m12) / s;
+		y = (m02 - m20) / s;
+		z = (m10 - m01) / s;
+	}
+	else if (m00 > m11 && m00 > m22)
+	{
+		float s = sqrtf(1.0f + m00 - m11 - m22) * 2.0f;
+		w = (m21 - m12) / s;
+		x = 0.25f * s;
+		y = (m01 + m10) / s;
+		z = (m02 + m20) / s;
+	}
+	else if (m11 > m22)
+	{
+		float s = sqrtf(1.0f + m11 - m00 - m22) * 2.0f;
+		w = (m02 - m20) / s;
+		x = (m01 + m10) / s;
+		y = 0.25f * s;
+		z = (m12 + m21) / s;
+	}
+	else
+	{
+		float s = sqrtf(1.0f + m22 - m00 - m11) * 2.0f;
+		w = (m10 - m01) / s;
+		x = (m02 + m20) / s;
+		y = (m12 + m21) / s;
+		z = 0.25f * s;
+	}
+
+	Quaternion q(w, x, y, z);
+	q.normalize();
+	return q;
+}
+
 #pragma endregion

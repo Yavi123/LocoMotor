@@ -107,6 +107,12 @@ namespace LocoMotor {
 
 		/// @brief Returns the Quaternion to Euler vector3
 		Vector<3> toEuler() const;
+
+		// Build quaternion from orthonormal axes
+		static Quaternion fromAxes(
+			const Vector<3>& right,
+			const Vector<3>& up,
+			const Vector<3>& forward);
 	private:
 		float _w = 0, _x = 0, _y = 0, _z = 0;
 	};

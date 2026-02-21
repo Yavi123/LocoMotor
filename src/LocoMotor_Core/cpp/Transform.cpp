@@ -125,16 +125,34 @@ void LocoMotor::Transform::setForward(const Vector3& newForward) {
 
 	setRotation(getRotation().rotate(axis, angle));
 }
+void LocoMotor::Transform::lookAt(const Vector3& target) {
+	Vector3 position = getPosition();
 
+	Vector3 forward = target - position;
 
-void LocoMotor::Transform::lookAt(const Vector3& lookPos) {
-	Vector3 newForward = lookPos - getPosition();
-	setForward(newForward);
+	// Remove vertical component to preserve Y-up
+	forward.setY(0.0f);
+
+	// If target is directly above/below, do nothing
+	if (forward.magnitude() < 0.0001f)
+		return;
+
+	forward.normalize();
+
+	Vector3 worldUp(0.f, 1.f, 0.f);
+
+	// Build orthonormal basis
+	Vector3 right = worldUp.cross(forward);
+	right.normalize();
+	Vector3 up = forward.cross(right); // will be (0,1,0)
+
+	Quaternion q = Quaternion::fromAxes(right, up, forward);
+	setRotation(q);
 }
 
 
 void LocoMotor::Transform::lookAtWUp(const Vector3& lookPos, const Vector3& up) {
-	setUpwards(up);
 	Vector3 newForward = lookPos - getPosition();
 	setForward(newForward);
+	setUpwards(up);
 }
