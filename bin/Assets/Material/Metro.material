@@ -73,7 +73,6 @@ material m_NPC
                 tex_address_mode wrap
                 colour_op modulate
                 filtering none
-                scroll 0.5 0
             }
         }
     }

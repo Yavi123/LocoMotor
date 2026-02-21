@@ -5,6 +5,10 @@
 #include <OgreMaterialManager.h>
 #include <OgreSceneManager.h>
 #include <OgreStaticGeometry.h>
+#include <LMVector.h>
+#include <OgreSubEntity.h>
+#include <OgreTechnique.h>
+
 
 #include "GameObject.h"
 #include "Transform.h"
@@ -159,14 +163,21 @@ void LocoMotor::MeshRenderer::setVisible(bool visible) {
 	}
 }
 void LocoMotor::MeshRenderer::setMaterial(const std::string& mat) {
-	if (_mesh != nullptr) {
-		if (Ogre::MaterialManager::getSingletonPtr()->resourceExists(mat)) {
-			_mesh->setMaterialName(mat);
-		}
-		else {
-			std::cerr << "\033[1;31m" << "Material of name '" << mat << "' wasn't found in any known .material script: In gameObject '" << _gameObject->getName() << "'" << "\033[0m" << std::endl;
-		}
-	}
+	if (_mesh == nullptr) return;
+
+	if (!Ogre::MaterialManager::getSingleton().resourceExists(mat))
+		return;
+
+	Ogre::MaterialPtr original =
+		Ogre::MaterialManager::getSingleton().getByName(mat);
+
+	if (original == nullptr) return;
+
+	std::string uniqueName = mat + "_" + _gameObject->getName();
+
+	Ogre::MaterialPtr uniqueMat = original->clone(uniqueName);
+
+	_mesh->setMaterial(uniqueMat);
 }
 
 void LocoMotor::MeshRenderer::setMesh(const std::string& mesh) {

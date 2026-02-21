@@ -5,9 +5,7 @@ function Billboard:awake()
 end
 
 function Billboard:update(dt)
-
-    self.gameObject.transform:setUpwards(Vector3(0,1,0))
-    self.gameObject.transform:setForward(self.Camera.position - self.gameObject.transform.position)
+    self.gameObject.transform:lookAt(self.Camera.position, Vector3(0,1,0))
     self.gameObject.transform:setUpwards(Vector3(0,1,0))
 
 end
