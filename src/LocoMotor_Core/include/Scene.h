@@ -39,6 +39,8 @@ namespace LocoMotor {
 		/// @brief  Returns the name of a scene as a string.
 		/// @return scene name
 		MOTOR_API std::string getScenePath();
+		/// @brief  sends a message to components
+		MOTOR_API void sendMessage(const std::string& m);
 
 		/// @brief Adds a new game object to the scene or returns an existing one with the same name.
 		/// @param name A string representing the name of the GameObject to be added to the Scene.

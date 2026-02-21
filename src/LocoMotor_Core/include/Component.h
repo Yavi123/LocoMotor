@@ -51,6 +51,9 @@ namespace LocoMotor {
 		/// @brief This function is called on every fixed time update (by default each 16ms)
 		virtual void fixedUpdate() {
 		};
+		/// @brief This function is called on every fixed time update (by default each 16ms)
+		virtual void receiveMessage(const std::string& m) {
+		};
 		/// @brief This function is called each time the component is enabled
 		/// @remarks On scene startup, if the component is enabled, onEnable() is called before start() but after awake()
 		virtual void onEnable() {

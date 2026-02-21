@@ -183,6 +183,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("addGameObject", &Scene::addGameobject)
 		.addFunction("removeGameObject", &Scene::removeGameobject)
 		.addFunction("getObjectByName", &Scene::getObjectByName)
+		.addFunction("sendMessage", &Scene::sendMessage)
 		.addProperty("name", &Scene::getSceneName)
 		.endClass()
 

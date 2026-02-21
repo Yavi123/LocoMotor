@@ -238,6 +238,25 @@ void LocoMotor::GameObject::fixedUpdate() {
 	}
 }
 
+void LocoMotor::GameObject::sendMessage(const std::string& m) {
+
+	for (auto& pair : _components) {
+		Component* cmp = pair.second;
+		try {
+			cmp->receiveMessage(m);
+		}
+		catch (const std::exception& ex) {
+			printError("sendMessage", ex.what());
+		}
+		catch (const std::string& ex) {
+			printError("sendMessage", ex);
+		}
+		catch (...) {
+			printError("sendMessage", "non std exception :)");
+		}
+	}
+}
+
 void LocoMotor::GameObject::init(LocoMotor::Scene* scene, bool active) {
 	_scene = scene;
 	_active = active;

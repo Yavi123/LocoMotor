@@ -27,6 +27,7 @@ namespace LocoMotor {
 		void fixedUpdate() override;
 		void onDisable() override;
 		void onDestroy() override;
+		void receiveMessage(const std::string& m) override;
 		void OnCollisionEnter(GameObject* other) override;
 		void OnCollisionStay(GameObject* other) override;
 		void OnCollisionExit(GameObject* other) override;

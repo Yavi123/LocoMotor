@@ -75,6 +75,23 @@ void LocoMotor::Scene::fixedUpdate() {
 	_gameObjBufferList.clear();
 }
 
+MOTOR_API void LocoMotor::Scene::sendMessage(const std::string& m)
+{
+	//si no esta activa que no haga nada
+	if (!_isActiveScene) {
+		return;
+	}
+	for (auto& obj : _gameObjList) {
+		obj.second->sendMessage(m);
+	}
+	//End of loop, once all objects are Updated, add buffered objects
+	for (auto& obj : _gameObjBufferList) {
+		_gameObjList.insert(obj);
+		obj.second->awake();
+	}
+	_gameObjBufferList.clear();
+}
+
 void Scene::render() {
 	Graphics::GraphicsManager::GetInstance()->render();
 }

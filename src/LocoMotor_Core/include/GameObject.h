@@ -102,6 +102,8 @@ namespace LocoMotor {
 		void update(float dt);
 		/// @brief This method is called every fixed time step (16ms by default)
 		void fixedUpdate();
+		/// @brief This method is called every fixed time step (16ms by default)
+		void sendMessage(const std::string& m);
 		/// @brief This method sets the context (Scene) and the active state for the GameObject 
 		/// @param scene Scene which the GO belongs to
 		/// @param active Initial active state of the GameObject

@@ -5,6 +5,7 @@ EntryScene = {
         },
         CameraMovement ={},
         AudioListener = {},
+        BeatCounter = { },
         Transform = {
             position = "0 1.5 -5",
             size = "1 1 1",
@@ -44,7 +45,7 @@ EntryScene = {
         MeshRenderer = {
             mesh = "Axis.mesh",
             material = "m_Main"
-        },
+        }
     },
     
      MetroMesh = {

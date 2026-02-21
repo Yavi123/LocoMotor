@@ -126,6 +126,20 @@ void LocoMotor::LuaBehaviour::onDestroy() {
 	}
 }
 
+void LocoMotor::LuaBehaviour::receiveMessage(const std::string& m) {
+	try {
+		luabridge::LuaRef luaMessage = (*obj)[m.c_str()];
+		if (!luaMessage.isFunction()) {
+			return;
+		}
+		luaMessage(*obj);
+	}
+	catch (luabridge::LuaException& e) {
+		std::cout << e.what() << std::endl;
+
+	}
+}
+
 void LocoMotor::LuaBehaviour::OnCollisionEnter(GameObject* other) {
 	
 	try {
