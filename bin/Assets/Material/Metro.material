@@ -53,7 +53,7 @@ material m_LCD
                 tex_address_mode wrap
                 colour_op modulate
                 filtering none
-                scroll_anim 0.2 0
+                scroll_anim -0.2 0
             }
         }
     }
