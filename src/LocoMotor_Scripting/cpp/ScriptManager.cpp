@@ -180,7 +180,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.endClass()
 
 		.beginClass<Scene>("Scene")
-		.addFunction("addGameObject", &Scene::addGameobject)
+		.addFunction("addGameObject", &Scene::addGameobjectRuntime)
 		.addFunction("removeGameObject", &Scene::removeGameobject)
 		.addFunction("getObjectByName", &Scene::getObjectByName)
 		.addFunction("sendMessage", &Scene::sendMessage)
