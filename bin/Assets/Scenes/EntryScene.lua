@@ -71,4 +71,16 @@ EntryScene = {
             material = "m_LCD"
         },
     },
+    NPC00 = {
+        Transform = {
+            position = "-1.3 0.5 2.1",
+            size = "1 1 1",
+            rotation = "0 -20 0"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "NPC_00.mesh",
+            material = "m_NPC"
+        },
+    },
 }

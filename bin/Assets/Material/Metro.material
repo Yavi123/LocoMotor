@@ -58,3 +58,23 @@ material m_LCD
         }
     }
 }
+material m_NPC
+{
+    technique
+    {
+        pass
+        {
+            lighting off
+            scene_blend alpha_blend
+            depth_write off
+            texture_unit
+            {
+                texture NPC_00.png
+                tex_address_mode wrap
+                colour_op modulate
+                filtering none
+                scroll 0.5 0
+            }
+        }
+    }
+}

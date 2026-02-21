@@ -55,8 +55,8 @@ function Movement:update(dt)
     springPosX.position = self.initPos + currentX
     springPosX.velocity = tonumber(self.lastX)
 
-    local resultZ = Math.CalculateDampedSpring(springPosZ, self.targetZ, dt / 1000, 14, 0.8)
-    local resultX = Math.CalculateDampedSpring(springPosX, self.targetX, dt / 1000, 14, 0.8)
+    local resultZ = Math.CalculateDampedSpring(springPosZ, self.targetZ, dt / 1000, 60, 0.99)
+    local resultX = Math.CalculateDampedSpring(springPosX, self.targetX, dt / 1000, 60, 0.99)
 
     local pos = self.gameObject.transform.position
     pos.z = resultZ.position

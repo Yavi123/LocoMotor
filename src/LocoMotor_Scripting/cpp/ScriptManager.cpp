@@ -175,7 +175,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addProperty("size", &Transform::getSize, &Transform::setSize)
 		.addFunction("setUpwards", &Transform::setUpwards)
 		.addFunction("setForward", &Transform::setForward)
-		.addFunction("lookAt", &Transform::lookAt)
+		.addFunction("lookAt", &Transform::lookAtWUp)
 		.endClass()
 
 		.beginClass<Scene>("Scene")
