@@ -70,7 +70,7 @@ namespace LocoMotor {
 		/// @param up The "up" parameter is a LMVector3 that represents the direction that is considered "up" in
 		/// the world space.This is used to ensure that the object being transformed maintains a consistent
 		/// orientation, even if it is rotated.
-		void lookAt(const Vector3& lookPos, const Vector3& up);
+		void lookAtWUp(const Vector3& lookPos, const Vector3& up);
 
 	protected:
 

@@ -133,7 +133,7 @@ void LocoMotor::Transform::lookAt(const Vector3& lookPos) {
 }
 
 
-void LocoMotor::Transform::lookAt(const Vector3& lookPos, const Vector3& up) {
+void LocoMotor::Transform::lookAtWUp(const Vector3& lookPos, const Vector3& up) {
 	setUpwards(up);
 	Vector3 newForward = lookPos - getPosition();
 	setForward(newForward);
