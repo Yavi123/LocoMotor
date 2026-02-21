@@ -134,7 +134,7 @@ void Quaternion::normalize() {
 //Rotate a quaternion
 Quaternion Quaternion::rotate(const Vector<3>& axis, float angle) const {
 	Quaternion q;
-	float halfAngle = (float) (angle * (M_PI / 180.0f)) / 2.0f;
+	float halfAngle = (float) (angle * 0.5f);
 	float sinHalfAngle = sin(halfAngle);
 	q.setW(cos(halfAngle));
 	q.setX(axis.getX() * sinHalfAngle);

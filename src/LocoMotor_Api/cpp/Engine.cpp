@@ -228,8 +228,13 @@ bool LocoMotor::Engine::initializeAudio(Json::JSONValue* executableData) {
 }
 
 Json::JSONValue* LocoMotor::Engine::readDataJson() {
-
-	Json::JSONValue* executableData = Json::JSON::ParseFromFile("./LocoMotor_Data/LocoMotor_Settings.json");
+	Json::JSONValue* executableData = nullptr;
+	try {
+		executableData = Json::JSON::ParseFromFile("./LocoMotor_Data/LocoMotor_Settings.json");
+	}
+	catch (...) 		{
+		executableData = nullptr;
+	}
 
 	if (executableData == nullptr || !executableData->IsObject())
 		return nullptr;
