@@ -121,6 +121,8 @@ bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 }
 
 void LocoMotor::UIText::update(float dT) {
+
+	_rectTransform.setParentSize({ (float) _gfxManager->getWindowWidth(), (float) _gfxManager->getWindowHeight() });
 	updatePosition();
 }
 
@@ -145,8 +147,6 @@ void LocoMotor::UIText::init(GameObject* gameObject, bool enable) {
 		_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(_overlayMngr->getOverlayElement(txtName));
 
 	_txtElem->setMetricsMode(Ogre::GMM_PIXELS);
-
-	_rectTransform.setParentSize({ (float) _gfxManager->getWindowWidth(), (float) _gfxManager->getWindowHeight() });
 
 
 	_container->addChild(_txtElem);

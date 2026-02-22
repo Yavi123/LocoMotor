@@ -31,6 +31,7 @@ namespace LocoMotor {
 
 		/// @brief Sets the anchor point of the element
 		void setAnchorPoint(const Vector2& anc);
+		Vector2 getAnchorPoint() const;
 		void setMaxAnchorPoint(const Vector2& anc);
 		void setMinAnchorPoint(const Vector2& anc);
 

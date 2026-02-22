@@ -51,6 +51,11 @@ void RectTransform::setAnchorPoint(const Vector2& anc) {
 	_minAnchor = anc;
 }
 
+Vector2 LocoMotor::RectTransform::getAnchorPoint() const
+{
+	return _minAnchor;
+}
+
 void RectTransform::setMaxAnchorPoint(const Vector2& anc) {
 	_maxAnchor = anc;
 }

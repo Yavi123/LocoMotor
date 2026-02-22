@@ -13,6 +13,7 @@ LocoMotor::Component* LocoMotor::GameObject::addComponent(const std::string& nam
 		Component* comp = factory->createComponent(name);
 		if (comp == nullptr) {
 			comp = factory->createComponent("LuaBehaviour");
+			comp->init(this, true);
 			auto params = ComponentMap();
 			params.push_back({ "scriptName", name });
 			try {

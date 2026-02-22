@@ -5,7 +5,6 @@ GamePlay = {
         },
         CameraMovement ={},
         AudioListener = {},
-        BeatCounter = { },
         Transform = {
             position = "0 1.5 -5",
             size = "1 1 1",
@@ -25,6 +24,11 @@ GamePlay = {
         EventEmitter = {
             Volume = 1
         }
+    },
+    BeatCounter = {
+        BeatCounter = { },
+        NoteSpawner = { },
+        SongDistorter = { }
     },
     Axis = {
         Transform = {

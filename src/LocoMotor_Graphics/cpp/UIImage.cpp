@@ -65,8 +65,6 @@ bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 		}
 	}
 
-	_rectTransform.setParentSize({ (float)_gfxManager->getWindowWidth(), (float)_gfxManager->getWindowHeight() });
-
 	updatePosition();
 
 	setImage(imageName);
@@ -77,6 +75,8 @@ bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 }
 
 void LocoMotor::UIImage::update(float dT) {
+
+	_rectTransform.setParentSize({ (float) _gfxManager->getWindowWidth(), (float) _gfxManager->getWindowHeight() });
 	updatePosition();
 }
 
@@ -108,6 +108,10 @@ void LocoMotor::UIImage::init(GameObject* gameObject, bool enable) {
 void LocoMotor::UIImage::setAnchorPoint(const Vector2& anc) {
 	_rectTransform.setAnchorPoint(anc);
 	updatePosition();
+}
+
+Vector2 LocoMotor::UIImage::getAnchorPoint() const {
+	return _rectTransform.getAnchorPoint();
 }
 
 void LocoMotor::UIImage::setMaxAnchorPoint(const Vector2& anc) {

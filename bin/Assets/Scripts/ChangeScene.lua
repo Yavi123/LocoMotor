@@ -2,16 +2,15 @@ ChangeScene._sceneToGoTo = ""
 ChangeScene._selectable = nil
 
 function ChangeScene:awake()
-    --ESTO LLAMARLO DESDE UNA ESCENA DE ENTRY QUE LUEGO CARGUE EL MENU
     Audio.Instance:loadMaster("Assets/AudioBanks/Desktop")
-    
+
     self._selectable = self.gameObject:getSelectable()
+    SceneManager.Instance:loadScene("Assets/Scenes/" .. self._sceneToGoTo .. ".lua", self._sceneToGoTo)
 end
 
 function ChangeScene:update(dt)
     
     if (self._selectable.submitTriggered) then
-        SceneManager.Instance:loadScene("Assets/Scenes/" .. self._sceneToGoTo .. ".lua", self._sceneToGoTo)
         SceneManager.Instance:changeScene(self._sceneToGoTo)
     end
 
@@ -22,5 +21,6 @@ function ChangeScene:setParameters(params)
         if (name == "scene") then
             self._sceneToGoTo = param
         end
-    end 
+    end
+    return true
 end
