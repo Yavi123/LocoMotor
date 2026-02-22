@@ -286,4 +286,45 @@ GamePlay = {
             sortingLayer = 0
         }        
     },
+    --EMPTY AROWS
+    EmptyArrow0 = {
+        UIImage = {
+            rect_minAnchor = "0.35 0.9",
+            rect_maxAnchor = "0.35 0.9",
+            rect_upLeft = "50 50",
+            rect_downRight = "50 50",
+            image = "EmptyArrowMatLeft",
+            sortingLayer = 3
+        }
+    },
+    EmptyArrow1 = {
+        UIImage = {
+            rect_minAnchor = "0.45 0.9",
+            rect_maxAnchor = "0.45 0.9",
+            rect_upLeft = "50 50",
+            rect_downRight = "50 50",
+            image = "EmptyArrowMatDown",
+            sortingLayer = 3
+        }
+    },
+    EmptyArrow2 = {
+        UIImage = {
+            rect_minAnchor = "0.55 0.9",
+            rect_maxAnchor = "0.55 0.9",
+            rect_upLeft = "50 50",
+            rect_downRight = "50 50",
+            image = "EmptyArrowMatUp",
+            sortingLayer = 3
+        }
+    },
+    EmptyArrow3 = {
+        UIImage = {
+            rect_minAnchor = "0.65 0.9",
+            rect_maxAnchor = "0.65 0.9",
+            rect_upLeft = "50 50",
+            rect_downRight = "50 50",
+            image = "EmptyArrowMatRight",
+            sortingLayer = 3
+        }
+    },
 }

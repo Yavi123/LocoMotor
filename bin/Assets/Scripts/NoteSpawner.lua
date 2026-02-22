@@ -33,8 +33,8 @@ end
 function NoteSpawner:createNote()
     
     --Ignorar nota
-    if(self._accumNotes > 5) then
-        local ignoreNote = math.random(1,3)
+    if(self._accumNotes > 4) then
+        local ignoreNote = math.random(1,2)
         if(ignoreNote == 1) then 
             self._accumNotes = 0
             return
@@ -59,10 +59,12 @@ function NoteSpawner:createNote()
     elseif randomChannel == 3 then
         imag:setImage("ArrowRightMat")
     end
-    
+
     imag:setSortingLayer(5)
+    imag:setDimensions(Vector2(100,100))
     imag:setAnchorPoint(Vector2(arrowPos, 0))
     local note = gObj:addLuaComponent("Note")
+    note:setNoteChannel(randomChannel)
     note:setTargetPlace(0.9)
     note:setTimeToGetThere(self._beatCounter.milisecondsInBeat * speed, self._beatCounter._accumulatedTime)
 

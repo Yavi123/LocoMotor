@@ -80,3 +80,99 @@ material ArrowDownMat {
         }
     }
 }
+material EmptyArrowMatUp {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_EmptyArrowUp.png
+            }
+        }
+    }
+}
+material EmptyArrowMatDown {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_EmptyArrowDown.png
+            }
+        }
+    }
+}
+material EmptyArrowMatLeft{
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_EmptyArrowLeft.png
+            }
+        }
+    }
+}
+material EmptyArrowMatRight{
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_EmptyArrowRight.png
+            }
+        }
+    }
+}
+material ArrowUpWhiteMat{
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_UpArrowWhite.png
+            }
+        }
+    }
+}
+material ArrowDownhiteMat{
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_DownArrowWhite.png
+            }
+        }
+    }
+}
+material ArrowLefthiteMat{
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_LeftArrowWhite.png
+            }
+        }
+    }
+}
+material ArrowRightWhiteMat{
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_RightArrowWhite.png
+            }
+        }
+    }
+}
