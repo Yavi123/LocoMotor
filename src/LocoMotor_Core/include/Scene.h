@@ -57,6 +57,8 @@ namespace LocoMotor {
 		/// map, then a pointer to that GameObject is returned.Otherwise, a null pointer is returned.
 		MOTOR_API GameObject* getObjectByName(std::string name);
 
+		MOTOR_API float getElapsedTime() const;
+
 		/// @brief Returns if the scene has to be destroyed
 		/// @return _toDestroy 
 		bool toDestroy();
@@ -82,6 +84,7 @@ namespace LocoMotor {
 
 		bool _toDestroy = false;
 
+		float _elapsedTime = 0.f;
 
 		void deleteGameObject(const std::string& name);
 	};

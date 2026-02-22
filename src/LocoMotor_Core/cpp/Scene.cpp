@@ -27,6 +27,8 @@ Scene::~Scene() {
 }
 
 void Scene::update(float dt) {
+
+	_elapsedTime += dt;
 	//si no esta activa que no haga nada
 	if (!_isActiveScene) {
 		return;
@@ -130,6 +132,7 @@ void Scene::destroy() {
 	for (it = _gameObjList.begin(); it != _gameObjList.end(); it = _gameObjList.erase(it)) {
 		delete it->second;
 	}
+	_elapsedTime = 0.f;
 	Graphics::GraphicsManager::GetInstance()->deactivateScene(_name);
 }
 
@@ -201,5 +204,9 @@ GameObject* LocoMotor::Scene::getObjectByName(std::string name) {
 	if (_gameObjList.count(name) == 0)
 		return nullptr;
 	return _gameObjList[name];
+}
+
+float LocoMotor::Scene::getElapsedTime() const {
+	return _elapsedTime;
 }
 

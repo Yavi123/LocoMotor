@@ -196,6 +196,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addFunction("getObjectByName", &Scene::getObjectByName)
 		.addFunction("sendMessage", &Scene::sendMessage)
 		.addProperty("name", &Scene::getSceneName)
+		.addProperty("elapsedTime", &Scene::getElapsedTime)
 		.endClass()
 
 		.beginClass<SceneManager>("SceneManager")
