@@ -278,13 +278,18 @@ GamePlay = {
     --REGION
     BackPanel = {
         UIImage = {
-            rect_minAnchor = "0.3 0",
-            rect_maxAnchor = "0.7 1",
+            rect_minAnchor = "0.3 -0.3",
+            rect_maxAnchor = "0.7 1.3",
             rect_upLeft = "0 0",
             rect_downRight = "0 0",
             image = "BackPanelMat",
             sortingLayer = 0
-        }        
+        },
+        ImageSpringOnBeat = {
+            velocityOnBeat = 250,
+            frequency = 20,
+            damping = 0.3
+        }
     },
     --EMPTY AROWS
     EmptyArrow0 = {
@@ -295,6 +300,11 @@ GamePlay = {
             rect_downRight = "50 50",
             image = "EmptyArrowMatLeft",
             sortingLayer = 3
+        },
+        ImageSpringOnBeat = {
+            velocityOnBeat = 200,
+            frequency = 20,
+            damping = 0.3
         }
     },
     EmptyArrow1 = {
@@ -305,6 +315,11 @@ GamePlay = {
             rect_downRight = "50 50",
             image = "EmptyArrowMatDown",
             sortingLayer = 3
+        },
+        ImageSpringOnBeat = {
+            velocityOnBeat = 200,
+            frequency = 20,
+            damping = 0.3
         }
     },
     EmptyArrow2 = {
@@ -315,6 +330,11 @@ GamePlay = {
             rect_downRight = "50 50",
             image = "EmptyArrowMatUp",
             sortingLayer = 3
+        },
+        ImageSpringOnBeat = {
+            velocityOnBeat = 200,
+            frequency = 20,
+            damping = 0.3
         }
     },
     EmptyArrow3 = {
@@ -325,6 +345,11 @@ GamePlay = {
             rect_downRight = "50 50",
             image = "EmptyArrowMatRight",
             sortingLayer = 3
+        },
+        ImageSpringOnBeat = {
+            velocityOnBeat = 200,
+            frequency = 20,
+            damping = 0.3
         }
     },
 }

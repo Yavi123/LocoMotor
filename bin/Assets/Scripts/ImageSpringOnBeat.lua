@@ -2,9 +2,9 @@ ImageSpringOnBeat.spring = DampedSpringResult()
 ImageSpringOnBeat._image = nil
 ImageSpringOnBeat.targetScale = 0
 
-ImageSpringOnBeat.velocityOnBeat = 0
-ImageSpringOnBeat.frequency = 0
-ImageSpringOnBeat.damping = 0
+ImageSpringOnBeat.velocityOnBeat = 300
+ImageSpringOnBeat.frequency = 20
+ImageSpringOnBeat.damping = 0.5
 
 function ImageSpringOnBeat:set(initsize, vel, freq, dap)
     self.velocityOnBeat = vel
@@ -17,7 +17,7 @@ end
 
 function ImageSpringOnBeat:awake()
     self._image = self.gameObject:getUIImage()
-    self.targetScale = self._image:getDimensions().y
+    self.targetScale = self._image:getDimensions().y * 2
 end
 
 function ImageSpringOnBeat:update(dt)

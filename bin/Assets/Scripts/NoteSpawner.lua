@@ -68,7 +68,7 @@ function NoteSpawner:createNote()
     note:setTargetPlace(0.9)
     note:setTimeToGetThere(self._beatCounter.milisecondsInBeat * speed, self._beatCounter._accumulatedTime)
     local beat = gObj:addLuaComponent("ImageSpringOnBeat")
-    beat:set(200, 400, 15, 0.5)
+    beat:set(100, 400, 15, 0.5)
 
     self._numNotes = self._numNotes + 1
     self._accumNotes = self._accumNotes  +1
