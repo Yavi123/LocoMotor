@@ -35,15 +35,6 @@ void LocoMotor::UIImage::setImage(const std::string& nImage) {
 
 bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
-	_gfxManager = Graphics::GraphicsManager::GetInstance();
-	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
-
-	_overlay = _overlayMngr->create("overlay_" + _gameObject->getName() + "_img");
-
-	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIImage" + _gameObject->getName()));
-	_container->initialise();
-
-	_container->setMetricsMode(Ogre::GMM_PIXELS);
 
 	std::string imageName = "";
 	int sortingLayer = 0;
@@ -82,15 +73,36 @@ bool LocoMotor::UIImage::setParameters(ComponentMap& params) {
 
 	setSortingLayer(sortingLayer);
 	setRotation(rotation);
-
-	_overlay->add2D(_container);
-
-	_overlay->show();
 	return true;
 }
 
 void LocoMotor::UIImage::update(float dT) {
 	updatePosition();
+}
+
+void LocoMotor::UIImage::init(GameObject* gameObject, bool enable) {
+
+	Component::init(gameObject, enable);
+
+	_gfxManager = Graphics::GraphicsManager::GetInstance();
+	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
+
+	_overlay = _overlayMngr->create("overlay_" + _gameObject->getName() + "_img");
+
+	std::string imgName = "UIImage" + _gameObject->getName();
+
+	if (!_overlayMngr->hasOverlayElement(imgName))
+		_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", imgName));
+	else
+		_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->getOverlayElement(imgName));
+
+	_container->initialise();
+
+	_container->setMetricsMode(Ogre::GMM_PIXELS);
+
+	_overlay->add2D(_container);
+
+	_overlay->show();
 }
 
 void LocoMotor::UIImage::setAnchorPoint(const Vector2& anc) {
@@ -157,7 +169,14 @@ void LocoMotor::UIImage::updatePosition() {
 	_rectTransform.refreshBounds();
 	Rect totalRect = _rectTransform.getTotalBounds();
 
-	_container->setDimensions(totalRect._downRightPoint.getX() - totalRect._upLeftPoint.getX(), totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY());
+	float totalDimX = totalRect._downRightPoint.getX() - totalRect._upLeftPoint.getX();
+	if (totalDimX < 0.1f)
+		totalDimX = 0.1f;
+	float totalDimY = totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY();
+	if (totalDimY < 0.1f)
+		totalDimY = 0.1f;
+
+	_container->setDimensions(totalDimX, totalDimY);
 
 	_container->setPosition(totalRect._upLeftPoint.getX(), totalRect._upLeftPoint.getY());
 }

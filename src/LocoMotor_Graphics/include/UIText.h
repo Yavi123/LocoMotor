@@ -82,6 +82,7 @@ namespace LocoMotor {
 		bool setParameters(ComponentMap& params) override;
 		void start() override {};
 		void update(float dT) override;
+		void init(GameObject* gameObject, bool enable) override;
 
 	private:
 

@@ -87,13 +87,13 @@ namespace LocoMotor {
 		/// collides with another gameobject
 		virtual void OnCollisionExit(GameObject* other) {};
 
-		GameObject* _gameObject = nullptr;
-	private:
-
 		/// @brief Initializes the component with its context (GameObject) and enabled state
 		/// @param gameObject The GameObject which the components belongs to
 		/// @param enable The initial enabled state of the component.
-		void init(GameObject* gameObject, bool enable);
+		virtual void init(GameObject* gameObject, bool enable);
+
+		GameObject* _gameObject = nullptr;
+	private:
 		bool _started = false;
 		bool _active = false;
 	};

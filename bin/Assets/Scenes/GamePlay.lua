@@ -26,21 +26,6 @@ GamePlay = {
             Volume = 1
         }
     },
-    Audio2 = {
-        EventEmitter = {
-            Volume = 1
-        }
-    },
-    Audio3 = {
-        EventEmitter = {
-            Volume = 1
-        }
-    },
-    Audio4 = {
-        EventEmitter = {
-            Volume = 1
-        }
-    },
     Axis = {
         Transform = {
             position = "3 0.2 -5",
@@ -54,17 +39,17 @@ GamePlay = {
         }
     },
     
-     MetroMesh = {
-         Transform = {
-             position = "0 0 0",
-             size = "1, 1, 1",
-             rotation = "0 0 0"
-         },
-         MeshRenderer = {
-             mesh = "MetroMesh.mesh",
-             material = "m_Main"
-         },
-     },
+    MetroMesh = {
+        Transform = {
+            position = "0 0 0",
+            size = "1, 1, 1",
+            rotation = "0 0 0"
+        },
+        MeshRenderer = {
+            mesh = "MetroMesh.mesh",
+            material = "m_Main"
+        },
+    },
     MetroFloor = {
         Transform = {
             position = "0 0 0",

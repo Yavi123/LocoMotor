@@ -2,6 +2,9 @@ ChangeScene._sceneToGoTo = ""
 ChangeScene._selectable = nil
 
 function ChangeScene:awake()
+    --ESTO LLAMARLO DESDE UNA ESCENA DE ENTRY QUE LUEGO CARGUE EL MENU
+    Audio.Instance:loadMaster("Assets/AudioBanks/Desktop")
+    
     self._selectable = self.gameObject:getSelectable()
 end
 

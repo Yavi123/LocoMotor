@@ -250,9 +250,6 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 			it->second->destroyAllParticleSystems();
 			it->second->destroyAllAnimations();
 
-			OverlayManager::GetInstance()->getOgreOverlayManager()->destroyAllOverlayElements();
-			OverlayManager::GetInstance()->getOgreOverlayManager()->destroyAll();
-
 			it->second->removeRenderQueueListener(OverlayManager::GetInstance()->getOgreSystem());
 			_mShaderGenerator->removeSceneManager(it->second);
 			_nodeRoot = nullptr;

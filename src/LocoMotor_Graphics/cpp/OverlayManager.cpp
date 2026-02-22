@@ -45,6 +45,9 @@ Graphics::OverlayManager* Graphics::OverlayManager::GetInstance() {
 
 void Graphics::OverlayManager::Release() {
 	assert(_instance != nullptr);
+
+	_instance->_ogrOverlayManager->destroyAllOverlayElements();
+	_instance->_ogrOverlayManager->destroyAll();
 	delete _instance;
 	_instance = nullptr;
 }

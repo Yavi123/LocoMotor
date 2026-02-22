@@ -51,21 +51,6 @@ void LocoMotor::UIText::setFont(std::string nFont) {
 
 bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 
-	_gfxManager = Graphics::GraphicsManager::GetInstance();
-	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
-
-	_overlay = _overlayMngr->create("overlay_" + _gameObject->getName() + "_txt");
-
-	_container = static_cast<Ogre::OverlayContainer*>(
-		_overlayMngr->createOverlayElement("Panel", "UIText_" + _gameObject->getName()));
-	_container->initialise();
-
-	_container->setMetricsMode(Ogre::GMM_PIXELS);
-
-	_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(
-		  _overlayMngr->createOverlayElement("TextArea", "UITextElem" + _gameObject->getName()));
-
-	_txtElem->setMetricsMode(Ogre::GMM_PIXELS);
 
 	int sortingLayer = 0;
 	float rotation = 0.f;
@@ -129,21 +114,48 @@ bool LocoMotor::UIText::setParameters(ComponentMap& params) {
 	_txtElem->setColourBottom(Ogre::ColourValue(colBot.getX(), colBot.getY(), colBot.getZ(), 1.f));
 	_txtElem->setAlignment(alignment);
 
+	setSortingLayer(sortingLayer);
+	setRotation(rotation);
+
+	return true;
+}
+
+void LocoMotor::UIText::update(float dT) {
+	updatePosition();
+}
+
+void LocoMotor::UIText::init(GameObject* gameObject, bool enable) {
+	Component::init(gameObject, enable);
+
+	_gfxManager = Graphics::GraphicsManager::GetInstance();
+	_overlayMngr = Ogre::OverlayManager::getSingletonPtr();
+
+	_overlay = _overlayMngr->create("overlay_" + _gameObject->getName() + "_txt");
+
+	_container = static_cast<Ogre::OverlayContainer*>(_overlayMngr->createOverlayElement("Panel", "UIText_" + _gameObject->getName()));
+	_container->initialise();
+
+	_container->setMetricsMode(Ogre::GMM_PIXELS);
+
+	std::string txtName = "UITextElem" + _gameObject->getName();
+
+	if (!_overlayMngr->hasOverlayElement(txtName))
+		_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(_overlayMngr->createOverlayElement("TextArea", txtName));
+	else
+		_txtElem = static_cast<Ogre::TextAreaOverlayElement*>(_overlayMngr->getOverlayElement(txtName));
+
+	_txtElem->setMetricsMode(Ogre::GMM_PIXELS);
+
+	_rectTransform.setParentSize({ (float) _gfxManager->getWindowWidth(), (float) _gfxManager->getWindowHeight() });
+
 
 	_container->addChild(_txtElem);
 	_container->show();
 	_txtElem->show();
 
-	setSortingLayer(sortingLayer);
-	setRotation(rotation);
-
 	_overlay->add2D(_container);
-
 	_overlay->show();
-	return true;
-}
 
-void LocoMotor::UIText::update(float dT) {
 	updatePosition();
 }
 
@@ -232,7 +244,14 @@ void LocoMotor::UIText::updatePosition() {
 	_rectTransform.refreshBounds();
 	Rect totalRect = _rectTransform.getTotalBounds();
 
-	_container->setDimensions(totalRect._downRightPoint.getX() - totalRect._upLeftPoint.getX(), totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY());
+	float totalDimX = totalRect._downRightPoint.getX() - totalRect._upLeftPoint.getX();
+	if (totalDimX < 0.1f)
+		totalDimX = 0.1f;
+	float totalDimY = totalRect._downRightPoint.getY() - totalRect._upLeftPoint.getY();
+	if (totalDimY < 0.1f)
+		totalDimY = 0.1f;
+
+	_container->setDimensions(totalDimX, totalDimY);
 
 	_container->setPosition(totalRect._upLeftPoint.getX(), totalRect._upLeftPoint.getY());
 }

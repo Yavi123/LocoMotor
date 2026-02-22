@@ -5,13 +5,7 @@ Movement.lastX = 0
 Movement.initPos = 0
 
 function Movement:awake()
-    --ESTO LLAMARLO DESDE UNA ESCENA DE ENTRY QUE LUEGO CARGUE EL MENU
-    Audio.Instance:loadMaster("Assets/AudioBanks/Desktop")
     
-    SceneManager.Instance.activeScene:getObjectByName("Audio1"):getEventEmitter():setEvent("event:/GuitarNote")
-    SceneManager.Instance.activeScene:getObjectByName("Audio2"):getEventEmitter():setEvent("event:/GuitarNote")
-    SceneManager.Instance.activeScene:getObjectByName("Audio3"):getEventEmitter():setEvent("event:/GuitarNote")
-    SceneManager.Instance.activeScene:getObjectByName("Audio4"):getEventEmitter():setEvent("event:/GuitarNote")
     local pos = self.gameObject.transform.position
     self.initPosX = pos.x
     self.initPosZ = pos.z

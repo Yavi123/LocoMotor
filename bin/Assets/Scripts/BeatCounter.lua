@@ -1,8 +1,15 @@
 BeatCounter._accumulatedTime = 0
 
-local milisecondsInBeat = 60000 / 120
+local milisecondsInBeat = 60000 / 206
 
 BeatCounter._numBeats = 0
+
+function BeatCounter:awake()
+    
+    local eventEmitter = SceneManager.Instance.activeScene:getObjectByName("Audio1"):getEventEmitter()
+    eventEmitter:setEvent("event:/Song")
+    eventEmitter:play()
+end
 
 function BeatCounter:update(dt)
     self._accumulatedTime = self._accumulatedTime + dt

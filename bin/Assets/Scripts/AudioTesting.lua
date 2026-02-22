@@ -1,2 +1,0 @@
-function AudioTesting:awake()
-end
