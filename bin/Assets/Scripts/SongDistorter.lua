@@ -11,7 +11,7 @@ function SongDistorter:update(dt)
 
     self._emitter:setParameter("Pitch", springValues.position)
 
-    if (Input.Instance:getKeyDown("Ñ")) then
+    if (Input.Instance:getKeyDown("P")) then
         springValues.velocity = 10
     end
 end
