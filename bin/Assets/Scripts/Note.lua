@@ -4,6 +4,7 @@ Note.timeToGetThere = 0
 Note.elapsedTime = 0
 Note._channel = 0
 local timeDestruction = -1
+local lastPos = 0
 
 function Note:awake()
     self._image = self.gameObject:getUIImage()
@@ -37,6 +38,7 @@ function Note:update(dt)
 
 
     if(timeDestruction > 0 and math.abs(self.elapsedTime - timeDestruction) > 100) then
+        self:spawnPoints()
         SceneManager.Instance.activeScene:removeGameObject(self.gameObject.name)
     end
 end
@@ -45,6 +47,20 @@ function Note:setTargetPlace(y)
     self._image = self.gameObject:getUIImage()
     self.targetY = y * 2
 end
+
+function Note:spawnPoints()
+    local gObj = SceneManager.Instance.activeScene:addGameObject("Punto" .. self.gameObject.name)
+    local imag = gObj:addUIImage()
+    local arrowPos = lastPos
+    imag:setImage("PuntosMat")
+    imag:setSortingLayer(7)
+    imag:setDimensions(Vector2(100,100))
+    imag:setAnchorPoint(arrowPos)
+    
+    local note = gObj:addLuaComponent("Puntos")
+    --note:setTimeToGetThere(self._beatCounter.milisecondsInBeat * speed, self._beatCounter._accumulatedTime)
+end
+
 
 function Note:setNoteChannel(y)
     self._channel = y
@@ -60,6 +76,7 @@ function Note:updatePosition()
     local po = self._image:getAnchorPoint()
     po.y = Math.Lerp(0, self.targetY, self.elapsedTime / (self.timeToGetThere*2))
     self._image:setAnchorPoint(po)
+    lastPos = po
     if (po.y > 1.2) then
         SceneManager.Instance.activeScene:removeGameObject(self.gameObject.name)
     end

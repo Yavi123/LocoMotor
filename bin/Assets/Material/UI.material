@@ -176,3 +176,16 @@ material ArrowRightWhiteMat{
         }
     }
 }
+material PuntosMat
+{
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_Diez.png
+            }
+        }
+    }
+}

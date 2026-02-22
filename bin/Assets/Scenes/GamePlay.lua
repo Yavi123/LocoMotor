@@ -85,7 +85,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_01.mesh",
@@ -111,7 +114,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_03.mesh",
@@ -137,7 +143,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_05.mesh",
@@ -163,7 +172,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_07.mesh",
@@ -189,7 +201,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_09.mesh",
@@ -215,7 +230,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_11.mesh",
@@ -241,7 +259,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_12.mesh",
@@ -267,7 +288,10 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = {},
+        NPC = 
+        {
+            cool = "ola"
+        },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_15.mesh",
