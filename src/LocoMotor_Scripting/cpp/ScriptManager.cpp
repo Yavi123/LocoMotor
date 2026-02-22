@@ -457,12 +457,12 @@ bool LocoMotor::Scripting::ScriptManager::loadScript(const std::string& name, Lu
 		return false;
 
 	std::string header =
-		name + " = {\n"
-		"  behaviour = behaviour,\n"
-		"  gameObject = gameObject,\n"
-		"  transform = transform\n"
-		"}\n"
-		+ name + ".__index = " + name + "\n";
+		name + " = {"
+		"  behaviour = behaviour,"
+		"  gameObject = gameObject,"
+		"  transform = transform"
+		"}"
+		+ name + ".__index = " + name + ";";
 
 	luaCode = header + luaCode;
 
