@@ -1,5 +1,11 @@
 BeatCounter._accumulatedTime = 0
 BeatCounter._timeSinceBegan = 0
+
+BeatCounter.baseBPM = 105
+BeatCounter.currentBPM = 105
+BeatCounter.growthRate = 0.00001 -- tweak this
+BeatCounter._songTime = 0
+
 --depende de cuanto tarda en cargar (el audio se reproduce cuando puede, pero el siguiente delta time es tan alto que pasa muy rápido)
 
 BeatCounter._startBeatOffset = 400
@@ -49,4 +55,10 @@ function BeatCounter:update(dt)
         end
         SceneManager.Instance.activeScene:sendMessage("onBeatRaw")
     end
+
+    self._songTime = self._songTime + dt
+
+    -- exponential growth
+    self.currentBPM = self.baseBPM * math.exp(self.growthRate * self._songTime)
+    self.milisecondsInBeat = 60000 / self.currentBPM
 end

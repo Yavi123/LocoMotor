@@ -229,12 +229,12 @@ bool LocoMotor::LuaBehaviour::setParameters(ComponentMap& params) {
 	}
 	catch (luabridge::LuaException e) {
 		std::cout << e.what() << std::endl;;
-	}
+	}	
 	return true;
 	
 }
 
-luabridge::LuaRef LocoMotor::LuaBehaviour::getScript() const {
+luabridge::LuaRef LocoMotor::LuaBehaviour::getScript()  const {
 	return *obj;
 }
 

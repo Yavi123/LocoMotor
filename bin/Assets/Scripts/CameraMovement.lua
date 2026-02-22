@@ -6,9 +6,9 @@ local pos21 = Vector3(1, 2.9, -5.8)
 local pos22 = Vector3(1, 2.9, 4.2)
 local rot2 = Vector3(-20,160,0)
 
--- local pos31 = Vector3(-1.15, 0.3, -6.7)
--- local pos32 = Vector3(-1.15, 0.4, -1.2)
--- local rot2 = Vector3(15,200,0)
+ local pos31 = Vector3(0, 0.2, -0.9)
+ local pos32 = Vector3(0, 1, -0.9)
+ local rot3 = Vector3(0,0,0)
 
 local speed = 0.075
 
@@ -35,17 +35,17 @@ function CameraMovement:update(dt)
         self.gameObject.transform.eulerRotation = rot2
         result = Vector3.Lerp(pos21, pos22, alpha)
     end
-    -- if(camIndex == 2) then
-    --     self.gameObject.transform.eulerRotation = rot2
-    --     result = Vector3.Lerp(pos31, pos32, alpha)
-    -- end
+     if(camIndex == 2) then
+         self.gameObject.transform.eulerRotation = rot3
+         result = Vector3.Lerp(pos31, pos32, alpha)
+     end
 
     self.gameObject.transform.position = result
 
-    if(math.abs(realTime - lastTime) > 8000) then
+    if(math.abs(realTime - lastTime) > 1000) then
 
         lastTime = realTime
-        camIndex =(camIndex +1)%2
+        camIndex =(camIndex +1)%3
         
     end
 end

@@ -114,10 +114,7 @@ GamePlay = {
             size = "1 1 1",
             rotation = "0 0 0"
         },
-        NPC = 
-        {
-            cool = "ola"
-        },
+        NPC = { },
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_03.mesh",
@@ -295,6 +292,61 @@ GamePlay = {
         Billboard = {},
         MeshRenderer = {
             mesh = "NPC_15.mesh",
+            material = "m_NPC"
+        },
+    },
+    Jacobo = {
+        Transform = {
+            position = "1.34 0 2.3",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        NPC = { },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "Jacobo.mesh",
+            material = "m_NPC"
+        },
+    },
+    JacoboDos = {
+        Transform = {
+            position = "-0.32 0 0.54",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        NPC = { },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "JacoboDos.mesh",
+            material = "m_NPC"
+        },
+    },
+    Yavi = {
+        Transform = {
+            position = "0 0 6.9",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        NPC = { },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "Yavi.mesh",
+            material = "m_NPC"
+        },
+    },
+    YaviDos = {
+        Transform = {
+            position = "-0.28 0 5.5",
+            size = "1 1 1",
+            rotation = "0 0 0"
+        },
+        NPC =
+        {
+            cool = "ola"
+        },
+        Billboard = {},
+        MeshRenderer = {
+            mesh = "YaviDos.mesh",
             material = "m_NPC"
         },
     },

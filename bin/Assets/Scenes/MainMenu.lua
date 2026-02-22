@@ -10,17 +10,28 @@ MainMenu = {
         }
 
     },
+    LogoImage =
+    {
+        UIImage = {
+            rect_minAnchor = "0 0",
+            rect_maxAnchor = "1 1",
+            rect_upLeft = "0 0",
+            rect_downRight = "0 10",
+            image = "MaterialLogo",
+            sortingLayer = -1
+        },
+    },
     TitleText = {
         UIText = {
-            rect_minAnchor = "0.5 0.5",
-            rect_maxAnchor = "0.5 0.55",
+            rect_minAnchor = "0.6 0.1",
+            rect_maxAnchor = "0.7 0.2",
             rect_upLeft = "0 0",
             rect_downRight = "0 0",
-            text = "Presiona para comenzar",
+            text = "Pulsiona para empezar ñ",
             font = "PoetsenOne",
             alignment = "c",
-            colorTop = "0.0 0.04706 0.06275",
-            colorBot = "0.13333 0.04706 0.06275",
+            colorTop = "1.0 0.3 00.0067",
+            colorBot ="0.2 0.07 00.0067",
             sortingLayer = 2
         }
     },

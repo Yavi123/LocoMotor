@@ -198,7 +198,7 @@ void LocoMotor::Scripting::ScriptManager::registerCore() {
 		.addProperty("name", &Scene::getSceneName)
 		.addProperty("elapsedTime", &Scene::getElapsedTime)
 		.endClass()
-
+				
 		.beginClass<SceneManager>("SceneManager")
 		.addStaticProperty("Instance", &SceneManager::GetInstance)
 		.addFunction("loadScene", &SceneManager::loadScene)
