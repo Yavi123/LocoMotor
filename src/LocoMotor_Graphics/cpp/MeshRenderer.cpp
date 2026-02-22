@@ -9,7 +9,6 @@
 #include <OgreSubEntity.h>
 #include <OgreTechnique.h>
 
-
 #include "GameObject.h"
 #include "Transform.h"
 
@@ -21,6 +20,7 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 	_mesh = nullptr;
 	_setStatic = false;
 	isSelfVisible = true;
+	_material = nullptr;
 	_node = nullptr;
 
 	currentAnimation = nullptr;
@@ -28,6 +28,10 @@ LocoMotor::MeshRenderer::MeshRenderer() {
 }
 
 LocoMotor::MeshRenderer::~MeshRenderer() {
+	if (_material != nullptr) {
+		Ogre::MaterialManager::getSingletonPtr()->remove(_material->getName());
+	}
+	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 }
 
 bool LocoMotor::MeshRenderer::setParameters(ComponentMap& params) {
@@ -164,14 +168,34 @@ void LocoMotor::MeshRenderer::setVisible(bool visible) {
 }
 
 void LocoMotor::MeshRenderer::setMaterial(const std::string& mat) {
-	if (_mesh != nullptr) {
-		if (Ogre::MaterialManager::getSingletonPtr()->resourceExists(mat)) {
-			_mesh->setMaterialName(mat);
-		}
-		else {
-			std::cerr << "\033[1;31m" << "Material of name '" << mat << "' wasn't found in any known .material script: In gameObject '" << _gameObject->getName() << "'" << "\033[0m" << std::endl;
-		}
-	}
+	if (_mesh == nullptr) return;
+
+	if (!Ogre::MaterialManager::getSingletonPtr()->resourceExists(mat))
+		return;
+
+	Ogre::MaterialPtr original = Ogre::MaterialManager::getSingletonPtr()->getByName(mat);
+
+	if (original == nullptr) return;
+
+	std::string uniqueName = mat + "_" + _gameObject->getName();
+
+	auto material = original->clone(uniqueName);
+
+	_mesh->setMaterial(material);
+
+	_material = material.get();
+}
+
+void LocoMotor::MeshRenderer::setMaterialOffset(const Vector2& mat) {
+
+	Ogre::Technique* technique = _material->getTechnique(0);
+	Ogre::Pass* pass = technique->getPass(0);
+
+	// Access first texture unit
+	Ogre::TextureUnitState* texUnit = pass->getTextureUnitState(0);
+
+	// Set UV offset
+	texUnit->setTextureScroll(mat.getX(), mat.getY());  // (uOffset, vOffset)
 }
 
 void LocoMotor::MeshRenderer::setMesh(const std::string& mesh) {

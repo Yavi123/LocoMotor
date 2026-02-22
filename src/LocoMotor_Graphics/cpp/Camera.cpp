@@ -17,6 +17,7 @@ LocoMotor::Camera::Camera() : _mCamera(nullptr), _target(nullptr), _vp(nullptr),
 LocoMotor::Camera::~Camera() {
 	_man->getOgreSceneManager()->destroyCamera(_mCamera);
 	_man->getRenderWindow()->removeViewport(0);
+	_man->destroyNode(_node->getName());
 }
 
 void LocoMotor::Camera::SetTarget(GameObject* target, const Vector3& offset)

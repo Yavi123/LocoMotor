@@ -242,9 +242,6 @@ void LocoMotor::Graphics::GraphicsManager::deactivateScene(std::string name) {
 	for (auto it = _scenes.begin(); it != _scenes.end(); ++it) {
 		if (it->first == name) {
 
-			for (auto& nameNodePair : _sceneNodes) {
-				_nodeRoot->removeAndDestroyChild(nameNodePair.second);
-			}
 			_sceneNodes.clear();
 			it->second->destroyAllCameras();
 			it->second->destroyAllParticleSystems();
@@ -424,6 +421,11 @@ bool GraphicsManager::initWindow(std::string name) {
 
 
 void GraphicsManager::shutdown() {
+
+	for (auto& nameNodePair : _sceneNodes) {
+		_nodeRoot->removeAndDestroyChild(nameNodePair.second);
+	}
+	_sceneNodes.clear();
 
 	// Restore default scheme.
 	Ogre::MaterialManager::getSingleton().setActiveScheme(Ogre::MaterialManager::DEFAULT_SCHEME_NAME);

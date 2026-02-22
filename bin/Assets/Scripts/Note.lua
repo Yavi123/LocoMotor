@@ -26,4 +26,7 @@ function Note:updatePosition()
     local po = self._image:getAnchorPoint()
     po.y = Math.Lerp(0, self.targetY, self.elapsedTime / self.timeToGetThere)
     self._image:setAnchorPoint(po)
+    if (po.y > 1.2) then
+        SceneManager.Instance.activeScene:removeGameObject(self.gameObject.name)
+    end
 end

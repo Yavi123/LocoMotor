@@ -255,6 +255,7 @@ void LocoMotor::Scripting::ScriptManager::registerGraphics() {
 		.deriveClass<MeshRenderer, Component>("MeshRenderer")
 		.addFunction("playAnimation", &MeshRenderer::playAnimation)
 		.addFunction("setMaterial", &MeshRenderer::setMaterial)
+		.addFunction("setMaterialOffset", &MeshRenderer::setMaterialOffset)
 		.addFunction("setMesh", &MeshRenderer::setMesh)
 		.addFunction("setVisible", &MeshRenderer::setVisible)
 		.endClass()

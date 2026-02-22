@@ -19,6 +19,7 @@ namespace Ogre {
 	class Mesh;
 	class SceneNode;
 	class AnimationState;
+	class Material;
 }
 
 namespace LocoMotor {
@@ -35,6 +36,7 @@ namespace LocoMotor {
 		~MeshRenderer();
 		
 		MOTOR_API void setMaterial(const std::string& mat);
+		MOTOR_API void setMaterialOffset(const Vector2& mat);
 
 		MOTOR_API void setMesh(const std::string& mesh);
 		
@@ -66,6 +68,7 @@ namespace LocoMotor {
 		bool isSelfVisible;
 
 		Ogre::SceneNode* _node;
+		Ogre::Material* _material;
 
 		Ogre::MovableObject* getMovObj();
 

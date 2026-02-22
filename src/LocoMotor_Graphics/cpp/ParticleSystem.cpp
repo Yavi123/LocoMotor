@@ -22,6 +22,7 @@ LocoMotor::ParticleSystem::ParticleSystem() {
 }
 
 LocoMotor::ParticleSystem::~ParticleSystem() {
+	Graphics::GraphicsManager::GetInstance()->destroyNode(_node->getName());
 	numOfParticleSystems--;
 }
 

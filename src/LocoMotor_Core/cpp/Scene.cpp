@@ -147,7 +147,6 @@ void LocoMotor::Scene::deleteGameObject(const std::string& name) {
 	}
 	delete _gameObjList[name];
 	_gameObjList.erase(name);
-	Graphics::GraphicsManager::GetInstance()->destroyNode(name);
 }
 
 bool Scene::getActiveStatus() {
