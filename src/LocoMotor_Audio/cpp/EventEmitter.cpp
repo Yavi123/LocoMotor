@@ -68,9 +68,7 @@ void EventEmitter::setPitch(float pitch) {
 
 void EventEmitter::setParameter(const char* paramName, float value) {
 	if (_currentEvent == nullptr) return;
-	if (_currentEvent->setParameterByName(paramName, value) != FMOD_OK) {
-		std::cerr << "Parameter wrong" << std::endl;
-	}
+	_currentEvent->setParameterByName(paramName, value);
 }
 
 float EventEmitter::getParameter(const char* paramName) {

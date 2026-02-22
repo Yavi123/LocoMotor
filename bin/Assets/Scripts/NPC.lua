@@ -13,10 +13,6 @@ function NPC:update(dt)
     local scale = self.gameObject.transform.size
     scale.y = springScaleY.position
     self.gameObject.transform.size = scale
-
-    if (Input.Instance:getKeyDown("E")) then
-        self.gameObject:getMeshRenderer():setMaterialOffset(Vector2(0, 0))
-    end
 end
 
 function NPC:onBeat()

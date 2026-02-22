@@ -279,6 +279,7 @@ void LocoMotor::Scripting::ScriptManager::registerGraphics() {
 		.addFunction("setAnchorPoint", &UIImage::setAnchorPoint)
 		.addFunction("getAnchorPoint", &UIImage::getAnchorPoint)
 		.addFunction("setDimensions", &UIImage::setDimensions)
+		.addFunction("getDimensions", &UIImage::getDimensions)
 		.addFunction("setSortingLayer", &UIImage::setSortingLayer)
 		.addFunction("setRotation", &UIImage::setRotation)
 		.addFunction("show", &UIImage::show)

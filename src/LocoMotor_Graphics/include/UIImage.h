@@ -41,6 +41,7 @@ namespace LocoMotor {
 
 		/// @brief Sets the size of the entity on the UI
 		MOTOR_API void setDimensions(const Vector2& anc);
+		MOTOR_API Vector2 getDimensions() const;
 		MOTOR_API void setUpLeftOffset(const Vector2& anc);
 		MOTOR_API void setDownRightOffset(const Vector2& anc);
 

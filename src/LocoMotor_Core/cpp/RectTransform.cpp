@@ -69,6 +69,10 @@ void RectTransform::setDimensions(const Vector2& anc) {
 	_downRightOffset = anc / 2.f;
 }
 
+Vector2 RectTransform::getDimensions() const {
+	return _upLeftOffset;
+}
+
 void RectTransform::setUpLeftOffset(const Vector2& anc) {
 	_upLeftOffset = anc;
 }

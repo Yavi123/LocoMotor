@@ -129,6 +129,10 @@ void LocoMotor::UIImage::setDimensions(const Vector2& anc) {
 	updatePosition();
 }
 
+MOTOR_API Vector2 LocoMotor::UIImage::getDimensions() const {
+	return _rectTransform.getDimensions();
+}
+
 void LocoMotor::UIImage::setUpLeftOffset(const Vector2& anc) {
 	_rectTransform.setUpLeftOffset(anc);
 	updatePosition();
