@@ -4,6 +4,7 @@ NoteSpawner.bpmChangeDuration = 8
 NoteSpawner._beatCounter = nil
 NoteSpawner._scene = nil
 NoteSpawner._numNotes = 0
+NoteSpawner._accumNotes = 0
 
 function NoteSpawner:awake()
     self._scene = SceneManager.Instance.activeScene
@@ -17,8 +18,9 @@ function NoteSpawner:onBeatRaw()
 
     if (self.beatsToWaitForBeforeBegin <= 0) then
         
-        self:createNote()
-
+        --if((self._beatCounter._numBeats % 2) == 0) then 
+            self:createNote()
+        --end
         if ((self._beatCounter._numBeats % self.bpmChangeDuration) == 0) then
         end
 
@@ -29,13 +31,41 @@ function NoteSpawner:onBeatRaw()
 end
 
 function NoteSpawner:createNote()
+    
+    --Ignorar nota
+    if(self._accumNotes > 5) then
+        local ignoreNote = math.random(1,3)
+        if(ignoreNote == 1) then 
+            self._accumNotes = 0
+            return
+        end
+    end
+
+    --Params
+    local speed = 6
+    local noteWidth = 40
+    local randomChannel = math.random(0,3)
+    
+    --Crear nota
     local gObj = SceneManager.Instance.activeScene:addGameObject("Note_" .. self._numNotes)
     local imag = gObj:addUIImage()
-    imag:setImage("BackPanelMat")
-    imag:setAnchorPoint(Vector2(0.42, 0))
+    local arrowPos = 0.3 + 0.1 * randomChannel + 0.05
+    if randomChannel == 0 then
+        imag:setImage("ArrowLeftMat")
+    elseif randomChannel == 1 then
+        imag:setImage("ArrowDownMat")
+    elseif randomChannel == 2 then
+        imag:setImage("ArrowUpMat")
+    elseif randomChannel == 3 then
+        imag:setImage("ArrowRightMat")
+    end
+    
+    imag:setSortingLayer(5)
+    imag:setAnchorPoint(Vector2(arrowPos, 0))
     local note = gObj:addLuaComponent("Note")
     note:setTargetPlace(0.9)
-    note:setTimeToGetThere(self._beatCounter.milisecondsInBeat * 4, self._beatCounter._accumulatedTime)
+    note:setTimeToGetThere(self._beatCounter.milisecondsInBeat * speed, self._beatCounter._accumulatedTime)
 
     self._numNotes = self._numNotes + 1
+    self._accumNotes = self._accumNotes  +1
 end

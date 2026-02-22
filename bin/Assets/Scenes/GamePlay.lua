@@ -30,19 +30,8 @@ GamePlay = {
         NoteSpawner = { },
         SongDistorter = { }
     },
-    Axis = {
-        Transform = {
-            position = "3 0.2 -5",
-            size = "1, 1, 1",
-            rotation = "0 0 0"
-        },
-        Billboard = {},
-        MeshRenderer = {
-            mesh = "Axis.mesh",
-            material = "m_Main"
-        }
-    },
-    
+
+    ---------------------------------MESHES - METRO -----------------------------------------
     MetroMesh = {
         Transform = {
             position = "0 0 0",
@@ -76,6 +65,7 @@ GamePlay = {
             material = "m_LCD"
         },
     },
+    ---------------------------------NPCS-----------------------------------------
     NPC_00 = {
         Transform = {
             position = "-0.6 0 -5",
@@ -288,12 +278,12 @@ GamePlay = {
     --REGION
     BackPanel = {
         UIImage = {
-            rect_minAnchor = "0.45 0",
-            rect_maxAnchor = "0.65 1",
+            rect_minAnchor = "0.3 0",
+            rect_maxAnchor = "0.7 1",
             rect_upLeft = "0 0",
             rect_downRight = "0 0",
             image = "BackPanelMat",
-            sortingLayer = 1
+            sortingLayer = 0
         }        
     },
 }

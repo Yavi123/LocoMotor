@@ -27,7 +27,55 @@ material BackPanelMat {
             lighting off
             texture_unit 
             {
-                texture CrossRed.png
+                texture t_BackPanel.png
+            }
+        }
+    }
+}
+material ArrowLeftMat {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_LeftArrow.png
+            }
+        }
+    }
+}
+material ArrowRightMat {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_RightArrow.png
+            }
+        }
+    }
+}
+material ArrowUpMat {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_UpArrow.png
+            }
+        }
+    }
+}
+material ArrowDownMat {
+    technique {
+        pass {
+            scene_blend alpha_blend
+            lighting off
+            texture_unit 
+            {
+                texture t_DownArrow.png
             }
         }
     }
